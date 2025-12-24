@@ -20,6 +20,15 @@ const EditorLayout = () => {
     ? timelineHeight
     : 0;
 
+  const handleTimelineTransitionEnd = (
+    e: React.TransitionEvent<HTMLDivElement>
+  ) => {
+    // only stop animating when the height transition finishes
+    if (e.propertyName === "height") {
+      setIsAnimatingTimeline(false);
+    }
+  };
+
 
   const startResize = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -64,7 +73,7 @@ const EditorLayout = () => {
   return (
     <div
       ref={containerRef}
-      className="flex h-full flex-col bg-gray-100"
+      className="relative flex h-full flex-col bg-gray-100"
     >
       {/* TOP AREA */}
       <div className="flex flex-1 overflow-hidden">
@@ -90,6 +99,7 @@ const EditorLayout = () => {
       {/* TIMELINE */}
       <div
         style={{ height: animatedTimelineHeight }}
+        onTransitionEnd={handleTimelineTransitionEnd}
         className={`overflow-hidden border-t bg-white ${isAnimatingTimeline
             ? "transition-[height] duration-300 ease-in-out"
             : ""
@@ -107,7 +117,7 @@ const EditorLayout = () => {
 
       {/* SHOW TIMELINE */}
       {!isTimelineVisible && (
-        <div className="flex h-10 items-center justify-end border-t bg-white px-4">
+        <div className="absolute left-0 right-0 bottom-0 flex h-10 items-center justify-end border-t bg-white px-4">
           <button
             onClick={() => {
               setIsAnimatingTimeline(true);
