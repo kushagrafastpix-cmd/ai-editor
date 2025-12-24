@@ -1,33 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from "react";
+import { Header } from './components/Header'
+import { Editor } from "./components/Editor";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleBack = () => {
+    console.log("Navigate back");
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+
+    // simulate save
+    await new Promise((res) => setTimeout(res, 1000));
+
+    setIsSaving(false);
+    setHasUnsavedChanges(false);
+  };
+
+  const handleExport = async () => {
+    setIsExporting(true);
+
+    // simulate export
+    await new Promise((res) => setTimeout(res, 1500));
+
+    setIsExporting(false);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="flex h-screen flex-col">
+      <Header
+        title="What is FastPix? | All-in-One Video API Platform"
+        hasUnsavedChanges={hasUnsavedChanges}
+        isSaving={isSaving}
+        isExporting={isExporting}
+        onBack={handleBack}
+        onSave={handleSave}
+        onExport={handleExport}
+      />
+      <main className="flex-1 overflow-hidden">
+        <Editor />
+      </main>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
