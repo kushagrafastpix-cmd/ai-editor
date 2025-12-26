@@ -1,29 +1,73 @@
 import { useState } from "react";
+
 import ToolCard from "./components/ToolCard/ToolCard";
 import ToolToolbar from "./components/ToolToolbar/ToolToolbar";
-import { DEFAULT_TOOL } from "./constants";
+
 import type { ToolId } from "./types";
 
-const EditorToolPanel = () => {
-  const [activeTool, setActiveTool] = useState<ToolId>(DEFAULT_TOOL);
+// tools
+import TranscriptTool from "./tools/Transcript/TranscriptTool";
+import AIToolsTool from "./tools/AITools/AIToolsTool";
+import CaptionsTool from "./tools/Captions/CaptionsTool";
+import UploadTool from "./tools/Upload/UploadTool";
+import BRollTool from "./tools/BRoll/BRollTool";
+import TransitionsTool from "./tools/Transitions/TransitionsTool";
+import TextTool from "./tools/Text/TextTool";
+import MusicTool from "./tools/Music/MusicTool";
+
+const EditorToolPanel = () => {  // single source of truth
+  const [activeTool, setActiveTool] = useState<ToolId>("transcript");
+
+  const renderActiveTool = () => {
+    switch (activeTool) {
+      case "ai-tools":
+        return <AIToolsTool />;
+      case "captions":
+        return <CaptionsTool />;
+      case "upload":
+        return <UploadTool />;
+      case "b-roll":
+        return <BRollTool />;
+      case "transitions":
+        return <TransitionsTool />;
+      case "text":
+        return <TextTool />;
+      case "music":
+        return <MusicTool />;
+      case "transcript":
+      default:
+        return (
+          <TranscriptTool
+            transcriptText={`This is a sample transcript.jf fn jf ejr fner fj erf jernfjnerf enr fvejrjf ver fjhver fne vn jenvjer.
+sfnjdf
+It is rendered as plain paragraphs.
+Scrollbar should be hidden, but scrolling should work.
+his is a sample transcript.
+It is rendered as plain paragraphs.
+Scrollbar should be hidden, but scrolling should work.
+his is a sample transcript.
+It is rendered as plain paragraphs.
+Scrollbar should be hidden, but scrolling should work.
+his is a sample transcript.
+It is rendered as plain paragraphs.
+Scrollbar should be hidden, but scrolling should work.`}
+          />
+        );
+    }
+  };
 
   return (
     <div className="h-full pt-4 pr-4 pb-4 pl-16">
       <ToolCard>
-        <div className="flex h-full flex-col">
-          {/* TOOLBAR */}
-          <ToolToolbar
-            activeTool={activeTool}
-            onToolChange={setActiveTool}
-          />
+        {/* toolbar (fixed height, no scroll) */}
+        <ToolToolbar
+          activeTool={activeTool}
+          onToolChange={setActiveTool}
+        />
 
-          {/* TOOL CONTENT AREA */}
-          <div className="flex-1 overflow-auto px-4 py-3">
-            {/* Placeholder – actual tools will be rendered here */}
-            <div className="text-sm text-gray-600">
-              Active tool: <span className="font-medium">{activeTool}</span>
-            </div>
-          </div>
+        {/* content area (only this scrolls internally) */}
+        <div className="flex-1 min-h-0 overflow-hidden">
+          {renderActiveTool()}
         </div>
       </ToolCard>
     </div>

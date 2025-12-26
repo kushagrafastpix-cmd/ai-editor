@@ -10,7 +10,7 @@ interface ToolToolbarProps {
 const ToolToolbar = ({ activeTool, onToolChange }: ToolToolbarProps) => {
   return (
     <div className="border-b">
-      <div className="scrollbar-hidden flex items-center gap-2 overflow-x-auto px-4 py-2">
+      <div className="scrollbar-hide flex items-center gap-2 overflow-x-auto px-4 py-2">
         {TOOLS.map((tool) => (
           <ToolTabItem
             key={tool.id}

@@ -7,35 +7,31 @@ import ChevronUpIcon from "../../Common/Icons/ChevronUpIcon";
 const MIN_TIMELINE_HEIGHT = 120;
 const DEFAULT_TIMELINE_HEIGHT = 220;
 const MAX_TIMELINE_RATIO = 0.5; // 50% of editor height
+const TOOL_TIMELINE_GAP = 38; // px
 
 const EditorLayout = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+
   const [isAnimatingTimeline, setIsAnimatingTimeline] = useState(false);
-  const [timelineHeight, setTimelineHeight] = useState(
-    DEFAULT_TIMELINE_HEIGHT
-  );
+  const [timelineHeight, setTimelineHeight] = useState(DEFAULT_TIMELINE_HEIGHT);
   const [isTimelineVisible, setIsTimelineVisible] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
-  const animatedTimelineHeight = isTimelineVisible
-    ? timelineHeight
-    : 0;
+
+  const animatedTimelineHeight = isTimelineVisible ? timelineHeight : 0;
 
   const handleTimelineTransitionEnd = (
     e: React.TransitionEvent<HTMLDivElement>
   ) => {
-    // only stop animating when the height transition finishes
     if (e.propertyName === "height") {
       setIsAnimatingTimeline(false);
     }
   };
 
-
   const startResize = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsAnimatingTimeline(false); // IMPORTANT
+    setIsAnimatingTimeline(false);
     setIsResizing(true);
   };
-
 
   const stopResize = () => {
     setIsResizing(false);
@@ -46,12 +42,10 @@ const EditorLayout = () => {
 
     const container = containerRef.current;
     const containerRect = container.getBoundingClientRect();
-    const maxTimelineHeight =
-      containerRect.height * MAX_TIMELINE_RATIO;
+    const maxTimelineHeight = containerRect.height * MAX_TIMELINE_RATIO;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const newHeight =
-        containerRect.bottom - e.clientY;
+      const newHeight = containerRect.bottom - e.clientY;
 
       const clampedHeight = Math.min(
         Math.max(newHeight, MIN_TIMELINE_HEIGHT),
@@ -86,25 +80,31 @@ const EditorLayout = () => {
         </div>
       </div>
 
+      {/* GAP BETWEEN TOOL AREA AND TIMELINE (when hidden) */}
+{!isTimelineVisible && (
+  <div style={{ height: TOOL_TIMELINE_GAP }} />
+)}
+
+
       {/* RESIZE HANDLE */}
       <div
         onMouseDown={isTimelineVisible ? startResize : undefined}
-        className={`h-1 transition-opacity duration-200 ${isTimelineVisible
+        className={`h-1 transition-opacity duration-200 ${
+          isTimelineVisible
             ? "cursor-row-resize bg-gray-300 hover:bg-gray-400 opacity-100"
             : "opacity-0 pointer-events-none"
-          }`}
+        }`}
       />
-
 
       {/* TIMELINE */}
       <div
         style={{ height: animatedTimelineHeight }}
         onTransitionEnd={handleTimelineTransitionEnd}
-        className={`overflow-hidden border-t bg-white ${isAnimatingTimeline
+        className={`overflow-hidden border-t bg-white ${
+          isAnimatingTimeline
             ? "transition-[height] duration-300 ease-in-out"
             : ""
-          }`}
-
+        }`}
       >
         <Timeline
           onHide={() => {
@@ -113,7 +113,6 @@ const EditorLayout = () => {
           }}
         />
       </div>
-
 
       {/* SHOW TIMELINE */}
       {!isTimelineVisible && (
