@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Transcript from "../Transcript/Transcript";
+import EditorToolPanel from "../EditorToolPanel/EditorToolPanel";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import Timeline from "../Timeline/Timeline";
 import ChevronUpIcon from "../../Common/Icons/ChevronUpIcon";
@@ -78,7 +78,7 @@ const EditorLayout = () => {
       {/* TOP AREA */}
       <div className="flex flex-1 overflow-hidden">
         <div className="w-[40%] border-r bg-white">
-          <Transcript />
+          <EditorToolPanel />
         </div>
 
         <div className="w-[60%] bg-black">

@@ -1,10 +1,10 @@
- import EditorLayout from "./Layout/EditorLayout.tsx";
+import EditorLayout from "./Layout/EditorLayout.tsx";
 
 const Editor = () => {
   return (
     <div className="flex h-full w-full flex-col">
-  <EditorLayout />
-</div>
+      <EditorLayout />
+    </div>
 
   );
 };
