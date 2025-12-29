@@ -38,19 +38,20 @@ const EditorToolPanel = () => {  // single source of truth
       default:
         return (
           <TranscriptTool
-            transcriptText={`This is a sample transcript.jf fn jf ejr fner fj erf jernfjnerf enr fvejrjf ver fjhver fne vn jenvjer.
-sfnjdf
-It is rendered as plain paragraphs.
-Scrollbar should be hidden, but scrolling should work.
-his is a sample transcript.
-It is rendered as plain paragraphs.
-Scrollbar should be hidden, but scrolling should work.
-his is a sample transcript.
-It is rendered as plain paragraphs.
-Scrollbar should be hidden, but scrolling should work.
-his is a sample transcript.
-It is rendered as plain paragraphs.
-Scrollbar should be hidden, but scrolling should work.`}
+            transcriptText={
+            `This is a sample transcript.jf fn jf ejr fner fj erf jernfjnerf enr fvejrjf ver fjhver fne vn jenvjer.
+            sfnjdf
+            It is rendered as plain paragraphs.
+            Scrollbar should be hidden, but scrolling should work.
+            his is a sample transcript.
+            It is rendered as plain paragraphs.
+            Scrollbar should be hidden, but scrolling should work.
+            his is a sample transcript.
+            It is rendered as plain paragraphs.
+            Scrollbar should be hidden, but scrolling should work.
+            his is a sample transcript.
+            It is rendered as plain paragraphs.
+            Scrollbar should be hidden, but scrolling should work.`}
           />
         );
     }

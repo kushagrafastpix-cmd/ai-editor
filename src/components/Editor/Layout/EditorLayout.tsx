@@ -81,10 +81,7 @@ const EditorLayout = () => {
       </div>
 
       {/* GAP BETWEEN TOOL AREA AND TIMELINE (when hidden) */}
-{!isTimelineVisible && (
-  <div style={{ height: TOOL_TIMELINE_GAP }} />
-)}
-
+      {!isTimelineVisible && <div style={{ height: TOOL_TIMELINE_GAP }} />}
 
       {/* RESIZE HANDLE */}
       <div
