@@ -67,7 +67,7 @@ const EditorToolPanel = () => {  // single source of truth
         />
 
         {/* content area (only this scrolls internally) */}
-        <div className="flex-1 min-h-0 overflow-hidden">
+        <div className="flex-1 min-h-0 min-w-0 overflow-y-auto scrollbar-hide">
           {renderActiveTool()}
         </div>
       </ToolCard>

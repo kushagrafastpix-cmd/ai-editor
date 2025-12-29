@@ -1,4 +1,3 @@
-// EditorToolPanel/tools/Text/TextTool.tsx
 
 import { useState } from "react";
 import type { TextLayer, TextType } from "./types";
@@ -29,10 +28,28 @@ const TextTool = () => {
     setActiveTextId(newLayer.id);
   };
 
+  const handleUpdateLayer = (
+    id: string,
+    update: Partial<TextLayer>
+  ) => {
+    setTextLayers((layers) =>
+      layers.map((l) =>
+        l.id === id ? { ...l, ...update } : l
+      )
+    );
+  };
+
+  const activeLayer = textLayers.find(
+    (l) => l.id === activeTextId
+  );
+
   return (
-    <div className="h-full">
-      {activeTextId ? (
-        <TextEditor />
+    <div className="h-full flex flex-col">
+      {activeLayer ? (
+        <TextEditor
+          layer={activeLayer}
+          onUpdate={handleUpdateLayer}
+        />
       ) : (
         <AddTextSection onAdd={handleAddText} />
       )}
