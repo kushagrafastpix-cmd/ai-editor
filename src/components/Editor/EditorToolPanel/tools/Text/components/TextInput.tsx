@@ -21,7 +21,7 @@ const TextInput = ({ value, onChange }: Props) => {
           border border-[#d9d8d6]
           px-3 py-2 text-sm
           overflow-y-auto scrollbar-hidden
-          focus:outline-none  bg-[#f7f7f7]
+          focus:outline-none  bg-[#FBFBFC]
         "
         placeholder="Hello world!"
       />

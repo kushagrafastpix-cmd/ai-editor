@@ -22,7 +22,7 @@ const FontSettings = ({ style, onChange }: FontSettingsProps) => {
                 appearance-none
                 rounded-md
                 border border-[#d9d8d6]
-                bg-[#f7f7f7]
+                bg-[#FBFBFC]
                 px-3 pr-12
                 text-sm
                 outline-none
@@ -59,7 +59,7 @@ const FontSettings = ({ style, onChange }: FontSettingsProps) => {
                 appearance-none
                 rounded-md
                 border border-[#d9d8d6]
-                bg-[#f7f7f7]
+                bg-[#FBFBFC]
                 px-3 pr-12
                 text-sm
                 outline-none
@@ -96,7 +96,7 @@ const FontSettings = ({ style, onChange }: FontSettingsProps) => {
             gap-1
             rounded-md
             border border-[#d9d8d6]
-            bg-[#f7f7f7]
+            bg-[#FBFBFC]
             px-2
           "
         >

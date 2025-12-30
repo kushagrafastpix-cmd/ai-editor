@@ -19,10 +19,10 @@ export const DEFAULT_TEXT_STYLE: Record<TextType, TextStyle> = {
     underline: false,
     strike: false,
 
-    fillColor: "#000000",
+    fillColor: "#6e59f5ff",
     fillOpacity: 100,
 
-    backgroundColor: "#000000",
+    backgroundColor: "#ec5959ff",
     backgroundOpacity: 0,
   },
 

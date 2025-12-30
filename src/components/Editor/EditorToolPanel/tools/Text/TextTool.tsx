@@ -1,3 +1,4 @@
+// EditorToolPanel/tools/Text/TextTool.tsx
 
 import { useState } from "react";
 import type { TextLayer, TextType } from "./types";
@@ -33,14 +34,14 @@ const TextTool = () => {
     update: Partial<TextLayer>
   ) => {
     setTextLayers((layers) =>
-      layers.map((l) =>
-        l.id === id ? { ...l, ...update } : l
+      layers.map((layer) =>
+        layer.id === id ? { ...layer, ...update } : layer
       )
     );
   };
 
   const activeLayer = textLayers.find(
-    (l) => l.id === activeTextId
+    (layer) => layer.id === activeTextId
   );
 
   return (
