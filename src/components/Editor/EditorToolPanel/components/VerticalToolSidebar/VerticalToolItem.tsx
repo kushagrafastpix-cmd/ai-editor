@@ -37,10 +37,9 @@ const VerticalToolItem = ({ tool, isActive, onClick }: VerticalToolItemProps) =>
       }}
     >
       <Icon
-        className="h-5 w-5 transition-colors"
-        style={{
-          color: isActive ? ACTIVE_COLOR : "#303132",
-        }}
+        className={`h-5 w-5 transition-colors ${
+          isActive ? "text-[#5D09C7]" : "text-[#303132]"
+        }`}
       />
       <span className="text-center leading-tight">{tool.label}</span>
     </button>
