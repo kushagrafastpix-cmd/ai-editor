@@ -1,21 +1,16 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import type { DrawerToolId } from "../../types";
-import { TOOLS } from "../../constants";
-import ToolDrawerHeader from "./ToolDrawerHeader";
+import ChevronLeftIcon from "../../../../Common/Icons/ChevronLeftIcon";
 
 interface ToolDrawerProps {
-  toolId: DrawerToolId;
   children: ReactNode;
   onClose: () => void;
 }
 
-const DRAWER_WIDTH = 320; // Fixed width in pixels
+const DRAWER_WIDTH = 360; // Fixed width in pixels
 
-const ToolDrawer = ({ toolId, children, onClose }: ToolDrawerProps) => {
+const ToolDrawer = ({ children, onClose }: ToolDrawerProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const tool = TOOLS.find((t) => t.id === toolId);
-  const toolLabel = tool?.label || "Tool";
 
   useEffect(() => {
     // Trigger animation after mount
@@ -32,22 +27,7 @@ const ToolDrawer = ({ toolId, children, onClose }: ToolDrawerProps) => {
 
   return (
     <>
-      {/* Backdrop overlay */}
-      <div
-        className={`
-          absolute
-          inset-0
-          z-40
-          transition-opacity
-          duration-300
-          ease-in-out
-          ${isOpen ? "bg-opacity-20 opacity-100" : "bg-opacity-0 opacity-0"}
-        `}
-        onClick={handleClose}
-        aria-hidden="true"
-      />
-
-      {/* Drawer */}
+      {/* Drawer - overlays transcript from left */}
       <div
         className="
           absolute
@@ -68,10 +48,40 @@ const ToolDrawer = ({ toolId, children, onClose }: ToolDrawerProps) => {
           transform: isOpen ? "translateX(0)" : "translateX(-100%)",
         }}
       >
-        {/* Header */}
-        <ToolDrawerHeader title={toolLabel} onClose={handleClose} />
+        {/* Close button - positioned on the right edge, outside the drawer */}
+        <button
+          onClick={handleClose}
+          className="
+            absolute
+            top-1/2
+            -translate-y-1/2
+            z-10
+            flex
+            items-center
+            justify-center
+            rounded
+            bg-white
+            border
+            border-gray-300
+            shadow-sm
+            text-gray-600
+            hover:bg-gray-50
+            hover:text-gray-900
+            transition-colors
+            focus:outline-none
+          "
+          style={{
+            right: '-10px', // Position on the edge, half outside (10px = half of 20px)
+            width: '20px',
+            height: '40px',
+            padding: '10px 0', // 10px top and bottom padding
+          }}
+          aria-label="Close drawer"
+        >
+          <ChevronLeftIcon className="h-4 w-4" />
+        </button>
 
-        {/* Content area (scrollable) */}
+        {/* Content area (scrollable) - starts from top */}
         <div className="flex-1 min-h-0 min-w-0 overflow-y-auto scrollbar-hide">
           {children}
         </div>

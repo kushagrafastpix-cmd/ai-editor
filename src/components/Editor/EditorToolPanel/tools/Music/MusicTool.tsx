@@ -8,6 +8,7 @@ import type { MusicItem } from "./types";
 import MusicSearchBar from "./components/MusicSearchBar";
 import MusicFilter from "./components/MusicFilter";
 import MusicList from "./components/MusicList";
+import UploadButton from "./components/UploadButton";
 
 const MusicTool = () => {
   const [search, setSearch] = useState("");
@@ -48,11 +49,13 @@ const MusicTool = () => {
 
   return (
     <div className="flex h-full flex-col gap-4 px-4 py-4">
-      {/* Search + Upload */}
+      {/* Upload button - on top */}
+      <UploadButton onUpload={handleUpload} />
+
+      {/* Search bar */}
       <MusicSearchBar
         value={search}
         onChange={setSearch}
-        onUpload={handleUpload}
       />
 
       {/* Header + Filter */}

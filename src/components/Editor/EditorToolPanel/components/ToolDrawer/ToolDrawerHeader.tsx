@@ -1,4 +1,4 @@
-import CloseIcon from "../../../../Common/Icons/CloseIcon";
+import ChevronLeftIcon from "../../../../Common/Icons/ChevronLeftIcon";
 
 interface ToolDrawerHeaderProps {
   title: string;
@@ -22,7 +22,7 @@ const ToolDrawerHeader = ({ title, onClose }: ToolDrawerHeaderProps) => {
         "
         aria-label="Close drawer"
       >
-        <CloseIcon className="h-5 w-5" />
+        <ChevronLeftIcon className="h-5 w-5" />
       </button>
     </div>
   );

@@ -48,17 +48,17 @@ const EditorToolPanel = () => {
   };
 
   return (
-    <div className="flex h-full">
+    <div className="relative flex h-full w-full bg-white">
       {/* Vertical Tool Sidebar */}
       <VerticalToolSidebar
         activeTool={openDrawerTool}
         onToolClick={handleToolClick}
       />
 
-      {/* Main Content Area */}
-      <div className="relative flex-1 overflow-hidden">
-        {/* Transcript - Always visible */}
-        <div className="h-full pt-4 pr-4 pb-4 pl-4">
+      {/* Main Content Area - Transcript always visible */}
+      <div className="relative flex-1 min-w-0 overflow-hidden bg-white">
+        {/* Transcript - Always visible, fills entire area */}
+        <div className="absolute inset-0 pt-4 pr-4 pb-4 pl-4">
           <ToolCard>
             <div className="flex-1 min-h-0 min-w-0 overflow-y-auto scrollbar-hide">
               <TranscriptTool
@@ -82,10 +82,7 @@ const EditorToolPanel = () => {
 
         {/* Tool Drawer - Overlay when tool is selected */}
         {openDrawerTool && (
-          <ToolDrawer
-            toolId={openDrawerTool}
-            onClose={() => setOpenDrawerTool(null)}
-          >
+          <ToolDrawer onClose={() => setOpenDrawerTool(null)}>
             {renderToolContent(openDrawerTool)}
           </ToolDrawer>
         )}

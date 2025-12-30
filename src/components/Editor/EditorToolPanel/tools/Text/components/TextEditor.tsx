@@ -14,7 +14,7 @@ interface Props {
 const TextEditor = ({ layer, onUpdate }: Props) => {
   return (
     <div className="flex flex-col min-h-0 gap-6 px-4 py-4">
-      {/* Text input */}
+      {/* Input text section */}
       <TextInput
         value={layer.content}
         onChange={(content) =>
@@ -22,55 +22,60 @@ const TextEditor = ({ layer, onUpdate }: Props) => {
         }
       />
 
-      {/* Font settings */}
-      <FontSettings
-        style={layer.style}
-        onChange={(style) =>
-          onUpdate(layer.id, {
-            style: { ...layer.style, ...style },
-          })
-        }
-      />
+      {/* Font settings section - contains all font-related controls */}
+      <div className="flex flex-col gap-4">
+        <span className="font-medium text-gray-800">Font settings</span>
 
-      {/* Decoration */}
-      <DecorationControls
-        style={layer.style}
-        onChange={(style) =>
-          onUpdate(layer.id, {
-            style: { ...layer.style, ...style },
-          })
-        }
-      />
+        {/* Font family, weight, size row */}
+        <FontSettings
+          style={layer.style}
+          onChange={(style) =>
+            onUpdate(layer.id, {
+              style: { ...layer.style, ...style },
+            })
+          }
+        />
 
-      {/* Font fill */}
-      <ColorRow
-        label="Font fill"
-        color={layer.style.fillColor}
-        opacity={layer.style.fillOpacity}
-        onOpacityChange={(opacity) =>
-          onUpdate(layer.id, {
-            style: {
-              ...layer.style,
-              fillOpacity: opacity,
-            },
-          })
-        }
-      />
+        {/* Decoration */}
+        <DecorationControls
+          style={layer.style}
+          onChange={(style) =>
+            onUpdate(layer.id, {
+              style: { ...layer.style, ...style },
+            })
+          }
+        />
 
-      {/* Background color */}
-      <ColorRow
-        label="Text background color"
-        color={layer.style.backgroundColor}
-        opacity={layer.style.backgroundOpacity}
-        onOpacityChange={(opacity) =>
-          onUpdate(layer.id, {
-            style: {
-              ...layer.style,
-              backgroundOpacity: opacity,
-            },
-          })
-        }
-      />
+        {/* Font fill */}
+        <ColorRow
+          label="Font fill"
+          color={layer.style.fillColor}
+          opacity={layer.style.fillOpacity}
+          onOpacityChange={(opacity) =>
+            onUpdate(layer.id, {
+              style: {
+                ...layer.style,
+                fillOpacity: opacity,
+              },
+            })
+          }
+        />
+
+        {/* Background color */}
+        <ColorRow
+          label="Text background color"
+          color={layer.style.backgroundColor}
+          opacity={layer.style.backgroundOpacity}
+          onOpacityChange={(opacity) =>
+            onUpdate(layer.id, {
+              style: {
+                ...layer.style,
+                backgroundOpacity: opacity,
+              },
+            })
+          }
+        />
+      </div>
     </div>
   );
 };

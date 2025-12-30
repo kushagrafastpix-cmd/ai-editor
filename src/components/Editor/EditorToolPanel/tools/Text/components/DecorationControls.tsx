@@ -16,17 +16,17 @@ const DecorationControls = ({ style, onChange }: DecorationControlsProps) => {
       </span>
 
       <div className="flex items-center gap-2">
-        {/* Bold */}
+        {/* Strikethrough */}
         <button
-          onClick={() => onChange({ bold: !style.bold })}
+          onClick={() => onChange({ strike: !style.strike })}
           className="flex h-9 w-9 items-center justify-center rounded-md border transition-colors"
           style={{
-            borderColor: style.bold ? ACTIVE_BORDER : "#d9d8d6",
-            backgroundColor: style.bold ? ACTIVE_BG : "transparent",
-            color: style.bold ? ACTIVE_BORDER : "#303132",
+            borderColor: style.strike ? ACTIVE_BORDER : "#d9d8d6",
+            backgroundColor: style.strike ? ACTIVE_BG : "transparent",
+            color: style.strike ? ACTIVE_BORDER : "#303132",
           }}
         >
-          –
+          <span className="text-lg leading-none">–</span>
         </button>
 
         {/* Underline */}
@@ -39,20 +39,20 @@ const DecorationControls = ({ style, onChange }: DecorationControlsProps) => {
             color: style.underline ? ACTIVE_BORDER : "#303132",
           }}
         >
-          U
+          <span className="text-sm font-semibold underline">U</span>
         </button>
 
-        {/* Strikethrough */}
+        {/* Wavy line (italic/emphasis) */}
         <button
-          onClick={() => onChange({ strike: !style.strike })}
+          onClick={() => onChange({ bold: !style.bold })}
           className="flex h-9 w-9 items-center justify-center rounded-md border transition-colors"
           style={{
-            borderColor: style.strike ? ACTIVE_BORDER : "#d9d8d6",
-            backgroundColor: style.strike ? ACTIVE_BG : "transparent",
-            color: style.strike ? ACTIVE_BORDER : "#303132",
+            borderColor: style.bold ? ACTIVE_BORDER : "#d9d8d6",
+            backgroundColor: style.bold ? ACTIVE_BG : "transparent",
+            color: style.bold ? ACTIVE_BORDER : "#303132",
           }}
         >
-          S
+          <span className="text-sm italic">~</span>
         </button>
       </div>
     </div>

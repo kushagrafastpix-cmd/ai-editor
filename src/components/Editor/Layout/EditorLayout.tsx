@@ -71,11 +71,17 @@ const EditorLayout = () => {
     >
       {/* TOP AREA */}
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-[40%] border-r bg-white">
+        <div 
+          className="flex-shrink-0 border-r bg-white"
+          style={{ width: '40%', flexBasis: '40%' }}
+        >
           <EditorToolPanel />
         </div>
 
-        <div className="w-[60%] bg-black">
+        <div 
+          className="flex-shrink-0 bg-black"
+          style={{ width: '60%', flexBasis: '60%' }}
+        >
           <VideoPlayer />
         </div>
       </div>

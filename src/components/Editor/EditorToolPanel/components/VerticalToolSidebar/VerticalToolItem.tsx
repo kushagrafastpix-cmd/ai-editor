@@ -34,29 +34,15 @@ const VerticalToolItem = ({ tool, isActive, onClick }: VerticalToolItemProps) =>
       "
       style={{
         color: isActive ? ACTIVE_COLOR : "#303132",
-        backgroundColor: isActive ? "#F5F0FF" : "transparent",
       }}
     >
-      <Icon className="h-5 w-5" />
+      <Icon
+        className="h-5 w-5 transition-colors"
+        style={{
+          color: isActive ? ACTIVE_COLOR : "#303132",
+        }}
+      />
       <span className="text-center leading-tight">{tool.label}</span>
-
-      {/* Left border indicator for active state */}
-      {isActive && (
-        <span
-          className="
-            absolute
-            left-0
-            top-0
-            bottom-0
-            w-1
-            transition-opacity
-            duration-300
-          "
-          style={{
-            backgroundColor: ACTIVE_COLOR,
-          }}
-        />
-      )}
     </button>
   );
 };

@@ -21,9 +21,11 @@ const UploadButton = ({ onUpload }: UploadButtonProps) => {
     <label
       className="
         flex
+        w-full
         h-10
         cursor-pointer
         items-center
+        justify-center
         gap-2
         rounded-md
         bg-[#4CAF73]
@@ -31,6 +33,8 @@ const UploadButton = ({ onUpload }: UploadButtonProps) => {
         text-sm
         font-medium
         text-white
+        hover:bg-[#45a068]
+        transition-colors
       "
     >
       <UploadFileIcon className="h-4 w-4" />
