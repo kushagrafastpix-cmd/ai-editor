@@ -10,6 +10,8 @@ export type ToolId =
   | "text"
   | "music";
 
+export type DrawerToolId = Exclude<ToolId, "transcript">;
+
 export interface ToolConfig {
   id: ToolId;
   label: string;

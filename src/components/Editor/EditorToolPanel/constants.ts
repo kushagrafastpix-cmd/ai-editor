@@ -19,4 +19,9 @@ export const TOOLS: ToolConfig[] = [
   { id: "music", label: "Music", icon: MusicIcon },
 ];
 
+// Tools without transcript (for drawer sidebar)
+export const TOOLS_WITHOUT_TRANSCRIPT: ToolConfig[] = TOOLS.filter(
+  (tool) => tool.id !== "transcript"
+);
+
 export const DEFAULT_TOOL: ToolConfig["id"] = "transcript";
