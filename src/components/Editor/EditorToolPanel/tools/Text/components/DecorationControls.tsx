@@ -1,4 +1,7 @@
 import type { TextStyle } from "../types";
+import MinusIcon from "../../../../../Common/Icons/MinusIcon";
+import UnderlineIcon from "../../../../../Common/Icons/UnderlineIcon";
+import StrikethroughIcon from "../../../../../Common/Icons/StrikethroughIcon";
 
 interface DecorationControlsProps {
   style: TextStyle;
@@ -19,40 +22,43 @@ const DecorationControls = ({ style, onChange }: DecorationControlsProps) => {
         {/* Strikethrough */}
         <button
           onClick={() => onChange({ strike: !style.strike })}
-          className="flex h-9 w-9 items-center justify-center rounded-md border transition-colors"
+          className={`flex h-9 w-9 items-center justify-center rounded-md border transition-colors ${
+            style.strike ? `text-[#0CB16D]` : "text-[#303132]"
+          }`}
           style={{
             borderColor: style.strike ? ACTIVE_BORDER : "#d9d8d6",
             backgroundColor: style.strike ? ACTIVE_BG : "transparent",
-            color: style.strike ? ACTIVE_BORDER : "#303132",
           }}
         >
-          <span className="text-lg leading-none">–</span>
+          <MinusIcon className="h-4 w-4" />
         </button>
 
         {/* Underline */}
         <button
           onClick={() => onChange({ underline: !style.underline })}
-          className="flex h-9 w-9 items-center justify-center rounded-md border transition-colors"
+          className={`flex h-9 w-9 items-center justify-center rounded-md border transition-colors ${
+            style.underline ? `text-[#0CB16D]` : "text-[#303132]"
+          }`}
           style={{
             borderColor: style.underline ? ACTIVE_BORDER : "#d9d8d6",
             backgroundColor: style.underline ? ACTIVE_BG : "transparent",
-            color: style.underline ? ACTIVE_BORDER : "#303132",
           }}
         >
-          <span className="text-sm font-semibold underline">U</span>
+          <UnderlineIcon className="h-4 w-4" />
         </button>
 
-        {/* Wavy line (italic/emphasis) */}
+        {/* Strikethrough (wavy line alternative) */}
         <button
           onClick={() => onChange({ bold: !style.bold })}
-          className="flex h-9 w-9 items-center justify-center rounded-md border transition-colors"
+          className={`flex h-9 w-9 items-center justify-center rounded-md border transition-colors ${
+            style.bold ? `text-[#0CB16D]` : "text-[#303132]"
+          }`}
           style={{
             borderColor: style.bold ? ACTIVE_BORDER : "#d9d8d6",
             backgroundColor: style.bold ? ACTIVE_BG : "transparent",
-            color: style.bold ? ACTIVE_BORDER : "#303132",
           }}
         >
-          <span className="text-sm italic">~</span>
+          <StrikethroughIcon className="h-4 w-4" />
         </button>
       </div>
     </div>
