@@ -16,7 +16,7 @@ const AlignJustifyIcon = ({ className }: AlignJustifyIconProps) => {
     >
       <path
         d="M15.75 7.5H2.25M15.75 13.5H2.25M15.75 4.5H2.25M15.75 10.5H2.25"
-        stroke="#303132"
+        stroke="currentColor"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

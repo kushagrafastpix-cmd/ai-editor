@@ -12,7 +12,7 @@ const ToolDrawerHeader = ({ title, onClose }: ToolDrawerHeaderProps) => {
       <button
         onClick={onClose}
         className="
-          rounded
+          rounded 
           p-1
           text-gray-600
           hover:bg-gray-100

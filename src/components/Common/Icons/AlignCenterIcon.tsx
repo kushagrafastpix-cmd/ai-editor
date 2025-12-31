@@ -16,7 +16,7 @@ const AlignCenterIcon = ({ className }: AlignCenterIconProps) => {
     >
       <path
         d="M13.5 7.5H4.5M15.75 4.5H2.25M15.75 10.5H2.25M13.5 13.5H4.5"
-        stroke="#303132"
+        stroke="currentColor"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

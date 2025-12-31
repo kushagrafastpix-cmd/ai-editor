@@ -16,7 +16,7 @@ const AlignLeftIcon = ({ className }: AlignLeftIconProps) => {
     >
       <path
         d="M12 7.5H2.25M15 4.5H2.25M15 10.5H2.25M12 13.5H2.25"
-        stroke="#0CB16D"
+        stroke="currentColor"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

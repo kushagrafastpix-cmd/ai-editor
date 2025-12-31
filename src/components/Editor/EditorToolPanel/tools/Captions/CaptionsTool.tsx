@@ -21,7 +21,7 @@ const CaptionsTool = () => {
       ) : (
         <>
           {activeSection === "presets" && <PresetsEditor onBack={handleBack} />}
-          {activeSection === "font" && <FontEditor />}
+          {activeSection === "font" && <FontEditor onBack={handleBack} />}
           {activeSection === "effects" && <EffectsEditor onBack={handleBack} />}
         </>
       )}

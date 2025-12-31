@@ -47,7 +47,7 @@ const EditorToolPanel = () => {
     setOpenDrawerTool((current) => (current === toolId ? null : toolId));
   };
 
-  return (
+        return (
     <div className="relative flex h-full w-full bg-white">
       {/* Vertical Tool Sidebar */}
       <VerticalToolSidebar
@@ -61,7 +61,7 @@ const EditorToolPanel = () => {
         <div className="absolute inset-0 pt-4 pr-4 pb-4 pl-4">
           <ToolCard>
             <div className="flex-1 min-h-0 min-w-0 overflow-y-auto scrollbar-hide">
-              <TranscriptTool
+          <TranscriptTool
                 transcriptText={`This is a sample transcript.jf fn jf ejr fner fj erf jernfjnerf enr fvejrjf ver fjhver fne vn jenvjer.
             sfnjdf
             It is rendered as plain paragraphs.
@@ -75,7 +75,7 @@ const EditorToolPanel = () => {
             his is a sample transcript.
             It is rendered as plain paragraphs.
             Scrollbar should be hidden, but scrolling should work.`}
-              />
+          />
             </div>
           </ToolCard>
         </div>
