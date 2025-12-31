@@ -44,12 +44,17 @@ const TextTool = () => {
     (layer) => layer.id === activeTextId
   );
 
+  const handleBack = () => {
+    setActiveTextId(null);
+  };
+
   return (
     <div className="h-full flex flex-col">
       {activeLayer ? (
         <TextEditor
           layer={activeLayer}
           onUpdate={handleUpdateLayer}
+          onBack={handleBack}
         />
       ) : (
         <AddTextSection onAdd={handleAddText} />

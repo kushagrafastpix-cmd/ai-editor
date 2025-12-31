@@ -6,13 +6,13 @@ import { MUSIC_LIST } from "./constants";
 import type { MusicItem } from "./types";
 
 import MusicSearchBar from "./components/MusicSearchBar";
-import MusicFilter from "./components/MusicFilter";
+import MusicFilter, { type MusicFilterValue } from "./components/MusicFilter";
 import MusicList from "./components/MusicList";
 import UploadButton from "./components/UploadButton";
 
 const MusicTool = () => {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"all" | "liked">("all");
+  const [filter, setFilter] = useState<MusicFilterValue>("all");
   const [music, setMusic] = useState<MusicItem[]>(MUSIC_LIST);
 
   // toggle like

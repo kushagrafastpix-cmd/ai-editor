@@ -1,49 +1,66 @@
 // EditorToolPanel/tools/Music/components/MusicFilter.tsx
 
-import ChevronDownIcon from "../../../../../Common/Icons/ChevronDownIcon";
+import CustomDropdown from "../../../../../Common/CustomDropdown/CustomDropdown";
+
+export type MusicFilterValue =
+  | "all"
+  | "liked"
+  | "instrumental"
+  | "trap"
+  | "future-house"
+  | "drum-bass"
+  | "melodic-dubstep"
+  | "future-bass"
+  | "bass-house"
+  | "bass-music"
+  | "melodic-house"
+  | "dubstep"
+  | "progressive-house"
+  | "phonk"
+  | "electronic-pop"
+  | "hardstyle"
+  | "chill-bass"
+  | "future-bounce"
+  | "rock-roll"
+  | "new-age"
+  | "ambient"
+  | "dance-pop";
 
 interface Props {
-  value: "all" | "liked";
-  onChange: (v: "all" | "liked") => void;
+  value: MusicFilterValue;
+  onChange: (v: MusicFilterValue) => void;
 }
 
 const MusicFilter = ({ value, onChange }: Props) => {
   return (
-    <div className="relative w-[120px]">
-      <select
+    <div className="w-[120px]">
+      <CustomDropdown
         value={value}
-        onChange={(e) =>
-          onChange(e.target.value as "all" | "liked")
-        }
-        className="
-          w-full
-          h-10
-          appearance-none
-          rounded-md
-          border border-[#d9d8d6]
-          bg-white
-          px-3
-          pr-10
-          text-sm
-          outline-none
-        "
-      >
-        <option value="all">All</option>
-        <option value="liked">Liked</option>
-      </select>
-
-      {/* Chevron icon */}
-      <ChevronDownIcon
-        className="
-          pointer-events-none
-          absolute
-          right-3
-          top-1/2
-          h-4
-          w-4
-          -translate-y-1/2
-          text-gray-600
-        "
+        options={[
+          { value: "all", label: "All" },
+          { value: "liked", label: "Liked" },
+          { value: "instrumental", label: "Instrumental" },
+          { value: "trap", label: "Trap" },
+          { value: "future-house", label: "Future House" },
+          { value: "drum-bass", label: "Drum & Bass" },
+          { value: "melodic-dubstep", label: "Melodic Dubstep" },
+          { value: "future-bass", label: "Future Bass" },
+          { value: "bass-house", label: "Bass House" },
+          { value: "bass-music", label: "Bass Music" },
+          { value: "melodic-house", label: "Melodic House" },
+          { value: "dubstep", label: "Dubstep" },
+          { value: "progressive-house", label: "Progressive House" },
+          { value: "phonk", label: "Phonk" },
+          { value: "electronic-pop", label: "Electronic Pop" },
+          { value: "hardstyle", label: "Hardstyle" },
+          { value: "chill-bass", label: "Chill Bass" },
+          { value: "future-bounce", label: "Future Bounce" },
+          { value: "rock-roll", label: "Rock & Roll" },
+          { value: "new-age", label: "New Age" },
+          { value: "ambient", label: "Ambient" },
+          { value: "dance-pop", label: "Dance-Pop" },
+        ]}
+        onChange={(v) => onChange(v as MusicFilterValue)}
       />
     </div>
   );

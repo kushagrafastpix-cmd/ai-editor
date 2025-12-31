@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ChevronLeftIcon from "../../../../../Common/Icons/ChevronLeftIcon";
-import ChevronDownIcon from "../../../../../Common/Icons/ChevronDownIcon";
+import CustomDropdown from "../../../../../Common/CustomDropdown/CustomDropdown";
 
 interface EffectsEditorProps {
   onBack: () => void;
@@ -84,41 +84,14 @@ const EffectsEditor = ({ onBack }: EffectsEditorProps) => {
           {/* Animation Section */}
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium text-gray-900">Animation</h3>
-            <div className="relative">
-              <select
-                className="
-                  w-full
-                  h-10
-                  appearance-none
-                  rounded-md
-                  border border-[#d9d8d6]
-                  bg-[#FBFBFC]
-                  px-3 pr-12
-                  text-sm
-                  outline-none
-                "
-                value={animation}
-                onChange={(e) => setAnimation(e.target.value as Animation)}
-              >
-                {animations.map((anim) => (
-                  <option key={anim} value={anim}>
-                    {anim}
-                  </option>
-                ))}
-              </select>
-
-              <ChevronDownIcon
-                className="
-                  pointer-events-none
-                  absolute
-                  right-3
-                  top-1/2
-                  h-4 w-4
-                  -translate-y-1/2
-                  text-gray-500
-                "
-              />
-            </div>
+            <CustomDropdown
+              value={animation}
+              options={animations.map((anim) => ({
+                value: anim,
+                label: anim,
+              }))}
+              onChange={(value) => setAnimation(value as Animation)}
+            />
           </div>
 
           {/* Lines Section */}

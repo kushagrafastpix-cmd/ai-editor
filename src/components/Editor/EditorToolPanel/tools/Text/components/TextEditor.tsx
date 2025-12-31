@@ -1,6 +1,7 @@
 // EditorToolPanel/tools/Text/components/TextEditor.tsx
 
 import type { TextLayer } from "../types";
+import ChevronLeftIcon from "../../../../../Common/Icons/ChevronLeftIcon";
 import TextInput from "./TextInput";
 import FontSettings from "./FontSettings";
 import DecorationControls from "./DecorationControls";
@@ -9,11 +10,38 @@ import ColorRow from "./ColorRow";
 interface Props {
   layer: TextLayer;
   onUpdate: (id: string, update: Partial<TextLayer>) => void;
+  onBack: () => void;
 }
 
-const TextEditor = ({ layer, onUpdate }: Props) => {
+const TextEditor = ({ layer, onUpdate, onBack }: Props) => {
   return (
-    <div className="flex flex-col min-h-0 gap-6 px-4 py-4">
+    <div className="flex h-full flex-col">
+      {/* Header */}
+      <div className="flex items-center gap-3 px-4 py-4 border-b border-gray-200">
+        <button
+          onClick={onBack}
+          className="
+            flex
+            items-center
+            justify-center
+            p-1
+            text-gray-600
+            hover:text-gray-900
+            transition-colors
+            focus:outline-none
+          "
+          aria-label="Go back"
+        >
+          <ChevronLeftIcon className="h-5 w-5" />
+        </button>
+        <h2 className="text-base font-semibold text-gray-900">
+          Text Overlay Settings
+        </h2>
+      </div>
+
+      {/* Scrollable content */}
+      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
+        <div className="flex flex-col min-h-0 gap-6 px-4 py-4">
       {/* Input text section */}
       <TextInput
         value={layer.content}
@@ -75,6 +103,8 @@ const TextEditor = ({ layer, onUpdate }: Props) => {
             })
           }
         />
+      </div>
+        </div>
       </div>
     </div>
   );

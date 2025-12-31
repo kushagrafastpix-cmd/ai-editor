@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ChevronLeftIcon from "../../../../../Common/Icons/ChevronLeftIcon";
-import ChevronDownIcon from "../../../../../Common/Icons/ChevronDownIcon";
+import CustomDropdown from "../../../../../Common/CustomDropdown/CustomDropdown";
 
 interface AutoCensorProps {
   onBack: () => void;
@@ -56,80 +56,30 @@ const AutoCensor = ({ onBack }: AutoCensorProps) => {
           {/* Censored words list */}
           <div className="flex flex-col gap-2">
             <label className="text-sm text-gray-600">Censored words list</label>
-            <div className="relative">
-              <select
-                className="
-                  w-full
-                  h-10
-                  appearance-none
-                  rounded-md
-                  border border-[#d9d8d6]
-                  bg-[#FBFBFC]
-                  px-3 pr-12
-                  text-sm
-                  outline-none
-                "
-                value={censoredWordsList}
-                onChange={(e) =>
-                  setCensoredWordsList(e.target.value as CensoredWordsList)
-                }
-              >
-                <option value="Curse words (default)">
-                  Curse words (default)
-                </option>
-                <option value="Option B">Option B</option>
-                <option value="Option C">Option C</option>
-              </select>
-              <ChevronDownIcon
-                className="
-                  pointer-events-none
-                  absolute
-                  right-3
-                  top-1/2
-                  h-4 w-4
-                  -translate-y-1/2
-                  text-gray-500
-                "
-              />
-            </div>
+            <CustomDropdown
+              value={censoredWordsList}
+              options={[
+                { value: "Curse words (default)", label: "Curse words (default)" },
+                { value: "Option B", label: "Option B" },
+                { value: "Option C", label: "Option C" },
+              ]}
+              onChange={(value) =>
+                setCensoredWordsList(value as CensoredWordsList)
+              }
+            />
           </div>
 
           {/* Caption style */}
           <div className="flex flex-col gap-2">
             <label className="text-sm text-gray-600">Caption style</label>
-            <div className="relative">
-              <select
-                className="
-                  w-full
-                  h-10
-                  appearance-none
-                  rounded-md
-                  border border-[#d9d8d6]
-                  bg-[#FBFBFC]
-                  px-3 pr-12
-                  text-sm
-                  outline-none
-                "
-                value={captionStyle}
-                onChange={(e) =>
-                  setCaptionStyle(e.target.value as CaptionStyle)
-                }
-              >
-                <option value='Asterisks("A****")'>Asterisks("A****")</option>
-                <option value='Dashed("A----")'>Dashed("A----")</option>
-              </select>
-              <ChevronDownIcon
-                className="
-                  pointer-events-none
-                  absolute
-                  right-3
-                  top-1/2
-                  h-4 w-4
-                  -translate-y-1/2
-                  text-gray-500
-                "
-              />
-            </div>
+            <CustomDropdown
+              value={captionStyle}
+              options={[
+                { value: 'Asterisks("A****")', label: 'Asterisks("A****")' },
+                { value: 'Dashed("A----")', label: 'Dashed("A----")' },
+              ]}
+              onChange={(value) => setCaptionStyle(value as CaptionStyle)}
+            />
           </div>
 
           {/* Audio masking options */}
@@ -137,44 +87,15 @@ const AutoCensor = ({ onBack }: AutoCensorProps) => {
             <label className="text-sm text-gray-600">
               Audio masking options
             </label>
-            <div className="relative">
-              <select
-                className="
-                  w-full
-                  h-10
-                  appearance-none
-                  rounded-md
-                  border border-[#d9d8d6]
-                  bg-[#FBFBFC]
-                  px-3 pr-12
-                  text-sm
-                  outline-none
-                "
-                value={audioMasking}
-                onChange={(e) =>
-                  setAudioMasking(e.target.value as AudioMasking)
-                }
-              >
-                <option value="Bleep censored words">
-                  Bleep censored words
-                </option>
-                <option value="Mute censored words">
-                  Mute censored words
-                </option>
-                <option value="None">None</option>
-              </select>
-              <ChevronDownIcon
-                className="
-                  pointer-events-none
-                  absolute
-                  right-3
-                  top-1/2
-                  h-4 w-4
-                  -translate-y-1/2
-                  text-gray-500
-                "
-              />
-            </div>
+            <CustomDropdown
+              value={audioMasking}
+              options={[
+                { value: "Bleep censored words", label: "Bleep censored words" },
+                { value: "Mute censored words", label: "Mute censored words" },
+                { value: "None", label: "None" },
+              ]}
+              onChange={(value) => setAudioMasking(value as AudioMasking)}
+            />
           </div>
 
           {/* Enable button */}
