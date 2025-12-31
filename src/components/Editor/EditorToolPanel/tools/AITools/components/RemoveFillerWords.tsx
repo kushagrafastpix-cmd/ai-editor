@@ -55,12 +55,15 @@ const RemoveFillerWords = ({ onBack }: RemoveFillerWordsProps) => {
       <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
         <div className="flex flex-col px-4 py-4">
           {/* Image area - dark background */}
-          <div className="mb-4 rounded-lg bg-gray-900 p-4">
-            <img
-              src={RemoveFillerWordsImage}
-              alt="Remove filler words visualization"
-              className="w-full h-auto rounded"
-            />
+          <div className="mb-4 rounded-lg bg-black p-4" style={{ height: '140px' }}>
+            <div className="relative w-full h-full">
+              <img
+                src={RemoveFillerWordsImage}
+                alt="Remove filler words visualization"
+                className="w-full h-full object-contain rounded"
+                loading="eager"
+              />
+            </div>
           </div>
 
           {/* Description text */}

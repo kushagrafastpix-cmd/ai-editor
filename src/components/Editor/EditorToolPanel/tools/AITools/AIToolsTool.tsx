@@ -6,9 +6,14 @@ import AutoCensorIcon from "../../../../Common/Icons/AutoCensorIcon";
 import SpeechEnhancementIcon from "../../../../Common/Icons/SpeechEnhancementIcon";
 import AIHookIcon from "../../../../Common/Icons/AIHookIcon";
 import AIEmojiIcon from "../../../../Common/Icons/AIEmojiIcon";
-import AIKeywordsHighlightIcon from "../../../../Common/Icons/AIKeywordsHighlightIcon";
+import AIKeywordsHighlighterIcon from "../../../../Common/Icons/AIKeywordsHighlighterIcon";
 import SpeakerColorIcon from "../../../../Common/Icons/SpeakerColorIcon";
 import RemoveFillerWords from "./components/RemoveFillerWords";
+import SpeechEnhancement from "./components/SpeechEnhancement";
+import AIEmoji from "./components/AIEmoji";
+import AIKeywordsHighlighter from "./components/AIKeywordsHighlighter";
+import AISpeakerColor from "./components/AISpeakerColor";
+import AutoCensor from "./components/AutoCensor";
 
 interface AIToolConfig {
   id: AIToolId;
@@ -48,9 +53,9 @@ const AI_TOOLS: AIToolConfig[] = [
     icon: AIEmojiIcon,
   },
   {
-    id: "ai-keywords-highlight",
-    label: "AI keywords highlight",
-    icon: AIKeywordsHighlightIcon,
+    id: "ai-keywords-highlighter",
+    label: "AI keywords highlighter",
+    icon: AIKeywordsHighlighterIcon,
   },
   {
     id: "speaker-color",
@@ -66,11 +71,32 @@ const AIToolsTool = () => {
 
   const handleBack = () => {
     setActiveTool(null);
+    setSelectedTool(null);
   };
 
   // If a tool is active, show its detail view
   if (activeTool === "remove-filler-words") {
     return <RemoveFillerWords onBack={handleBack} />;
+  }
+
+  if (activeTool === "speech-enhancement") {
+    return <SpeechEnhancement onBack={handleBack} />;
+  }
+
+  if (activeTool === "ai-emoji") {
+    return <AIEmoji onBack={handleBack} />;
+  }
+
+  if (activeTool === "ai-keywords-highlighter") {
+    return <AIKeywordsHighlighter onBack={handleBack} />;
+  }
+
+  if (activeTool === "speaker-color") {
+    return <AISpeakerColor onBack={handleBack} />;
+  }
+
+  if (activeTool === "auto-censor") {
+    return <AutoCensor onBack={handleBack} />;
   }
 
   // Otherwise show the grid of tools

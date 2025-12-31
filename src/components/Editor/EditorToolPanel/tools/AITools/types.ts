@@ -5,6 +5,6 @@ export type AIToolId =
   | "speech-enhancement"
   | "ai-hook"
   | "ai-emoji"
-  | "ai-keywords-highlight"
+  | "ai-keywords-highlighter"
   | "speaker-color";
 
