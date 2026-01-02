@@ -56,7 +56,7 @@ const EditorToolPanel = () => {
       />
 
   {/* Main Content Area - Transcript always visible */}
-  <div className="relative flex-1 min-w-0 overflow-hidden" style={{ backgroundColor: "#F2F2F6" }}>
+  <div className="relative flex-1 min-w-0 overflow-hidden" style={{ backgroundColor: "#F3F4F6" }}>
         {/* Transcript - Always visible, fills entire area */}
         <div className="absolute inset-0 pt-4 pr-4 pb-4 pl-4">
           <ToolCard>

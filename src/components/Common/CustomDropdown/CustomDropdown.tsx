@@ -8,6 +8,7 @@ interface CustomDropdownProps {
   className?: string;
   placeholder?: string;
   disabled?: boolean;
+  style?: React.CSSProperties;
 }
 
 const CustomDropdown = ({
@@ -17,6 +18,7 @@ const CustomDropdown = ({
   className = "",
   placeholder,
   disabled = false,
+  style,
 }: CustomDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -120,12 +122,11 @@ const CustomDropdown = ({
         disabled={disabled}
         className={`
           w-full
-          h-10
           appearance-none
           rounded-md
           border border-[#d9d8d6]
           bg-[#FBFBFC]
-          px-3 pr-12
+          pr-12
           text-sm
           text-left
           outline-none
@@ -134,6 +135,7 @@ const CustomDropdown = ({
           ${disabled ? "opacity-50 cursor-not-allowed" : ""}
           ${className}
         `}
+        style={{ height: style?.height || "40px", ...style }}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-label={displayText || "Select an option"}
