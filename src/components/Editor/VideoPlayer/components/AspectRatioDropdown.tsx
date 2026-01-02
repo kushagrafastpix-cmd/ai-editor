@@ -22,8 +22,8 @@ const AspectRatioDropdown = ({
           { value: "4:5", label: "4:5" },
         ]}
         onChange={(v) => onChange(v as AspectRatio)}
-        className="text-xs"
-        style={{ height: "22px" }}
+        className="text-[10px]"
+        style={{ height: "22px", paddingLeft: "4px", paddingRight: "20px" }}
       />
     </div>
   );

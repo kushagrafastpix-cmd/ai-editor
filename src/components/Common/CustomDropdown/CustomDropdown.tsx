@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import ChevronDownIcon from "../Icons/ChevronDownIcon";
 
 interface CustomDropdownProps {
@@ -27,10 +28,22 @@ const CustomDropdown = ({
   const [dropdownWidth, setDropdownWidth] = useState<number | undefined>(
     undefined
   );
+  const [dropdownPosition, setDropdownPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
 
   // Find selected option label
   const selectedOption = options.find((opt) => opt.value === value);
   const displayText = selectedOption?.label || placeholder || "";
+
+  // Extract text size class from className prop for dropdown options
+  const textSizeClass = className.match(/text-\[?\d+px?\]?|text-(xs|sm|base|lg|xl)/)?.[0] || "text-sm";
+  
+  // Determine if compact mode (small text) - reduce item height accordingly
+  const isCompact = textSizeClass.includes("10px") || textSizeClass.includes("11px") || textSizeClass === "text-xs";
+  const itemHeightClass = isCompact ? "min-h-[24px]" : "min-h-[36px]";
+  const itemPaddingClass = isCompact ? "py-1" : "py-2";
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -95,11 +108,39 @@ const CustomDropdown = ({
     };
   }, [isOpen, focusedIndex, options]);
 
+  // Update dropdown position on scroll/resize
+  useEffect(() => {
+    if (!isOpen || !triggerRef.current) return;
+
+    const updatePosition = () => {
+      if (triggerRef.current) {
+        const rect = triggerRef.current.getBoundingClientRect();
+        setDropdownPosition({
+          top: rect.bottom + 4,
+          left: rect.left,
+        });
+      }
+    };
+
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, [isOpen]);
+
   const handleToggle = () => {
     if (!disabled) {
       if (!isOpen && triggerRef.current) {
         // Set dropdown width to match trigger button width
-        setDropdownWidth(triggerRef.current.offsetWidth);
+        const rect = triggerRef.current.getBoundingClientRect();
+        setDropdownWidth(rect.width);
+        setDropdownPosition({
+          top: rect.bottom + 4, // 4px = mt-1
+          left: rect.left,
+        });
       }
       setIsOpen(!isOpen);
       setFocusedIndex(-1);
@@ -126,8 +167,6 @@ const CustomDropdown = ({
           rounded-md
           border border-[#d9d8d6]
           bg-[#FBFBFC]
-          pl-3
-          pr-12
           text-sm
           text-left
           outline-none
@@ -136,39 +175,48 @@ const CustomDropdown = ({
           ${disabled ? "opacity-50 cursor-not-allowed" : ""}
           ${className}
         `}
-        style={{ height: style?.height || "40px", ...style }}
+        style={{ 
+          height: style?.height || "40px", 
+          paddingLeft: style?.paddingLeft || "12px",
+          paddingRight: style?.paddingRight || "48px",
+          ...style 
+        }}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-label={displayText || "Select an option"}
       >
-        <span className="block truncate">
+        <span 
+          className="block truncate"
+          style={{
+            paddingRight: style?.paddingRight ? `${Math.max(24, (style.paddingRight as number) - 8)}px` : "32px"
+          }}
+        >
           {displayText || placeholder || "Select..."}
         </span>
-        <ChevronDownIcon
-          className={`
-            pointer-events-none
-            absolute
-            right-3
-            top-1/2
-            h-4 w-4
-            -translate-y-1/2
-            text-gray-500
-            transition-transform
-            ${isOpen ? "rotate-180" : ""}
-          `}
-        />
+        <div
+          className="pointer-events-none absolute top-1/2 -translate-y-1/2"
+          style={{
+            right: "8px"
+          }}
+        >
+          <ChevronDownIcon
+            className={`
+              h-4 w-4
+              text-gray-500
+              transition-transform
+              ${isOpen ? "rotate-180" : ""}
+            `}
+          />
+        </div>
       </button>
 
-      {/* Dropdown list */}
-      {isOpen && (
+      {/* Dropdown list - using portal to render above everything */}
+      {isOpen && dropdownPosition && createPortal(
         <div
           ref={dropdownRef}
           className="
-            absolute
-            top-full
-            left-0
-            mt-1
-            z-50
+            fixed
+            z-[99999]
             bg-white
             border border-[#d9d8d6]
             rounded-md
@@ -178,7 +226,11 @@ const CustomDropdown = ({
             overflow-y-auto
             scrollbar-hide
           "
-          style={{ width: dropdownWidth }}
+          style={{ 
+            width: dropdownWidth,
+            top: `${dropdownPosition.top}px`,
+            left: `${dropdownPosition.left}px`,
+          }}
           role="listbox"
         >
           {options.map((option, index) => (
@@ -190,14 +242,14 @@ const CustomDropdown = ({
               onMouseLeave={() => setFocusedIndex(-1)}
               className={`
                 w-full
-                min-h-[36px]
+                ${itemHeightClass}
                 px-3
-                py-2
-                text-sm
+                ${itemPaddingClass}
                 text-left
                 text-gray-900
                 cursor-pointer
                 transition-colors
+                ${textSizeClass}
                 ${
                   focusedIndex === index ? "bg-[#EDFFFA]" : "bg-white hover:bg-[#EDFFFA]"
                 }
@@ -208,7 +260,8 @@ const CustomDropdown = ({
               {option.label}
             </button>
           ))}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
