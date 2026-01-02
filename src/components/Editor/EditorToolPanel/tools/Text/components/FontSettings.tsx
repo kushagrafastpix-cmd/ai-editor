@@ -25,7 +25,7 @@ const FontSettings = ({ style, onChange }: FontSettingsProps) => {
         {/* Font weight */}
         <div className="flex-1">
           <CustomDropdown
-            value={style.fontWeight}
+              value={style.fontWeight}
             options={[
               { value: "Regular", label: "Regular" },
               { value: "Semibold", label: "Semibold" },
@@ -37,34 +37,34 @@ const FontSettings = ({ style, onChange }: FontSettingsProps) => {
 
         {/* Font size */}
         <div className="flex-1">
-          <div
+        <div
+          className="
+            h-10
+            flex
+            items-center
+            gap-1
+            rounded-md
+            border border-[#d9d8d6]
+            bg-[#FBFBFC]
+            px-2
+          "
+        >
+          <input
+            type="number"
             className="
-              h-10
-              flex
-              items-center
-              gap-1
-              rounded-md
-              border border-[#d9d8d6]
-              bg-[#FBFBFC]
-              px-2
+              w-full
+              bg-transparent
+              text-sm
+              outline-none
             "
-          >
-            <input
-              type="number"
-              className="
-                w-full
-                bg-transparent
-                text-sm
-                outline-none
-              "
-              value={style.fontSize}
-              onChange={(e) =>
-                onChange({
-                  fontSize: Number(e.target.value),
-                })
-              }
-            />
-            <span className="text-gray-500 text-sm">px</span>
+            value={style.fontSize}
+            onChange={(e) =>
+              onChange({
+                fontSize: Number(e.target.value),
+              })
+            }
+          />
+          <span className="text-gray-500 text-sm">px</span>
           </div>
         </div>
       </div>

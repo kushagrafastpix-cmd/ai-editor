@@ -32,6 +32,7 @@ const CustomDropdown = ({
     top: number;
     left: number;
   } | null>(null);
+  const [maxHeight, setMaxHeight] = useState<number>(180);
 
   // Find selected option label
   const selectedOption = options.find((opt) => opt.value === value);
@@ -115,6 +116,12 @@ const CustomDropdown = ({
     const updatePosition = () => {
       if (triggerRef.current) {
         const rect = triggerRef.current.getBoundingClientRect();
+        
+        // Recalculate available space
+        const spaceBelow = window.innerHeight - rect.bottom - 4;
+        const calculatedMaxHeight = Math.min(Math.max(spaceBelow, 100), 180);
+        setMaxHeight(calculatedMaxHeight);
+        
         setDropdownPosition({
           top: rect.bottom + 4,
           left: rect.left,
@@ -137,6 +144,14 @@ const CustomDropdown = ({
         // Set dropdown width to match trigger button width
         const rect = triggerRef.current.getBoundingClientRect();
         setDropdownWidth(rect.width);
+        
+        // Calculate available space below the trigger
+        const spaceBelow = window.innerHeight - rect.bottom - 4; // 4px margin
+        
+        // Use available space, but cap at 180px max, and ensure at least 100px
+        const calculatedMaxHeight = Math.min(Math.max(spaceBelow, 100), 180);
+        setMaxHeight(calculatedMaxHeight);
+        
         setDropdownPosition({
           top: rect.bottom + 4, // 4px = mt-1
           left: rect.left,
@@ -222,7 +237,6 @@ const CustomDropdown = ({
             rounded-md
             shadow-lg
             overflow-hidden
-            max-h-[180px]
             overflow-y-auto
             scrollbar-hide
           "
@@ -230,6 +244,7 @@ const CustomDropdown = ({
             width: dropdownWidth,
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
+            maxHeight: `${maxHeight}px`,
           }}
           role="listbox"
         >
