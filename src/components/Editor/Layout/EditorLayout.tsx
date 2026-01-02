@@ -12,7 +12,6 @@ const TOOL_TIMELINE_GAP = 38; // px
 const MIN_TOOL_PANEL_WIDTH = 30; // 30% minimum
 const MIN_VIDEO_PLAYER_WIDTH = 45; // 45% minimum
 const DEFAULT_TOOL_PANEL_WIDTH = 40; // 40% default
-const DEFAULT_VIDEO_PLAYER_WIDTH = 60; // 60% default
 
 const EditorLayout = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -180,7 +179,7 @@ const EditorLayout = () => {
       <div
         style={{ height: animatedTimelineHeight }}
         onTransitionEnd={handleTimelineTransitionEnd}
-        className={`overflow-hidden border-t bg-white ${
+        className={`overflow-hidden bg-white ${
           isAnimatingTimeline
             ? "transition-[height] duration-300 ease-in-out"
             : ""
@@ -196,7 +195,7 @@ const EditorLayout = () => {
 
       {/* SHOW TIMELINE */}
       {!isTimelineVisible && (
-        <div className="absolute left-0 right-0 bottom-0 flex h-10 items-center justify-end border-t bg-white px-4">
+        <div className="absolute left-0 right-0 bottom-0 flex h-10 items-center justify-end bg-white px-4">
           <button
             onClick={() => {
               setIsAnimatingTimeline(true);

@@ -6,7 +6,7 @@ interface TimelineProps {
 
 const Timeline = ({ onHide }: TimelineProps) => {
   return (
-    <div className="h-full p-4">
+    <div className="h-full p-4 pt-2">
       <div className="mb-2 flex items-center justify-between">
         <h2 className="text-sm font-semibold">Timeline</h2>
 
