@@ -1,4 +1,3 @@
-import { useState } from "react";
 import CustomDropdown from "../../../Common/CustomDropdown/CustomDropdown";
 
 type AspectRatio = "9:16" | "16:9" | "1:1" | "4:5";
@@ -23,7 +22,7 @@ const AspectRatioDropdown = ({
           { value: "4:5", label: "4:5" },
         ]}
         onChange={(v) => onChange(v as AspectRatio)}
-        className="text-xs px-2"
+        className="text-xs"
         style={{ height: "22px" }}
       />
     </div>

@@ -126,6 +126,7 @@ const CustomDropdown = ({
           rounded-md
           border border-[#d9d8d6]
           bg-[#FBFBFC]
+          pl-3
           pr-12
           text-sm
           text-left

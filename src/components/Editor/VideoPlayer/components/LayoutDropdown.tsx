@@ -20,7 +20,7 @@ const LayoutDropdown = ({ value, onChange }: LayoutDropdownProps) => {
           { value: "four", label: "Four" },
         ]}
         onChange={(v) => onChange(v as Layout)}
-        className="text-xs px-2"
+        className="text-xs"
         style={{ height: "22px" }}
       />
     </div>
