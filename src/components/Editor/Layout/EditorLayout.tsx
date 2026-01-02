@@ -9,13 +9,23 @@ const DEFAULT_TIMELINE_HEIGHT = 220;
 const MAX_TIMELINE_RATIO = 0.5; // 50% of editor height
 const TOOL_TIMELINE_GAP = 38; // px
 
+const MIN_TOOL_PANEL_WIDTH = 30; // 30% minimum
+const MIN_VIDEO_PLAYER_WIDTH = 45; // 45% minimum
+const DEFAULT_TOOL_PANEL_WIDTH = 40; // 40% default
+const DEFAULT_VIDEO_PLAYER_WIDTH = 60; // 60% default
+
 const EditorLayout = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const topAreaRef = useRef<HTMLDivElement | null>(null);
 
   const [isAnimatingTimeline, setIsAnimatingTimeline] = useState(false);
   const [timelineHeight, setTimelineHeight] = useState(DEFAULT_TIMELINE_HEIGHT);
   const [isTimelineVisible, setIsTimelineVisible] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
+
+  // Panel resize state
+  const [toolPanelWidth, setToolPanelWidth] = useState(DEFAULT_TOOL_PANEL_WIDTH);
+  const [isResizingPanels, setIsResizingPanels] = useState(false);
 
   const animatedTimelineHeight = isTimelineVisible ? timelineHeight : 0;
 
@@ -64,23 +74,90 @@ const EditorLayout = () => {
     };
   }, [isResizing]);
 
+  // Panel resize handlers
+  const startPanelResize = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizingPanels(true);
+  };
+
+  const stopPanelResize = () => {
+    setIsResizingPanels(false);
+  };
+
+  useEffect(() => {
+    if (!isResizingPanels || !topAreaRef.current) return;
+
+    const topArea = topAreaRef.current;
+    const topAreaRect = topArea.getBoundingClientRect();
+    const totalWidth = topAreaRect.width;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const mouseX = e.clientX - topAreaRect.left;
+      const newToolPanelWidthPercent = (mouseX / totalWidth) * 100;
+
+      // Enforce minimum widths
+      const clampedToolWidth = Math.max(
+        Math.min(newToolPanelWidthPercent, 100 - MIN_VIDEO_PLAYER_WIDTH),
+        MIN_TOOL_PANEL_WIDTH
+      );
+
+      setToolPanelWidth(clampedToolWidth);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", stopPanelResize);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", stopPanelResize);
+    };
+  }, [isResizingPanels]);
+
+  const videoPlayerWidth = 100 - toolPanelWidth;
+
   return (
     <div
       ref={containerRef}
       className="relative flex h-full flex-col bg-gray-100"
     >
       {/* TOP AREA */}
-      <div className="flex flex-1 overflow-hidden">
+      <div ref={topAreaRef} className="flex flex-1 overflow-hidden relative">
+        {/* Tool Panel */}
         <div 
-          className="flex-shrink-0 border-r bg-white"
-          style={{ width: '40%', flexBasis: '40%' }}
+          className="flex-shrink-0 bg-white"
+          style={{ 
+            width: `${toolPanelWidth}%`, 
+            flexBasis: `${toolPanelWidth}%`,
+            minWidth: `${MIN_TOOL_PANEL_WIDTH}%`
+          }}
         >
           <EditorToolPanel />
         </div>
 
+        {/* Resize Handle */}
+        <div
+          onMouseDown={startPanelResize}
+          className="
+            flex-shrink-0
+            cursor-col-resize
+            transition-colors
+            hover:bg-[#C8CAD3]
+            select-none
+          "
+          style={{
+            width: '2px',
+            backgroundColor: '#DADCE5',
+          }} 
+        />
+
+        {/* Video Player */}
         <div 
-          className="flex-shrink-0 bg-black"
-          style={{ width: '60%', flexBasis: '60%' }}
+          className="flex-shrink-0 pt-4 pr-4 pb-4 pl-4"
+          style={{ 
+            width: `${videoPlayerWidth}%`, 
+            flexBasis: `${videoPlayerWidth}%`,
+            minWidth: `${MIN_VIDEO_PLAYER_WIDTH}%`
+          }}
         >
           <VideoPlayer />
         </div>
@@ -92,9 +169,9 @@ const EditorLayout = () => {
       {/* RESIZE HANDLE */}
       <div
         onMouseDown={isTimelineVisible ? startResize : undefined}
-        className={`h-1 transition-opacity duration-200 ${
+        className={`h-0.5 transition-opacity duration-200 ${
           isTimelineVisible
-            ? "cursor-row-resize bg-gray-300 hover:bg-gray-400 opacity-100"
+            ? "cursor-row-resize bg-[#DADCE5]"
             : "opacity-0 pointer-events-none"
         }`}
       />
