@@ -85,7 +85,7 @@ const TimelineRuler = ({ duration, pixelsPerSecond, width, scrollLeft, onScroll 
               {/* Label above the line - only on major ticks */}
               {shouldShowLabel && (
                 <div
-                  className="absolute text-[10px] text-gray-[#6B7280] whitespace-nowrap"
+                  className="absolute text-[10px] text-gray-500 whitespace-nowrap"
                   style={{
                     bottom: `${tickHeight + 4}px`,
                     left: '50%',

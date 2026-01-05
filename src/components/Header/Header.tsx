@@ -31,8 +31,8 @@ const Header = ({
     onBack();
   };
 
-  return (
-    <header className="flex h-14 w-full items-center justify-between border-b border-gray-200 bg-white px-4">
+      return (
+        <header className="flex h-14 w-full items-center justify-between border-b border-gray-200 bg-white px-4 shadow-lg z-10">
       {/* Left */}
       <div className="flex items-center gap-2">
         <button

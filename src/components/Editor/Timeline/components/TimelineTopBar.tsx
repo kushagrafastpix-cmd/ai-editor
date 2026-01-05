@@ -3,12 +3,14 @@ import UndoIcon from "../../../Common/Icons/UndoIcon";
 import RedoIcon from "../../../Common/Icons/RedoIcon";
 import DeleteIcon from "../../../Common/Icons/DeleteIcon";
 import CutIcon from "../../../Common/Icons/CutIcon";
+import CropIcon from "../../../Common/Icons/CropIcon";
 
 interface TimelineTopBarProps {
   onUndo: () => void;
   onRedo: () => void;
   onDelete: () => void;
   onCut: () => void;
+  onCrop: () => void;
   onHide: () => void;
 }
 
@@ -17,6 +19,7 @@ const TimelineTopBar = ({
   onRedo,
   onDelete,
   onCut,
+  onCrop,
   onHide,
 }: TimelineTopBarProps) => {
   return (
@@ -56,6 +59,14 @@ const TimelineTopBar = ({
             aria-label="Cut"
           >
             <CutIcon className="h-3 w-3" />
+          </button>
+
+          <button
+            onClick={onCrop}
+            className="flex items-center justify-center p-1.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded"
+            aria-label="Crop"
+          >
+            <CropIcon className="h-3 w-3" />
           </button>
         </div>
 

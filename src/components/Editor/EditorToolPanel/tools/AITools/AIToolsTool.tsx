@@ -9,6 +9,7 @@ import AIEmojiIcon from "../../../../Common/Icons/AIEmojiIcon";
 import AIKeywordsHighlighterIcon from "../../../../Common/Icons/AIKeywordsHighlighterIcon";
 import SpeakerColorIcon from "../../../../Common/Icons/SpeakerColorIcon";
 import RemoveFillerWords from "./components/RemoveFillerWords";
+import RemovePauses from "./components/RemovePauses";
 import SpeechEnhancement from "./components/SpeechEnhancement";
 import AIEmoji from "./components/AIEmoji";
 import AIKeywordsHighlighter from "./components/AIKeywordsHighlighter";
@@ -77,6 +78,10 @@ const AIToolsTool = () => {
   // If a tool is active, show its detail view
   if (activeTool === "remove-filler-words") {
     return <RemoveFillerWords onBack={handleBack} />;
+  }
+
+  if (activeTool === "remove-pauses") {
+    return <RemovePauses onBack={handleBack} />;
   }
 
   if (activeTool === "speech-enhancement") {

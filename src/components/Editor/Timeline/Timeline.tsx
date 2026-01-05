@@ -44,7 +44,7 @@ const Timeline = ({ onHide }: TimelineProps) => {
       isDefaultAudio: true,
     },
     {
-      id: "track-broll-1",
+      id: "track-broll-4",
       category: "audio",
       visible: false,
       locked: false,
@@ -123,6 +123,10 @@ const Timeline = ({ onHide }: TimelineProps) => {
     console.log("Add video/clip");
   };
 
+  const handleCrop = () => {
+    console.log("Crop");
+  };
+
   return (
     <div className="h-full flex flex-col bg-[#f3f4f6]">
       {/* Top bar */}
@@ -131,6 +135,7 @@ const Timeline = ({ onHide }: TimelineProps) => {
         onRedo={handleRedo}
         onDelete={handleDelete}
         onCut={handleCut}
+        onCrop={handleCrop}
         onHide={onHide}
       />
 
