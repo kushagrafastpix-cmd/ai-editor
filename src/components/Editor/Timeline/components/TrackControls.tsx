@@ -97,7 +97,7 @@ const TrackControls = ({
 
   return (
     <div
-      className="flex-shrink-0 h-full border-r border-[#DADCE5]"
+      className="flex-shrink-0 h-full border-r mt-8 border-[#DADCE5]"
       style={{ width: "100px" }}
     >
       {/* Row 1: Dynamic non-audio tracks (B-roll, text, video, image, etc.) */}

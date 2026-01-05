@@ -37,14 +37,13 @@ const TimelineRuler = ({ duration, pixelsPerSecond, width }: TimelineRulerProps)
   return (
     <div 
       className="relative bg-white border-b border-[#DADCE5] overflow-x-auto scrollbar-hide"
-      style={{ height: '50px', width: `${width}px` }}
+      style={{ height: '40px', width: `${width}px` }}
     >
       <div style={{ width: `${rulerWidth}px`, height: '100%', position: 'relative' }}>
         {/* Base horizontal line at the top */}
         <div 
           className="absolute top-0 left-0"
           style={{ 
-            height: '1px', 
             backgroundColor: '#DADCE5',
             width: `${rulerWidth}px`
           }}
