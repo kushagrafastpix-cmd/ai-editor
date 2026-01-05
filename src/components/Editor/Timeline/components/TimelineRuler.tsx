@@ -57,22 +57,22 @@ const TimelineRuler = ({ duration, pixelsPerSecond, width }: TimelineRulerProps)
           const shouldShowLabel = tick.isMajor;
 
           return (
-            <div key={index} className="absolute top-0" style={{ left: `${tick.position}px` }}>
+            <div key={index} className="absolute bottom-0" style={{ left: `${tick.position}px` }}>
               {/* Tick mark extending downward */}
               <div
                 style={{
                   width: '1px',
                   height: `${tickHeight}px`,
-                  backgroundColor: '#DADCE5',
+                  backgroundColor: '#6B7280',
                 }}
               />
 
               {/* Label above the line - only on major ticks */}
               {shouldShowLabel && (
                 <div
-                  className="absolute text-[10px] text-gray-600 whitespace-nowrap"
+                  className="absolute text-[10px] text-gray-[#6B7280] whitespace-nowrap"
                   style={{
-                    top: `${tickHeight + 4}px`,
+                    bottom: `${tickHeight + 4}px`,
                     left: '50%',
                     transform: 'translateX(-50%)',
                   }}

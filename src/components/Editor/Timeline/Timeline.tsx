@@ -34,7 +34,7 @@ const Timeline = ({ onHide }: TimelineProps) => {
 
   // Timeline ruler state
   const [duration] = useState(120); // Total duration in seconds (default: 2 minutes)
-  const [pixelsPerSecond] = useState(40); // Zoom scale (default: 50px per second)
+  const [pixelsPerSecond] = useState(35); // Zoom scale (default: 50px per second)
   const timelineAreaRef = useRef<HTMLDivElement>(null);
   const [rulerWidth, setRulerWidth] = useState(0);
 
