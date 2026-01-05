@@ -18,13 +18,13 @@ const Timeline = ({ onHide }: TimelineProps) => {
       locked: false,
     },
     {
-      id: "track-broll-1",
+      id: "track-broll-2",
       category: "b-roll",
       visible: false,
       locked: false,
     },
         {
-      id: "track-broll-1",
+      id: "track-broll-3",
       category: "b-roll",
       visible: false,
       locked: false,
@@ -43,6 +43,13 @@ const Timeline = ({ onHide }: TimelineProps) => {
       locked: false,
       isDefaultAudio: true,
     },
+    {
+      id: "track-broll-1",
+      category: "audio",
+      visible: false,
+      locked: false,
+    },
+
   ]);
 
   // Timeline ruler state
@@ -130,7 +137,7 @@ const Timeline = ({ onHide }: TimelineProps) => {
       {/* Timeline body */}
       <div className="flex-1 min-h-0 flex">
         {/* Left rail - Track Controls (fixed, scrolls vertically with tracks) */}
-        <div className="flex-shrink-0 border-r border-[#DADCE5]" style={{ width: "100px" }}>
+        <div className="flex-shrink-0 border-r border-[#DADCE5]" style={{ width: "115px" }}>
           {/* Empty space matching ruler height */}
           <div style={{ height: "40px" }}></div>
           
