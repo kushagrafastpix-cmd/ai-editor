@@ -6,7 +6,7 @@ import ChevronUpIcon from "../../Common/Icons/ChevronUpIcon";
 
 const MIN_TIMELINE_HEIGHT = 120;
 const DEFAULT_TIMELINE_HEIGHT = 220;
-const MAX_TIMELINE_RATIO = 0.5; // 50% of editor height
+const MAX_TIMELINE_RATIO = 0.65; // 65% of editor height
 const TOOL_TIMELINE_GAP = 38; // px
 
 const MIN_TOOL_PANEL_WIDTH = 30; // 30% minimum
@@ -195,7 +195,7 @@ const EditorLayout = () => {
 
       {/* SHOW TIMELINE */}
       {!isTimelineVisible && (
-        <div className="absolute left-0 right-0 bottom-0 flex h-10 items-center justify-end bg-white px-4">
+        <div className="absolute left-0 right-0 bottom-0 flex h-10 items-center justify-end bg-[#f3f4f6] border-t-2 border-[#DADCE5]  px-4">
           <button
             onClick={() => {
               setIsAnimatingTimeline(true);

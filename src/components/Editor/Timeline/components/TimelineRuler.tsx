@@ -1,10 +1,12 @@
-import { useMemo } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import { formatTime } from '../utils/timeFormat';
 
 interface TimelineRulerProps {
   duration: number; // Total duration in seconds
   pixelsPerSecond: number; // Zoom scale
   width: number; // Container width in pixels
+  scrollLeft: number; // Horizontal scroll position (for synchronization)
+  onScroll: (scrollLeft: number) => void; // Callback when ruler is scrolled horizontally
 }
 
 interface TickMark {
@@ -13,7 +15,19 @@ interface TickMark {
   isMajor: boolean;
 }
 
-const TimelineRuler = ({ duration, pixelsPerSecond, width }: TimelineRulerProps) => {
+const TimelineRuler = ({ duration, pixelsPerSecond, width, scrollLeft, onScroll }: TimelineRulerProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Sync horizontal scroll position
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft = scrollLeft;
+    }
+  }, [scrollLeft]);
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    onScroll(e.currentTarget.scrollLeft);
+  };
   // Major ticks every 5 seconds, minor ticks every 0.5 seconds (9 minors between 2 majors)
   const MAJOR_INTERVAL = 5; // Major ticks every 5 seconds
   const MINOR_INTERVAL = 0.5; // Minor ticks every 0.5 seconds (9 minors between 2 majors: 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5)
@@ -36,8 +50,10 @@ const TimelineRuler = ({ duration, pixelsPerSecond, width }: TimelineRulerProps)
 
   return (
     <div 
+      ref={containerRef}
       className="relative bg-white border-b border-[#DADCE5] overflow-x-auto scrollbar-hide"
       style={{ height: '40px', width: `${width}px` }}
+      onScroll={handleScroll}
     >
       <div style={{ width: `${rulerWidth}px`, height: '100%', position: 'relative' }}>
         {/* Base horizontal line at the top */}

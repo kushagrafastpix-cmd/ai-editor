@@ -97,8 +97,8 @@ const TrackControls = ({
 
   return (
     <div
-      className="flex-shrink-0 h-full border-r mt-8 border-[#DADCE5]"
-      style={{ width: "100px" }}
+      className="flex-shrink-0"
+      style={{ width: "100px", height: 'fit-content' }}
     >
       {/* Row 1: Dynamic non-audio tracks (B-roll, text, video, image, etc.) */}
       {nonAudioTracks.map((track) => renderControlRow(track))}
