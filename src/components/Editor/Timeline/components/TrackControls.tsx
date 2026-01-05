@@ -13,95 +13,109 @@ interface TrackControlsProps {
   onAddVideo?: () => void;
 }
 
+const ROW_HEIGHT = "h-[48px]";
+
 const TrackControls = ({
   tracks,
   onToggleVisibility,
   onToggleLock,
   onAddVideo,
 }: TrackControlsProps) => {
-  // Separate tracks into different groups
   const nonAudioTracks = tracks.filter(
-    (track) => !track.isMainVideo && !track.isDefaultAudio && track.category !== 'audio'
+    (track) =>
+      !track.isMainVideo &&
+      !track.isDefaultAudio &&
+      track.category !== "audio"
   );
+
   const mainVideoTrack = tracks.find((track) => track.isMainVideo);
   const defaultAudioTrack = tracks.find((track) => track.isDefaultAudio);
+
   const additionalAudioTracks = tracks.filter(
-    (track) => track.category === 'audio' && !track.isDefaultAudio
+    (track) => track.category === "audio" && !track.isDefaultAudio
   );
 
   const renderControlRow = (track: TrackRow, showAddIcon = false) => {
     return (
-        
       <div
         key={track.id}
-        className="flex items-center gap-2 px-2 py-2 border-b border-[#DADCE5]"
-        style={{ minHeight: '60px' }}
+        className={`
+          grid grid-cols-3
+          items-center
+          ${ROW_HEIGHT}
+          px-2
+          border-b border-[#DADCE5]
+          bg-white
+        `}
       >
-        {/* AddIcon for main video row - extreme left */}
-        {showAddIcon && (
-          <button
-            onClick={onAddVideo}
-            className="flex items-center justify-center p-1.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors focus:outline-none"
-            aria-label="Add video/clip"
-          >
-            <AddIcon className="h-4 w-4" />
-          </button>
-        )}
+        {/* COLUMN 1 — Add only */}
+        <div className="flex justify-center">
+          {showAddIcon && (
+            <button
+              onClick={onAddVideo}
+              className="p-1 rounded hover:bg-gray-100"
+              aria-label="Add intro"
+            >
+              <AddIcon className="h-4 w-4" />
+            </button>
+          )}
+        </div>
 
-        {/* Visibility button (only for non-audio tracks) */}
-        {track.category !== 'audio' && (
+        {/* COLUMN 2 — Visibility OR Volume */}
+        <div className="flex justify-center">
+          {track.category === "audio" ? (
+            <VolumeIcon className="h-4 w-4 text-gray-700" />
+          ) : (
+            <button
+              onClick={() => onToggleVisibility(track.id)}
+              className="p-1 rounded hover:bg-gray-100"
+              aria-label={track.visible ? "Hide track" : "Show track"}
+            >
+              {track.visible ? (
+                <VisibilityOnIcon className="h-4 w-4" />
+              ) : (
+                <VisibilityOffIcon className="h-4 w-4" />
+              )}
+            </button>
+          )}
+        </div>
+
+        {/* COLUMN 3 — Lock */}
+        <div className="flex justify-center">
           <button
-            onClick={() => onToggleVisibility(track.id)}
-            className="flex items-center justify-center p-1.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors focus:outline-none"
-            aria-label={track.visible ? 'Hide track' : 'Show track'}
+            onClick={() => onToggleLock(track.id)}
+            className="p-1 rounded hover:bg-gray-100"
+            aria-label={track.locked ? "Unlock track" : "Lock track"}
           >
-            {track.visible ? (
-              <VisibilityOnIcon className="h-4 w-4" />
+            {track.locked ? (
+              <LockClosedIcon className="h-4 w-4" />
             ) : (
-              <VisibilityOffIcon className="h-4 w-4" />
+              <LockOpenIcon className="h-4 w-4" />
             )}
           </button>
-        )}
-
-        {/* VolumeIcon for audio tracks */}
-        {track.category === 'audio' && (
-          <div className="flex items-center justify-center p-1.5 text-gray-700">
-            <VolumeIcon className="h-4 w-4" />
-          </div>
-        )}
-
-        {/* Lock button - always present for all rows */}
-        <button
-          onClick={() => onToggleLock(track.id)}
-          className="flex items-center justify-center p-1.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors focus:outline-none"
-          aria-label={track.locked ? 'Unlock track' : 'Lock track'}
-        >
-          {track.locked ? (
-            <LockClosedIcon className="h-4 w-4" />
-          ) : (
-            <LockOpenIcon className="h-4 w-4" />
-          )}
-        </button>
+        </div>
       </div>
     );
   };
 
   return (
-    <div className="flex-shrink-0 bg-white border-r border-[#DADCE5]" style={{ width: '120px' }}>
-      {/* Row 1: Dynamic non-audio tracks (B-roll, text, video, image, etc.) */}
+    <div
+      className="flex-shrink-0 bg-white border-r border-[#DADCE5]"
+      style={{ width: "96px" }}
+    >
+      {/* Non-audio tracks (above main video) */}
       {nonAudioTracks.map((track) => renderControlRow(track))}
 
-      {/* Row 2: Main video row (always present) */}
-      {mainVideoTrack ? renderControlRow(mainVideoTrack, true) : null}
+      {/* Main video track */}
+      {mainVideoTrack && renderControlRow(mainVideoTrack, true)}
 
-      {/* Row 3: Default audio row (always present) */}
-      {defaultAudioTrack ? renderControlRow(defaultAudioTrack) : null}
+      {/* Default audio track */}
+      {defaultAudioTrack && renderControlRow(defaultAudioTrack)}
 
-      {/* Row 4+: Additional audio tracks */}
+      {/* Additional audio tracks */}
       {additionalAudioTracks.map((track) => renderControlRow(track))}
     </div>
   );
 };
 
 export default TrackControls;
-
