@@ -45,15 +45,14 @@ const TrackControls = ({
           ${ROW_HEIGHT}
           px-2
           border-b border-[#DADCE5]
-          bg-white
         `}
       >
-        {/* COLUMN 1 — Add only */}
+        {/* Column 1 — Add */}
         <div className="flex justify-center">
           {showAddIcon && (
             <button
               onClick={onAddVideo}
-              className="p-1 rounded hover:bg-gray-100"
+              className="p-1 rounded hover:bg-gray-200"
               aria-label="Add intro"
             >
               <AddIcon className="h-4 w-4" />
@@ -61,14 +60,14 @@ const TrackControls = ({
           )}
         </div>
 
-        {/* COLUMN 2 — Visibility OR Volume */}
+        {/* Column 2 — Visibility / Volume */}
         <div className="flex justify-center">
           {track.category === "audio" ? (
             <VolumeIcon className="h-4 w-4 text-gray-700" />
           ) : (
             <button
               onClick={() => onToggleVisibility(track.id)}
-              className="p-1 rounded hover:bg-gray-100"
+              className="p-1 rounded hover:bg-gray-200"
               aria-label={track.visible ? "Hide track" : "Show track"}
             >
               {track.visible ? (
@@ -80,11 +79,11 @@ const TrackControls = ({
           )}
         </div>
 
-        {/* COLUMN 3 — Lock */}
+        {/* Column 3 — Lock */}
         <div className="flex justify-center">
           <button
             onClick={() => onToggleLock(track.id)}
-            className="p-1 rounded hover:bg-gray-100"
+            className="p-1 rounded hover:bg-gray-200"
             aria-label={track.locked ? "Unlock track" : "Lock track"}
           >
             {track.locked ? (
@@ -100,19 +99,12 @@ const TrackControls = ({
 
   return (
     <div
-      className="flex-shrink-0 bg-white border-r border-[#DADCE5]"
+      className="flex-shrink-0 border-r border-[#DADCE5]"
       style={{ width: "96px" }}
     >
-      {/* Non-audio tracks (above main video) */}
       {nonAudioTracks.map((track) => renderControlRow(track))}
-
-      {/* Main video track */}
       {mainVideoTrack && renderControlRow(mainVideoTrack, true)}
-
-      {/* Default audio track */}
       {defaultAudioTrack && renderControlRow(defaultAudioTrack)}
-
-      {/* Additional audio tracks */}
       {additionalAudioTracks.map((track) => renderControlRow(track))}
     </div>
   );
