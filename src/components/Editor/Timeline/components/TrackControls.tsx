@@ -23,9 +23,7 @@ const TrackControls = ({
 }: TrackControlsProps) => {
   const nonAudioTracks = tracks.filter(
     (track) =>
-      !track.isMainVideo &&
-      !track.isDefaultAudio &&
-      track.category !== "audio"
+      !track.isMainVideo && !track.isDefaultAudio && track.category !== "audio"
   );
 
   const mainVideoTrack = tracks.find((track) => track.isMainVideo);
@@ -99,12 +97,16 @@ const TrackControls = ({
 
   return (
     <div
-      className="flex-shrink-0 border-r border-[#DADCE5]"
-      style={{ width: "96px" }}
+      className="flex-shrink-0 h-full border-r border-[#DADCE5]"
+      style={{ width: "100px" }}
     >
+      {/* Row 1: Dynamic non-audio tracks (B-roll, text, video, image, etc.) */}
       {nonAudioTracks.map((track) => renderControlRow(track))}
+      {/* Row 2: Main video row (always present) */}
       {mainVideoTrack && renderControlRow(mainVideoTrack, true)}
+      {/* Row 3: Default audio track (always present) */}
       {defaultAudioTrack && renderControlRow(defaultAudioTrack)}
+      {/* Row 4: Additional audio tracks */}
       {additionalAudioTracks.map((track) => renderControlRow(track))}
     </div>
   );
