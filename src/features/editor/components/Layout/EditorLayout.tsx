@@ -27,6 +27,8 @@ const EditorLayout = () => {
   const [isResizingPanels, setIsResizingPanels] = useState(false);
 
   const animatedTimelineHeight = isTimelineVisible ? timelineHeight : 0;
+  // Animate gap height smoothly - appears as timeline collapses
+  const animatedGapHeight = isTimelineVisible ? 0 : TOOL_TIMELINE_GAP;
 
   const handleTimelineTransitionEnd = (
     e: React.TransitionEvent<HTMLDivElement>
@@ -163,7 +165,15 @@ const EditorLayout = () => {
       </div>
 
       {/* GAP BETWEEN TOOL AREA AND TIMELINE (when hidden) */}
-      {!isTimelineVisible && <div style={{ height: TOOL_TIMELINE_GAP }} />}
+      {/* Animate gap height smoothly to prevent layout shift */}
+      <div
+        style={{
+          height: animatedGapHeight,
+          transition: isAnimatingTimeline
+            ? "height 300ms ease-in-out"
+            : "none",
+        }}
+      />
 
       {/* RESIZE HANDLE */}
       <div
