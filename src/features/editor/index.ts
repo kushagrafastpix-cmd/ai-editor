@@ -1,3 +1,3 @@
 // Public API for Editor feature
-export { EditorUI } from './components/EditorUI';
+export { EditorUI } from './EditorUI';
 

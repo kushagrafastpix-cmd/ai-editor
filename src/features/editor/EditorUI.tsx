@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import EditorToolPanel from "../EditorToolPanel/EditorToolPanel";
-import VideoPlayer from "../VideoPlayer/VideoPlayer";
+import EditorToolPanel from "./components/EditorToolPanel/EditorToolPanel";
+import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 import { Timeline } from "@/features/timeline";
 import ChevronUpIcon from "@/components/ui/icons/ChevronUpIcon";
 
@@ -13,7 +13,7 @@ const MIN_TOOL_PANEL_WIDTH = 30; // 30% minimum
 const MIN_VIDEO_PLAYER_WIDTH = 45; // 45% minimum
 const DEFAULT_TOOL_PANEL_WIDTH = 40; // 40% default
 
-const EditorLayout = () => {
+export function EditorUI() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const topAreaRef = useRef<HTMLDivElement | null>(null);
 
@@ -220,6 +220,5 @@ const EditorLayout = () => {
       )}
     </div>
   );
-};
+}
 
-export default EditorLayout;
