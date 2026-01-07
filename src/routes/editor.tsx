@@ -1,16 +1,10 @@
 import {
-  useLoaderData,
-  useActionData,
-  useNavigation,
-  useBlocker,
   useRouteError,
   isRouteErrorResponse,
   type LoaderFunctionArgs,
   type ActionFunctionArgs,
 } from "react-router";
-import { useEffect, useState } from "react";
 import { EditorUI } from "@/features/editor";
-import { Header } from "@/layouts/Header";
 import "@/App.css";
 
 // Types
@@ -92,61 +86,5 @@ export function ErrorBoundary() {
 
 // Component
 export default function EditorRoute() {
-  const loaderData = useLoaderData() as LoaderData;
-  const actionData = useActionData() as ActionData;
-  const navigation = useNavigation();
-
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(
-    loaderData.hasUnsavedChanges
-  );
-
-  // Update hasUnsavedChanges when action completes successfully
-  useEffect(() => {
-    if (actionData?.success && actionData.hasUnsavedChanges !== undefined) {
-      setHasUnsavedChanges(actionData.hasUnsavedChanges);
-    }
-  }, [actionData]);
-
-  // Navigation blocking for unsaved changes
-  const blocker = useBlocker(
-    ({ currentLocation, nextLocation }) =>
-      hasUnsavedChanges && currentLocation.pathname !== nextLocation.pathname
-  );
-
-  useEffect(() => {
-    if (blocker.state === "blocked") {
-      const confirmed = window.confirm(
-        "You have unsaved changes. Are you sure you want to leave?"
-      );
-      if (confirmed) {
-        blocker.proceed();
-        setHasUnsavedChanges(false);
-      } else {
-        blocker.reset();
-      }
-    }
-  }, [blocker]);
-
-  // Determine pending states
-  const isSaving =
-    navigation.state === "submitting" &&
-    navigation.formData?.get("actionType") === "save";
-  const isExporting =
-    navigation.state === "submitting" &&
-    navigation.formData?.get("actionType") === "export";
-
-  return (
-    <>
-      <Header
-        title={loaderData.title}
-        hasUnsavedChanges={hasUnsavedChanges}
-        isSaving={isSaving}
-        isExporting={isExporting}
-      />
-      <main className="flex-1 overflow-hidden">
-        <EditorUI />
-      </main>
-    </>
-  );
+  return <EditorUI />;
 }
-
