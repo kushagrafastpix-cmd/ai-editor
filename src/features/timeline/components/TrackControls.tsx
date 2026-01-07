@@ -7,7 +7,7 @@ import AddIcon from "@/components/ui/icons/AddIcon";
 import type { TrackRow } from "../types";
 
 interface TrackControlsProps {
-  tracks: TrackRow[];
+  tracks: readonly TrackRow[];
   onToggleVisibility: (trackId: string) => void;
   onToggleLock: (trackId: string) => void;
   onAddVideo?: () => void;

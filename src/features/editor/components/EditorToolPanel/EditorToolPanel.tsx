@@ -5,6 +5,7 @@ import ToolDrawer from "./components/ToolDrawer/ToolDrawer";
 import ToolCard from "./components/ToolCard/ToolCard";
 
 import type { DrawerToolId } from "./types";
+import type { TranscriptData } from "@/types/transcript";
 
 // tools
 import TranscriptTool from "@/features/tools/Transcript/TranscriptTool";
@@ -16,7 +17,12 @@ import TransitionsTool from "@/features/tools/Transitions/TransitionsTool";
 import TextTool from "@/features/tools/Text/TextTool";
 import MusicTool from "@/features/tools/Music/MusicTool";
 
-const EditorToolPanel = () => {
+interface EditorToolPanelProps {
+  transcript?: TranscriptData;
+  onRemovePauses?: (threshold: number) => void;
+}
+
+const EditorToolPanel = ({ transcript, onRemovePauses }: EditorToolPanelProps) => {
   const [openDrawerTool, setOpenDrawerTool] = useState<DrawerToolId | null>(
     null
   );
@@ -24,7 +30,12 @@ const EditorToolPanel = () => {
   const renderToolContent = (toolId: DrawerToolId) => {
     switch (toolId) {
       case "ai-tools":
-        return <AIToolsTool />;
+        return (
+          <AIToolsTool
+            transcript={transcript}
+            onRemovePauses={onRemovePauses}
+          />
+        );
       case "captions":
         return <CaptionsTool />;
       case "upload":

@@ -3,57 +3,23 @@ import TrackControls from "./components/TrackControls";
 import TimelineTopBar from "./components/TimelineTopBar";
 import TimelineRuler from "./components/TimelineRuler";
 import TimelineTracks from "./components/TimelineTracks";
-import type { TrackRow } from "./types";
+import type { TimelineState } from "./types";
 
 export interface TimelineProps {
+  timelineState: TimelineState;
   onHide: () => void;
+  onClipMove?: (clipId: string, newStartTime: number) => void;
+  onClipTrim?: (clipId: string, newSourceEnd: number) => void;
 }
 
-const Timeline = ({ onHide }: TimelineProps) => {
-  const [tracks, setTracks] = useState<TrackRow[]>([
-    {
-      id: "track-broll-1",
-      category: "b-roll",
-      visible: false,
-      locked: false,
-    },
-    {
-      id: "track-broll-2",
-      category: "b-roll",
-      visible: false,
-      locked: false,
-    },
-        {
-      id: "track-broll-3",
-      category: "b-roll",
-      visible: false,
-      locked: false,
-    },
-    {
-      id: "track-main-video",
-      category: "main-video",
-      visible: true,
-      locked: false,
-      isMainVideo: true,
-    },
-    {
-      id: "track-default-audio",
-      category: "audio",
-      visible: true,
-      locked: false,
-      isDefaultAudio: true,
-    },
-    {
-      id: "track-broll-4",
-      category: "audio",
-      visible: false,
-      locked: false,
-    },
-
-  ]);
-
-  // Timeline ruler state
-  const [duration] = useState(120); // Total duration in seconds (default: 2 minutes)
+const Timeline = ({
+  timelineState,
+  onHide,
+  onClipMove,
+  onClipTrim,
+}: TimelineProps) => {
+  const tracks = timelineState.tracks;
+  const duration = timelineState.duration;
   const [pixelsPerSecond] = useState(35); // Zoom scale (default: 50px per second)
   const timelineAreaRef = useRef<HTMLDivElement>(null);
   const [rulerWidth, setRulerWidth] = useState(0);
@@ -104,19 +70,13 @@ const Timeline = ({ onHide }: TimelineProps) => {
   const handleCut = () => console.log("Cut");
 
   const handleToggleVisibility = (trackId: string) => {
-    setTracks((prev) =>
-      prev.map((track) =>
-        track.id === trackId ? { ...track, visible: !track.visible } : track
-      )
-    );
+    // Emit event intention - in future, this will submit to route action
+    console.log("Toggle visibility", trackId);
   };
 
   const handleToggleLock = (trackId: string) => {
-    setTracks((prev) =>
-      prev.map((track) =>
-        track.id === trackId ? { ...track, locked: !track.locked } : track
-      )
-    );
+    // Emit event intention - in future, this will submit to route action
+    console.log("Toggle lock", trackId);
   };
 
   const handleAddVideo = () => {
@@ -187,11 +147,14 @@ const Timeline = ({ onHide }: TimelineProps) => {
               <div>
                 <TimelineTracks
                   tracks={tracks}
+                  clips={timelineState.clips}
                   duration={duration}
                   pixelsPerSecond={pixelsPerSecond}
                   width={rulerWidth}
                   scrollLeft={scrollLeft}
                   onScroll={handleHorizontalScroll}
+                  onClipMove={onClipMove}
+                  onClipTrim={onClipTrim}
                 />
               </div>
             )}

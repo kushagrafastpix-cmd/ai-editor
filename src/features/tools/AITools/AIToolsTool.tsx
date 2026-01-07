@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { AIToolId } from "./types";
+import type { TranscriptData } from "@/types/transcript";
 import RemoveFillerWordsIcon from "@/components/ui/icons/RemoveFillerWordsIcon";
 import RemovePausesIcon from "@/components/ui/icons/RemovePausesIcon";
 import AutoCensorIcon from "@/components/ui/icons/AutoCensorIcon";
@@ -15,6 +16,11 @@ import AIEmoji from "./components/AIEmoji";
 import AIKeywordsHighlighter from "./components/AIKeywordsHighlighter";
 import AISpeakerColor from "./components/AISpeakerColor";
 import AutoCensor from "./components/AutoCensor";
+
+interface AIToolsToolProps {
+  transcript?: TranscriptData;
+  onRemovePauses?: (threshold: number) => void;
+}
 
 interface AIToolConfig {
   id: AIToolId;
@@ -65,7 +71,7 @@ const AI_TOOLS: AIToolConfig[] = [
   },
 ];
 
-const AIToolsTool = () => {
+const AIToolsTool = ({ transcript, onRemovePauses }: AIToolsToolProps) => {
   const [selectedTool, setSelectedTool] = useState<AIToolId | null>(null);
   const [hoveredTool, setHoveredTool] = useState<AIToolId | null>(null);
   const [activeTool, setActiveTool] = useState<AIToolId | null>(null);
@@ -81,7 +87,16 @@ const AIToolsTool = () => {
   }
 
   if (activeTool === "remove-pauses") {
-    return <RemovePauses onBack={handleBack} />;
+    if (!transcript || !onRemovePauses) {
+      return <div>Loading...</div>;
+    }
+    return (
+      <RemovePauses
+        onBack={handleBack}
+        transcript={transcript}
+        onApply={onRemovePauses}
+      />
+    );
   }
 
   if (activeTool === "speech-enhancement") {

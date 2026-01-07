@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { useLoaderData, useActionData, useSubmit } from "react-router";
 import EditorToolPanel from "./components/EditorToolPanel/EditorToolPanel";
 import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 import { Timeline } from "@/features/timeline";
 import ChevronUpIcon from "@/components/ui/icons/ChevronUpIcon";
+import type { LoaderData, ActionData } from "@/routes/editor";
+import type { TranscriptData } from "@/types/transcript";
+import type { TimelineState } from "@/features/timeline/types";
 
 const MIN_TIMELINE_HEIGHT = 120;
 const DEFAULT_TIMELINE_HEIGHT = 220;
@@ -17,6 +21,32 @@ export function EditorUI() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const topAreaRef = useRef<HTMLDivElement | null>(null);
 
+  // Route hooks
+  const loaderData = useLoaderData() as LoaderData;
+  const actionData = useActionData() as ActionData | undefined;
+  const submit = useSubmit();
+
+  // Hold local editor state (derived from route data)
+  const [transcript, setTranscript] = useState<TranscriptData>(
+    loaderData.transcript
+  );
+  const [timelineState, setTimelineState] = useState<TimelineState>(
+    loaderData.timelineState
+  );
+
+  // Update local state when route data changes
+  useEffect(() => {
+    setTranscript(loaderData.transcript);
+    setTimelineState(loaderData.timelineState);
+  }, [loaderData]);
+
+  // Update timeline state when action returns new state
+  useEffect(() => {
+    if (actionData?.timelineState) {
+      setTimelineState(actionData.timelineState);
+    }
+  }, [actionData]);
+
   const [isAnimatingTimeline, setIsAnimatingTimeline] = useState(false);
   const [timelineHeight, setTimelineHeight] = useState(DEFAULT_TIMELINE_HEIGHT);
   const [isTimelineVisible, setIsTimelineVisible] = useState(true);
@@ -25,6 +55,14 @@ export function EditorUI() {
   // Panel resize state
   const [toolPanelWidth, setToolPanelWidth] = useState(DEFAULT_TOOL_PANEL_WIDTH);
   const [isResizingPanels, setIsResizingPanels] = useState(false);
+
+  // Handle RemovePauses callback - submit intent to route action
+  const handleRemovePauses = (threshold: number) => {
+    const formData = new FormData();
+    formData.set("actionType", "remove-pauses");
+    formData.set("threshold", threshold.toString());
+    submit(formData, { method: "post" });
+  };
 
   const animatedTimelineHeight = isTimelineVisible ? timelineHeight : 0;
   // Animate gap height smoothly - appears as timeline collapses
@@ -132,7 +170,10 @@ export function EditorUI() {
             minWidth: `${MIN_TOOL_PANEL_WIDTH}%`
           }}
         >
-          <EditorToolPanel />
+          <EditorToolPanel
+            transcript={transcript}
+            onRemovePauses={handleRemovePauses}
+          />
         </div>
 
         {/* Resize Handle */}
@@ -196,6 +237,7 @@ export function EditorUI() {
         }`}
       >
         <Timeline
+          timelineState={timelineState}
           onHide={() => {
             setIsAnimatingTimeline(true);
             setIsTimelineVisible(false);

@@ -1,31 +1,33 @@
 import { useState, useMemo } from "react";
 import ChevronLeftIcon from "@/components/ui/icons/ChevronLeftIcon";
+import type { TranscriptData } from "@/types/transcript";
+import { detectPauses, calculatePauseStats } from "../utils/pauseDetection";
 
 interface RemovePausesProps {
   onBack: () => void;
+  transcript: TranscriptData;
+  onApply: (threshold: number) => void;
 }
 
-const RemovePauses = ({ onBack }: RemovePausesProps) => {
+const RemovePauses = ({ onBack, transcript, onApply }: RemovePausesProps) => {
   const [pauseDuration, setPauseDuration] = useState(2.0); // Default 2 seconds
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Calculate detected pauses and total duration (simulated)
-  const { pauseCount, totalDuration } = useMemo(() => {
-    // Simulate pause detection based on slider value
-    // In real implementation, this would come from backend/analysis
-    const detectedPauses = Math.floor(Math.random() * 10) + 1; // 1-10 pauses
-    const totalDuration = detectedPauses * pauseDuration * 0.8; // Simulated total duration
-    
-    return {
-      pauseCount: detectedPauses,
-      totalDuration: parseFloat(totalDuration.toFixed(1)),
-    };
-  }, [pauseDuration]);
+  // Calculate detected pauses and total duration using utilities
+  // This is for UI display only - actual mutation happens in route action
+  const { count: pauseCount, totalDuration } = useMemo(() => {
+    const pauses = detectPauses(transcript, pauseDuration);
+    return calculatePauseStats(pauses);
+  }, [transcript, pauseDuration]);
 
   const handleRemovePauses = () => {
-    // Simulate processing - in real implementation, this would call the backend
+    // Express intent only - call onApply callback with threshold
+    // EditorUI will handle submission to route action
+    onApply(pauseDuration);
+
+    // Show toast notification
     if (pauseCount > 0) {
-      setToastMessage(`Successfully removed ${pauseCount} pauses`);
+      setToastMessage(`Removing ${pauseCount} pauses...`);
     } else {
       setToastMessage("No pauses found!");
     }
