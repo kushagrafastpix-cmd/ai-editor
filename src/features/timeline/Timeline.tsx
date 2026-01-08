@@ -19,7 +19,9 @@ const Timeline = ({
   onClipTrim,
 }: TimelineProps) => {
   const tracks = timelineState.tracks;
-  const duration = timelineState.duration;
+  const actualDuration = timelineState.duration;
+  // Minimum 2 minutes (120 seconds) for ruler display, regardless of video length
+  const displayDuration = Math.max(actualDuration, 120);
   const [pixelsPerSecond] = useState(35); // Zoom scale (default: 50px per second)
   const timelineAreaRef = useRef<HTMLDivElement>(null);
   const [rulerWidth, setRulerWidth] = useState(0);
@@ -129,7 +131,7 @@ const Timeline = ({
           {/* Timeline Ruler - Fixed at top */}
           {rulerWidth > 0 && (
             <TimelineRuler
-              duration={duration}
+              duration={displayDuration}
               pixelsPerSecond={pixelsPerSecond}
               width={rulerWidth}
               scrollLeft={scrollLeft}
@@ -148,7 +150,7 @@ const Timeline = ({
                 <TimelineTracks
                   tracks={tracks}
                   clips={timelineState.clips}
-                  duration={duration}
+                  duration={displayDuration}
                   pixelsPerSecond={pixelsPerSecond}
                   width={rulerWidth}
                   scrollLeft={scrollLeft}
