@@ -94,7 +94,7 @@ const RemovePauses = ({ onBack, transcript, onApply }: RemovePausesProps) => {
                 {/* Slider input */}
                 <input
                   type="range"
-                  min="0"
+                  min="0.5"
                   max="4"
                   step="0.1"
                   value={pauseDuration}

@@ -30,23 +30,50 @@ export type ActionData = {
 function generateDummyTranscript(): TranscriptData {
   return {
     words: [
-      { word: "Hello", startTime: 0.0, endTime: 0.5 },
-      { word: "world", startTime: 0.5, endTime: 1.0 },
-      // 2.5 second pause here
-      { word: "This", startTime: 3.5, endTime: 3.8 },
-      { word: "is", startTime: 3.8, endTime: 4.0 },
-      // 1.2 second pause
-      { word: "a", startTime: 5.2, endTime: 5.3 },
-      { word: "test", startTime: 5.3, endTime: 5.7 },
-      // 3.0 second pause
-      { word: "of", startTime: 8.7, endTime: 8.9 },
-      { word: "the", startTime: 8.9, endTime: 9.1 },
-      { word: "pause", startTime: 9.1, endTime: 9.5 },
-      { word: "removal", startTime: 9.5, endTime: 10.0 },
-      // 0.5 second pause (below typical threshold)
-      { word: "functionality", startTime: 10.5, endTime: 11.2 },
+      // --- Segment 1 (no pause before start) ---
+      { word: "Hello", startTime: 0.0, endTime: 0.4 },
+      { word: "everyone", startTime: 0.4, endTime: 1.0 },
+
+      // --- Pause: 0.3s (BELOW threshold, should NOT be removed) ---
+      { word: "Welcome", startTime: 1.3, endTime: 1.9 },
+      { word: "back", startTime: 1.9, endTime: 2.3 },
+
+      // --- Pause: 0.5s (EDGE CASE, SHOULD be removed) ---
+      { word: "Today", startTime: 2.8, endTime: 3.2 },
+      { word: "we", startTime: 3.2, endTime: 3.4 },
+      { word: "discuss", startTime: 3.4, endTime: 4.1 },
+
+      // --- Pause: 2.0s (NORMAL, should be removed) ---
+      { word: "how", startTime: 6.1, endTime: 6.4 },
+      { word: "pause", startTime: 6.4, endTime: 6.9 },
+      { word: "removal", startTime: 6.9, endTime: 7.6 },
+
+      // --- Pause: 4.0s (EDGE CASE MAX, SHOULD be removed) ---
+      { word: "works", startTime: 11.6, endTime: 12.2 },
+
+      // --- Pause: 4.2s (ABOVE max, should NOT be removed) ---
+      { word: "in", startTime: 16.4, endTime: 16.6 },
+      { word: "practice", startTime: 16.6, endTime: 40.0 },
+      { word: "This", startTime: 40.0, endTime: 40.4 },
+      { word: "is", startTime: 40.4, endTime: 40.6 },
+      { word: "a", startTime: 40.6, endTime: 40.7 },
+      { word: "demo", startTime: 40.7, endTime: 41.3 },
+
+      // --- Pause: 1.5s (should be removed) ---
+      { word: "showing", startTime: 42.8, endTime: 43.4 },
+      { word: "silence", startTime: 43.4, endTime: 179.0 },
+      // --- Pause: 1.0s (should be removed) ---
+      { word: "Near", startTime: 180.0, endTime: 180.4 },
+      { word: "the", startTime: 180.4, endTime: 180.6 },
+      { word: "end", startTime: 180.6, endTime: 181.0 },
+
+      // --- Pause: 0.6s (should be removed) ---
+      { word: "thanks", startTime: 181.6, endTime: 182.1 },
+      { word: "for", startTime: 182.1, endTime: 182.3 },
+      { word: "watching", startTime: 182.3, endTime: 183.2 },
     ],
-    totalDuration: 11.2,
+
+    totalDuration: 210,
     language: "en",
     videoId: "dummy-video-1",
   };
@@ -130,15 +157,17 @@ export async function loader({}: LoaderFunctionArgs): Promise<LoaderData> {
 }
 
 // Action
-export async function action({ request }: ActionFunctionArgs): Promise<ActionData> {
+export async function action({
+  request,
+}: ActionFunctionArgs): Promise<ActionData> {
   const formData = await request.formData();
   const actionType = formData.get("actionType") as string;
 
   if (actionType === "remove-pauses") {
     // FormData contains intent only: threshold
     const threshold = parseFloat(formData.get("threshold") as string);
-    
-    if (isNaN(threshold) || threshold < 0.1 || threshold > 4.0) {
+
+    if (isNaN(threshold) || threshold < 0.5 || threshold > 4.0) {
       return {
         success: false,
         message: "Invalid threshold value",
@@ -163,9 +192,10 @@ export async function action({ request }: ActionFunctionArgs): Promise<ActionDat
     const updatedTimelineState: TimelineState = {
       ...currentTimelineState,
       clips: updatedClips,
-      duration: updatedClips.length > 0
-        ? Math.max(...updatedClips.map((c) => c.startTime + c.duration))
-        : 0,
+      duration:
+        updatedClips.length > 0
+          ? Math.max(...updatedClips.map((c) => c.startTime + c.duration))
+          : 0,
     };
 
     return {
@@ -220,7 +250,9 @@ export function ErrorBoundary() {
     <div className="flex h-screen flex-col items-center justify-center">
       <h1 className="text-2xl font-bold text-gray-900">Something went wrong</h1>
       <p className="mt-2 text-gray-600">
-        {error instanceof Error ? error.message : "An unexpected error occurred"}
+        {error instanceof Error
+          ? error.message
+          : "An unexpected error occurred"}
       </p>
     </div>
   );
