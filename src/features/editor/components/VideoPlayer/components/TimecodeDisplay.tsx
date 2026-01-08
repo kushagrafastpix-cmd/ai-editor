@@ -4,7 +4,7 @@ interface TimecodeDisplayProps {
 
 const TimecodeDisplay = ({ timecode = "00:00:00:00" }: TimecodeDisplayProps) => {
   return (
-    <div className="text-xs text-gray-600 font-mono">
+    <div className="text-xs text-gray-500 font-sans font-medium leading-normal tracking-normal">
       {timecode}
     </div>
   );

@@ -1,12 +1,52 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import AspectRatioDropdown, { type AspectRatio } from "./components/AspectRatioDropdown";
 import LayoutDropdown, { type Layout } from "./components/LayoutDropdown";
 import PlayControls from "./components/PlayControls";
 import TimecodeDisplay from "./components/TimecodeDisplay";
 
+interface PreviewPlayerProps {
+  src: string;
+  currentTime: number;
+  onTimeUpdate: (time: number) => void;
+}
+
+const PreviewPlayer = ({
+  src,
+  currentTime,
+  onTimeUpdate,
+}: PreviewPlayerProps) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Sync currentTime prop with video element
+  useEffect(() => {
+    if (videoRef.current && Math.abs(videoRef.current.currentTime - currentTime) > 0.1) {
+      videoRef.current.currentTime = currentTime;
+    }
+  }, [currentTime]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      controls
+      muted={false}
+      onTimeUpdate={(e) =>
+        onTimeUpdate((e.target as HTMLVideoElement).currentTime)
+      }
+      style={{
+        width: "100%",
+        height: "100%",
+        background: "black",
+        objectFit: "contain",
+      }}
+    />
+  );
+};
+
 const VideoPlayer = () => {
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>("16:9");
   const [layout, setLayout] = useState<Layout>("fit");
+  const [currentTime, setCurrentTime] = useState(0);
 
   const handlePrevious = () => {
     // TODO: Implement previous frame/clip
@@ -28,17 +68,18 @@ const VideoPlayer = () => {
       {/* Video display area */}
       <div className="flex-1 min-h-0 min-w-0 flex items-center justify-center p-4">
         <div
-          className="w-full bg-black rounded"
+          className="w-full bg-black rounded overflow-hidden"
           style={{
             aspectRatio: aspectRatio === "9:16" ? "9/16" : aspectRatio === "16:9" ? "16/9" : aspectRatio === "1:1" ? "1/1" : "4/5",
             maxWidth: "100%",
             maxHeight: "100%",
           }}
         >
-          {/* Dummy video box - placeholder for actual video */}
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="text-sm text-white opacity-50">Video Preview</span>
-          </div>
+          <PreviewPlayer
+            src="/videos/testing-video.mp4"
+            currentTime={currentTime}
+            onTimeUpdate={setCurrentTime}
+          />
         </div>
       </div>
 
