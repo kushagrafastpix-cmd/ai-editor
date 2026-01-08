@@ -80,7 +80,10 @@ function generateDummyTranscript(): TranscriptData {
 }
 
 // Dummy timeline state generator
-function generateDummyTimelineState(): TimelineState {
+function generateDummyTimelineState(transcript: TranscriptData): TimelineState {
+  // Use transcript totalDuration for clip duration
+  const videoDuration = transcript.totalDuration;
+  
   return {
     tracks: [
       {
@@ -94,9 +97,9 @@ function generateDummyTimelineState(): TimelineState {
             id: "clip-1",
             trackId: "track-main-video",
             startTime: 0,
-            duration: 11.2,
+            duration: videoDuration,
             sourceStartTime: 0,
-            sourceEndTime: 11.2,
+            sourceEndTime: videoDuration,
             sourceVideoId: "dummy-video-1",
           },
         ],
@@ -112,32 +115,32 @@ function generateDummyTimelineState(): TimelineState {
             id: "clip-audio-1",
             trackId: "track-default-audio",
             startTime: 0,
-            duration: 11.2,
+            duration: videoDuration,
             sourceStartTime: 0,
-            sourceEndTime: 11.2,
+            sourceEndTime: videoDuration,
             sourceVideoId: "dummy-video-1",
           },
         ],
       },
     ],
-    duration: 11.2,
+    duration: videoDuration,
     clips: [
       {
         id: "clip-1",
         trackId: "track-main-video",
         startTime: 0,
-        duration: 11.2,
+        duration: videoDuration,
         sourceStartTime: 0,
-        sourceEndTime: 11.2,
+        sourceEndTime: videoDuration,
         sourceVideoId: "dummy-video-1",
       },
       {
         id: "clip-audio-1",
         trackId: "track-default-audio",
         startTime: 0,
-        duration: 11.2,
+        duration: videoDuration,
         sourceStartTime: 0,
-        sourceEndTime: 11.2,
+        sourceEndTime: videoDuration,
         sourceVideoId: "dummy-video-1",
       },
     ],
@@ -148,11 +151,12 @@ function generateDummyTimelineState(): TimelineState {
 export async function loader({}: LoaderFunctionArgs): Promise<LoaderData> {
   // Return initial state data
   // Can be extended later for fetching project data, user preferences, etc.
+  const transcript = generateDummyTranscript();
   return {
     title: "What is FastPix? | All-in-One Video API Platform",
     hasUnsavedChanges: false,
-    transcript: generateDummyTranscript(),
-    timelineState: generateDummyTimelineState(),
+    transcript,
+    timelineState: generateDummyTimelineState(transcript),
   };
 }
 
@@ -179,7 +183,7 @@ export async function action({
     // For now, use dummy data - in production, this would read the current state
     // that was previously returned by this action or loaded by the loader
     const transcript = generateDummyTranscript();
-    const currentTimelineState = generateDummyTimelineState();
+    const currentTimelineState = generateDummyTimelineState(transcript);
 
     // Call pure utility functions
     const pauses = detectPauses(transcript, threshold);

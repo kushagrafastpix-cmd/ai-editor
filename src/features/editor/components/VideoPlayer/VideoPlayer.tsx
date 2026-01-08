@@ -43,10 +43,23 @@ const PreviewPlayer = ({
   );
 };
 
-const VideoPlayer = () => {
+interface VideoPlayerProps {
+  currentTime?: number;
+  onTimeUpdate?: (time: number) => void;
+}
+
+const VideoPlayer = ({ currentTime: externalCurrentTime, onTimeUpdate }: VideoPlayerProps = {}) => {
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>("16:9");
   const [layout, setLayout] = useState<Layout>("fit");
-  const [currentTime, setCurrentTime] = useState(0);
+  const [internalCurrentTime, setInternalCurrentTime] = useState(0);
+  
+  // Use external currentTime if provided, otherwise use internal state
+  const currentTime = externalCurrentTime ?? internalCurrentTime;
+  
+  const handleTimeUpdate = (time: number) => {
+    setInternalCurrentTime(time);
+    onTimeUpdate?.(time);
+  };
 
   const handlePrevious = () => {
     // TODO: Implement previous frame/clip
@@ -78,7 +91,7 @@ const VideoPlayer = () => {
           <PreviewPlayer
             src="/videos/testing-video.mp4"
             currentTime={currentTime}
-            onTimeUpdate={setCurrentTime}
+            onTimeUpdate={handleTimeUpdate}
           />
         </div>
       </div>

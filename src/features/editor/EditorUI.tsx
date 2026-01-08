@@ -33,6 +33,9 @@ export function EditorUI() {
   const [timelineState, setTimelineState] = useState<TimelineState>(
     loaderData.timelineState
   );
+  
+  // Video playback state
+  const [currentTime, setCurrentTime] = useState(0);
 
   // Update local state when route data changes
   useEffect(() => {
@@ -201,7 +204,7 @@ export function EditorUI() {
             minWidth: `${MIN_VIDEO_PLAYER_WIDTH}%`
           }}
         >
-          <VideoPlayer />
+          <VideoPlayer currentTime={currentTime} onTimeUpdate={setCurrentTime} />
         </div>
       </div>
 
@@ -238,6 +241,7 @@ export function EditorUI() {
       >
         <Timeline
           timelineState={timelineState}
+          currentTime={currentTime}
           onHide={() => {
             setIsAnimatingTimeline(true);
             setIsTimelineVisible(false);

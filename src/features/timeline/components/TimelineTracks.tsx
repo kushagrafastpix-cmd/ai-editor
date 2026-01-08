@@ -59,6 +59,8 @@ const TimelineTracks = ({
     onScroll(e.currentTarget.scrollLeft);
   };
 
+  const totalTracksHeight = orderedTracks.length * ROW_HEIGHT;
+  
   return (
     <div
       ref={containerRef}
@@ -71,7 +73,7 @@ const TimelineTracks = ({
       }}
       onScroll={handleScroll}
     >
-      <div style={{ width: `${trackWidth}px` }}>
+      <div style={{ width: `${trackWidth}px`, position: 'relative', minHeight: `${totalTracksHeight}px` }}>
         {orderedTracks.map((track) => {
           // Get clips for this track
           const trackClips = clips.filter((clip) => clip.trackId === track.id);
