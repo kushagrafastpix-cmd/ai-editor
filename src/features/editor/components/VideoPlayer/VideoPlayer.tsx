@@ -3,6 +3,9 @@ import AspectRatioDropdown, { type AspectRatio } from "./components/AspectRatioD
 import LayoutDropdown, { type Layout } from "./components/LayoutDropdown";
 import PlayControls from "./components/PlayControls";
 import TimecodeDisplay from "./components/TimecodeDisplay";
+import * as etro from "etro"
+// console.log(etro.Movie)
+
 
 interface PreviewPlayerProps {
   src: string;
@@ -21,7 +24,7 @@ const PreviewPlayer = ({
   useEffect(() => {
     if (videoRef.current && Math.abs(videoRef.current.currentTime - currentTime) > 0.1) {
       videoRef.current.currentTime = currentTime;
-    }
+    } 
   }, [currentTime]);
 
   return (

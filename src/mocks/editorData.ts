@@ -1,0 +1,124 @@
+import type { TranscriptData } from "@/types/transcript";
+import type { TimelineState } from "@/features/timeline/types";
+
+// Dummy transcript data generator
+export function generateDummyTranscript(): TranscriptData {
+  return {
+    words: [
+      // --- Segment 1 (no pause before start) ---
+      { word: "Hello", startTime: 0.0, endTime: 0.4 },
+      { word: "everyone", startTime: 0.4, endTime: 1.0 },
+
+      // --- Pause: 0.3s (BELOW threshold, should NOT be removed) ---
+      { word: "Welcome", startTime: 1.3, endTime: 1.9 },
+      { word: "back", startTime: 1.9, endTime: 2.3 },
+
+      // --- Pause: 0.5s (EDGE CASE, SHOULD be removed) ---
+      { word: "Today", startTime: 2.8, endTime: 3.2 },
+      { word: "we", startTime: 3.2, endTime: 3.4 },
+      { word: "discuss", startTime: 3.4, endTime: 4.1 },
+
+      // --- Pause: 2.0s (NORMAL, should be removed) ---
+      { word: "how", startTime: 6.1, endTime: 6.4 },
+      { word: "pause", startTime: 6.4, endTime: 6.9 },
+      { word: "removal", startTime: 6.9, endTime: 7.6 },
+
+      // --- Pause: 4.0s (EDGE CASE MAX, SHOULD be removed) ---
+      { word: "works", startTime: 11.6, endTime: 12.2 },
+
+      // --- Pause: 4.2s (ABOVE max, should NOT be removed) ---
+      { word: "in", startTime: 16.4, endTime: 16.6 },
+      { word: "practice", startTime: 16.6, endTime: 40.0 },
+      { word: "This", startTime: 40.0, endTime: 40.4 },
+      { word: "is", startTime: 40.4, endTime: 40.6 },
+      { word: "a", startTime: 40.6, endTime: 40.7 },
+      { word: "demo", startTime: 40.7, endTime: 41.3 },
+
+      // --- Pause: 1.5s (should be removed) ---
+      { word: "showing", startTime: 42.8, endTime: 43.4 },
+      { word: "silence", startTime: 43.4, endTime: 179.0 },
+      // --- Pause: 1.0s (should be removed) ---
+      { word: "Near", startTime: 180.0, endTime: 180.4 },
+      { word: "the", startTime: 180.4, endTime: 180.6 },
+      { word: "end", startTime: 180.6, endTime: 181.0 },
+
+      // --- Pause: 0.6s (should be removed) ---
+      { word: "thanks", startTime: 181.6, endTime: 182.1 },
+      { word: "for", startTime: 182.1, endTime: 182.3 },
+      { word: "watching", startTime: 182.3, endTime: 183.2 },
+    ],
+
+    totalDuration: 210,
+    language: "en",
+    videoId: "dummy-video-1",
+  };
+}
+
+// Dummy timeline state generator
+export function generateDummyTimelineState(transcript: TranscriptData): TimelineState {
+  // Use transcript totalDuration for clip duration
+  const videoDuration = transcript.totalDuration;
+  
+  return {
+    tracks: [
+      {
+        id: "track-main-video",
+        category: "main-video",
+        visible: true,
+        locked: false,
+        isMainVideo: true,
+        clips: [
+          {
+            id: "clip-1",
+            trackId: "track-main-video",
+            startTime: 0,
+            duration: videoDuration,
+            sourceStartTime: 0,
+            sourceEndTime: videoDuration,
+            sourceVideoId: "dummy-video-1",
+          },
+        ],
+      },
+      {
+        id: "track-default-audio",
+        category: "audio",
+        visible: true,
+        locked: false,
+        isDefaultAudio: true,
+        clips: [
+          {
+            id: "clip-audio-1",
+            trackId: "track-default-audio",
+            startTime: 0,
+            duration: videoDuration,
+            sourceStartTime: 0,
+            sourceEndTime: videoDuration,
+            sourceVideoId: "dummy-video-1",
+          },
+        ],
+      },
+    ],
+    duration: videoDuration,
+    clips: [
+      {
+        id: "clip-1",
+        trackId: "track-main-video",
+        startTime: 0,
+        duration: videoDuration,
+        sourceStartTime: 0,
+        sourceEndTime: videoDuration,
+        sourceVideoId: "dummy-video-1",
+      },
+      {
+        id: "clip-audio-1",
+        trackId: "track-default-audio",
+        startTime: 0,
+        duration: videoDuration,
+        sourceStartTime: 0,
+        sourceEndTime: videoDuration,
+        sourceVideoId: "dummy-video-1",
+      },
+    ],
+  };
+}
+

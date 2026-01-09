@@ -43,7 +43,7 @@ export function detectPauses(
       });
     }
   }
-
+  console.log("pauses", pauses);
   return pauses;
 }
 
