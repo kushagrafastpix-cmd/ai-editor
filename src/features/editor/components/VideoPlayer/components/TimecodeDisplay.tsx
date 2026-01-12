@@ -1,10 +1,18 @@
+import { formatTimecode } from "@/features/timeline/utils/timeFormat";
+
 interface TimecodeDisplayProps {
-  timecode?: string;
+  currentTime?: number;
+  fps?: number;
 }
 
-const TimecodeDisplay = ({ timecode = "00:00:00:00" }: TimecodeDisplayProps) => {
+const TimecodeDisplay = ({ 
+  currentTime = 0, 
+  fps = 30 
+}: TimecodeDisplayProps) => {
+  const timecode = formatTimecode(currentTime, fps);
+
   return (
-    <div className="text-xs text-gray-600 font-mono">
+    <div className="text-xs text-gray-500 font-sans font-medium leading-normal tracking-normal">
       {timecode}
     </div>
   );

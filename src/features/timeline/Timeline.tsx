@@ -3,59 +3,30 @@ import TrackControls from "./components/TrackControls";
 import TimelineTopBar from "./components/TimelineTopBar";
 import TimelineRuler from "./components/TimelineRuler";
 import TimelineTracks from "./components/TimelineTracks";
-import type { TrackRow } from "./types";
+import type { TimelineState } from "./types";
 
 export interface TimelineProps {
+  timelineState: TimelineState;
+  currentTime: number;
   onHide: () => void;
+  onClipMove?: (clipId: string, newStartTime: number) => void;
+  onClipTrim?: (clipId: string, newSourceEnd: number) => void;
 }
 
-const Timeline = ({ onHide }: TimelineProps) => {
-  const [tracks, setTracks] = useState<TrackRow[]>([
-    {
-      id: "track-broll-1",
-      category: "b-roll",
-      visible: false,
-      locked: false,
-    },
-    {
-      id: "track-broll-2",
-      category: "b-roll",
-      visible: false,
-      locked: false,
-    },
-        {
-      id: "track-broll-3",
-      category: "b-roll",
-      visible: false,
-      locked: false,
-    },
-    {
-      id: "track-main-video",
-      category: "main-video",
-      visible: true,
-      locked: false,
-      isMainVideo: true,
-    },
-    {
-      id: "track-default-audio",
-      category: "audio",
-      visible: true,
-      locked: false,
-      isDefaultAudio: true,
-    },
-    {
-      id: "track-broll-4",
-      category: "audio",
-      visible: false,
-      locked: false,
-    },
-
-  ]);
-
-  // Timeline ruler state
-  const [duration] = useState(120); // Total duration in seconds (default: 2 minutes)
-  const [pixelsPerSecond] = useState(35); // Zoom scale (default: 50px per second)
+const Timeline = ({
+  timelineState,
+  currentTime,
+  onHide,
+  onClipMove,
+  onClipTrim,
+}: TimelineProps) => {
+  const tracks = timelineState.tracks;
+  const actualDuration = timelineState.duration;
+  // Minimum 2 minutes (120 seconds) for ruler display, regardless of video length
+  const displayDuration = Math.max(actualDuration, 120);
+  const [pixelsPerSecond] = useState(20); // Zoom scale (default: 20px per second)
   const timelineAreaRef = useRef<HTMLDivElement>(null);
+  const timelineTracksContainerRef = useRef<HTMLDivElement>(null);
   const [rulerWidth, setRulerWidth] = useState(0);
   
   // Horizontal scroll synchronization
@@ -104,19 +75,13 @@ const Timeline = ({ onHide }: TimelineProps) => {
   const handleCut = () => console.log("Cut");
 
   const handleToggleVisibility = (trackId: string) => {
-    setTracks((prev) =>
-      prev.map((track) =>
-        track.id === trackId ? { ...track, visible: !track.visible } : track
-      )
-    );
+    // Emit event intention - in future, this will submit to route action
+    console.log("Toggle visibility", trackId);
   };
 
   const handleToggleLock = (trackId: string) => {
-    setTracks((prev) =>
-      prev.map((track) =>
-        track.id === trackId ? { ...track, locked: !track.locked } : track
-      )
-    );
+    // Emit event intention - in future, this will submit to route action
+    console.log("Toggle lock", trackId);
   };
 
   const handleAddVideo = () => {
@@ -165,36 +130,91 @@ const Timeline = ({ onHide }: TimelineProps) => {
         </div>
 
         {/* Right timeline area */}
-        <div ref={timelineAreaRef} className="flex-1 min-h-0 flex flex-col">
+        <div ref={timelineAreaRef} className="flex-1 min-h-0 flex flex-col relative" style={{ overflow: 'hidden' }}>
+          {/* Playhead overlay - spans both ruler and tracks */}
+          {rulerWidth > 0 && currentTime !== undefined && (
+            <div
+              className="absolute pointer-events-none"
+              style={{
+                top: '20px', // Start at middle of 40px ruler
+                left: `${Math.max(-4, (currentTime * pixelsPerSecond) - scrollLeft)}px`, // Clip at left edge
+                transform: 'translateX(-1px)', // Center the 2px bar
+                bottom: '0px', // Extend to bottom
+                zIndex: 100,
+              }}
+            >
+              {/* Vertical bar */}
+              <div
+                style={{
+                  width: '2px',
+                  height: '100%',
+                  backgroundColor: '#E20E0E',
+                }}
+              />
+              
+              {/* Pentagon at the top (middle of ruler) */}
+              <svg
+                width="9"
+                height="8"
+                viewBox="0 0 9 8"
+                style={{
+                  position: 'absolute',
+                  top: '0px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                }}
+              >
+                <polygon
+                  points="4.5,8 2,6 1,3 4.5,0 8,3 7,6"
+                  fill="#E20E0E"
+                />
+              </svg>
+            </div>
+          )}
+          
           {/* Timeline Ruler - Fixed at top */}
           {rulerWidth > 0 && (
-            <TimelineRuler
-              duration={duration}
-              pixelsPerSecond={pixelsPerSecond}
-              width={rulerWidth}
-              scrollLeft={scrollLeft}
-              onScroll={handleHorizontalScroll}
-            />
+            <div className="relative" style={{ zIndex: 1 }}>
+              <TimelineRuler
+                duration={displayDuration}
+                pixelsPerSecond={pixelsPerSecond}
+                width={rulerWidth}
+                scrollLeft={scrollLeft}
+                onScroll={handleHorizontalScroll}
+              />
+            </div>
           )}
           
           {/* Scrollable TimelineTracks */}
           <div 
-            ref={timelineTracksScrollRef}
-            className="flex-1 min-h-0 overflow-y-auto scrollbar-hide"
-            onScroll={(e) => handleVerticalScroll(e.currentTarget.scrollTop, 'tracks')}
+            ref={timelineTracksContainerRef}
+            className="flex-1 min-h-0 flex flex-col relative"
           >
-            {rulerWidth > 0 && (
-              <div>
-                <TimelineTracks
-                  tracks={tracks}
-                  duration={duration}
-                  pixelsPerSecond={pixelsPerSecond}
-                  width={rulerWidth}
-                  scrollLeft={scrollLeft}
-                  onScroll={handleHorizontalScroll}
-                />
-              </div>
-            )}
+            <div 
+              ref={timelineTracksScrollRef}
+              className="flex-1 min-h-0 scrollbar-hide relative"
+              style={{ 
+                overflowX: 'hidden',
+                overflowY: 'auto',
+              }}
+              onScroll={(e) => handleVerticalScroll(e.currentTarget.scrollTop, 'tracks')}
+            >
+              {rulerWidth > 0 && (
+                <div className="relative">
+                  <TimelineTracks
+                    tracks={tracks}
+                    clips={timelineState.clips}
+                    duration={displayDuration}
+                    pixelsPerSecond={pixelsPerSecond}
+                    width={rulerWidth}
+                    scrollLeft={scrollLeft}
+                    onScroll={handleHorizontalScroll}
+                    onClipMove={onClipMove}
+                    onClipTrim={onClipTrim}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
