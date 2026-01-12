@@ -67,20 +67,31 @@ export async function action({
 
     // Call pure utility functions
     const pauses = detectPauses(transcript, threshold);
+    console.log(`[RemovePauses] Detected ${pauses.length} pauses:`, pauses);
+    
     const updatedClips = removePausesFromTimeline(
       currentTimelineState.clips,
       pauses
     );
+    console.log(`[RemovePauses] Updated clips:`, updatedClips);
+
+    // Update tracks to reference new clips
+    const updatedTracks = currentTimelineState.tracks.map(track => ({
+      ...track,
+      clips: updatedClips.filter(clip => clip.trackId === track.id)
+    }));
 
     // Compute new timeline state
     const updatedTimelineState: TimelineState = {
-      ...currentTimelineState,
+      tracks: updatedTracks,
       clips: updatedClips,
       duration:
         updatedClips.length > 0
           ? Math.max(...updatedClips.map((c) => c.startTime + c.duration))
           : 0,
     };
+    
+    console.log(`[RemovePauses] New timeline duration: ${updatedTimelineState.duration}s (was ${currentTimelineState.duration}s)`);
 
     return {
       success: true,

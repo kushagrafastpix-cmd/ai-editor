@@ -26,16 +26,19 @@ export function detectPauses(
     return pauses;
   }
 
+  // Sort words by startTime to ensure chronological order
+  const sortedWords = [...words].sort((a, b) => a.startTime - b.startTime);
+
   // Calculate gaps between consecutive words
-  for (let i = 0; i < words.length - 1; i++) {
-    const currentWord = words[i];
-    const nextWord = words[i + 1];
+  for (let i = 0; i < sortedWords.length - 1; i++) {
+    const currentWord = sortedWords[i];
+    const nextWord = sortedWords[i + 1];
     
     // Gap between end of current word and start of next word
     const gap = nextWord.startTime - currentWord.endTime;
     
     // If gap exceeds threshold, it's a pause
-    if (gap > threshold) {
+    if (gap >= threshold) {
       pauses.push({
         startTime: currentWord.endTime,
         endTime: nextWord.startTime,
@@ -43,7 +46,7 @@ export function detectPauses(
       });
     }
   }
-  console.log("pauses", pauses);
+  console.log('[pauseDetection] Detected pauses:', pauses);
   return pauses;
 }
 

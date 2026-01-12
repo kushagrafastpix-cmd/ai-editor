@@ -8,42 +8,43 @@ export function generateDummyTranscript(): TranscriptData {
       // --- Segment 1 (no pause before start) ---
       { word: "Hello", startTime: 0.0, endTime: 0.4 },
       { word: "everyone", startTime: 0.4, endTime: 1.0 },
-
       // --- Pause: 0.3s (BELOW threshold, should NOT be removed) ---
       { word: "Welcome", startTime: 1.3, endTime: 1.9 },
       { word: "back", startTime: 1.9, endTime: 2.3 },
-
+      // --- Segment 2 
       // --- Pause: 0.5s (EDGE CASE, SHOULD be removed) ---
       { word: "Today", startTime: 2.8, endTime: 3.2 },
       { word: "we", startTime: 3.2, endTime: 3.4 },
       { word: "discuss", startTime: 3.4, endTime: 4.1 },
-
+      // --- Segment 3 ---
       // --- Pause: 2.0s (NORMAL, should be removed) ---
       { word: "how", startTime: 6.1, endTime: 6.4 },
       { word: "pause", startTime: 6.4, endTime: 6.9 },
       { word: "removal", startTime: 6.9, endTime: 7.6 },
-
+      // --- Segment 4 ---
       // --- Pause: 4.0s (EDGE CASE MAX, SHOULD be removed) ---
       { word: "works", startTime: 11.6, endTime: 12.2 },
-
-      // --- Pause: 4.2s (ABOVE max, should NOT be removed) ---
-      { word: "in", startTime: 16.4, endTime: 16.6 },
-      { word: "practice", startTime: 16.6, endTime: 40.0 },
-      { word: "This", startTime: 40.0, endTime: 40.4 },
+      { word: "in", startTime: 12.2, endTime: 16.6 },
+      { word: "practice", startTime: 16.6, endTime: 18.0 },
+      // --- Segment 5 ---
+      // --- Pause: 4.2s (ABOVE max, should be removed) ---
+      { word: "practicejh", startTime: 22.2, endTime: 22.6 },
+      { word: "This", startTime: 22.6, endTime: 40.4 },
       { word: "is", startTime: 40.4, endTime: 40.6 },
       { word: "a", startTime: 40.6, endTime: 40.7 },
       { word: "demo", startTime: 40.7, endTime: 41.3 },
-
+      // --- Segment 6 ---
       // --- Pause: 1.5s (should be removed) ---
       { word: "showing", startTime: 42.8, endTime: 43.4 },
       { word: "silence", startTime: 43.4, endTime: 179.0 },
+      // --- Segment 7 ---
       // --- Pause: 1.0s (should be removed) ---
       { word: "Near", startTime: 180.0, endTime: 180.4 },
       { word: "the", startTime: 180.4, endTime: 180.6 },
       { word: "end", startTime: 180.6, endTime: 181.0 },
-
-      // --- Pause: 0.6s (should be removed) ---
-      { word: "thanks", startTime: 181.6, endTime: 182.1 },
+      // --- Segment 8 ---
+      // --- Pause: 0.9s (should be removed) ---
+      { word: "thanks", startTime: 181.9, endTime: 182.1 },
       { word: "for", startTime: 182.1, endTime: 182.3 },
       { word: "watching", startTime: 182.3, endTime: 183.2 },
     ],

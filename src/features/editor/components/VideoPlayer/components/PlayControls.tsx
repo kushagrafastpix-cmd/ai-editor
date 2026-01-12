@@ -1,4 +1,5 @@
 import PlayIcon from "@/components/ui/icons/PlayIcon";
+import PauseIcon from "@/components/ui/icons/PauseIcon";
 import NextIcon from "@/components/ui/icons/NextIcon";
 import PreviousIcon from "@/components/ui/icons/PreviousIcon";
 
@@ -6,12 +7,14 @@ interface PlayControlsProps {
   onPrevious?: () => void;
   onPlay?: () => void;
   onNext?: () => void;
+  isPlaying?: boolean;
 }
 
 const PlayControls = ({
   onPrevious,
   onPlay,
   onNext,
+  isPlaying = false,
 }: PlayControlsProps) => {
   return (
     <div className="flex items-center gap-2">
@@ -48,9 +51,13 @@ const PlayControls = ({
           transition-colors
           focus:outline-none
         "
-        aria-label="Play"
+        aria-label={isPlaying ? "Pause" : "Play"}
       >
+        {isPlaying ? (
+          <PauseIcon className="h-3 w-3" />
+        ) : (
         <PlayIcon className="h-3 w-3" />
+        )}
       </button>
 
       <button

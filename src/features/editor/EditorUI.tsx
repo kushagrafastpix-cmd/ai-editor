@@ -204,7 +204,11 @@ export function EditorUI() {
             minWidth: `${MIN_VIDEO_PLAYER_WIDTH}%`
           }}
         >
-          <VideoPlayer currentTime={currentTime} onTimeUpdate={setCurrentTime} />
+          <VideoPlayer 
+            currentTime={currentTime} 
+            onTimeUpdate={setCurrentTime}
+            timelineState={timelineState}
+          />
         </div>
       </div>
 
