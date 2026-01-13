@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 import AspectRatioDropdown, { type AspectRatio } from "./components/AspectRatioDropdown";
 import LayoutDropdown, { type Layout } from "./components/LayoutDropdown";
 import PlayControls from "./components/PlayControls";
@@ -6,6 +6,10 @@ import TimecodeDisplay from "./components/TimecodeDisplay";
 import { useCanvasRenderer } from "./hooks/useCanvasRenderer";
 import type { TimelineState } from "@/features/timeline/types";
 import { timelineToSourceTime, sourceToTimelineTime, getTimelineDuration } from "@/features/timeline/utils/timeMapping";
+
+export interface VideoPlayerRef {
+  pause: () => void;
+}
 
 
 
@@ -48,7 +52,9 @@ const PreviewPlayer = ({
     canvasRef,
     isPlaying,
     currentTime: sourceTime,
+    timelineTime: currentTime, // Pass timeline time for text layer filtering
     aspectRatio,
+    textLayers: timelineState?.textLayers || [],
   });
 
   // Sync currentTime prop with video element when seeking (not during playback)
@@ -92,16 +98,26 @@ interface VideoPlayerProps {
   timelineState?: TimelineState;
 }
 
-const VideoPlayer = ({ 
+const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({ 
   currentTime: externalCurrentTime, 
   onTimeUpdate,
   timelineState 
-}: VideoPlayerProps = {}) => {
+}, ref) => {
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>("16:9");
   const [layout, setLayout] = useState<Layout>("fit");
   const [internalCurrentTime, setInternalCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Expose pause method via ref
+  useImperativeHandle(ref, () => ({
+    pause: () => {
+      if (videoRef.current && isPlaying) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  }), [isPlaying]);
   
   // Log when timelineState changes
   useEffect(() => {
@@ -187,9 +203,9 @@ const VideoPlayer = ({
         clip => sourceTime >= clip.sourceStartTime && sourceTime < clip.sourceEndTime
       );
       
-      if (currentClipIndex !== -1) {
-        console.log(`[VideoPlayer] At source ${sourceTime.toFixed(3)}s, in clip ${sortedClips[currentClipIndex].id} (index ${currentClipIndex})`);
-      }
+      // if (currentClipIndex !== -1) {
+      //   console.log(`[VideoPlayer] At source ${sourceTime.toFixed(3)}s, in clip ${sortedClips[currentClipIndex].id} (index ${currentClipIndex})`);
+      // }
 
       if (currentClipIndex === -1) {
         // Video is in a pause segment - find next clip and jump to it
@@ -423,6 +439,8 @@ const VideoPlayer = ({
       </div>
     </div>
   );
-};
+});
+
+VideoPlayer.displayName = 'VideoPlayer';
 
 export default VideoPlayer;

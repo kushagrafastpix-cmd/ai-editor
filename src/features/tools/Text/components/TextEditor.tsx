@@ -1,5 +1,6 @@
 // EditorToolPanel/tools/Text/components/TextEditor.tsx
 
+import { useState, useEffect, useRef } from "react";
 import type { TextLayer } from "../types";
 import ChevronLeftIcon from "@/components/ui/icons/ChevronLeftIcon";
 import TextInput from "./TextInput";
@@ -13,7 +14,43 @@ interface Props {
   onBack: () => void;
 }
 
+const DEBOUNCE_DELAY = 1500; // 1.5 seconds
+
 const TextEditor = ({ layer, onUpdate, onBack }: Props) => {
+  // Local state for immediate UI updates
+  const [localContent, setLocalContent] = useState(layer.content);
+  const debounceTimerRef = useRef<number | undefined>(undefined);
+
+  // Update local content when layer changes from outside
+  useEffect(() => {
+    setLocalContent(layer.content);
+  }, [layer.content]);
+
+  // Debounced content update
+  const handleContentChange = (newContent: string) => {
+    // Update local state immediately for responsive UI
+    setLocalContent(newContent);
+
+    // Clear existing timer
+    if (debounceTimerRef.current !== undefined) {
+      window.clearTimeout(debounceTimerRef.current);
+    }
+
+    // Set new timer for debounced update
+    debounceTimerRef.current = window.setTimeout(() => {
+      onUpdate(layer.id, { content: newContent });
+    }, DEBOUNCE_DELAY);
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current !== undefined) {
+        window.clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
@@ -44,10 +81,8 @@ const TextEditor = ({ layer, onUpdate, onBack }: Props) => {
         <div className="flex flex-col min-h-0 gap-6 px-4 py-4">
       {/* Input text section */}
       <TextInput
-        value={layer.content}
-        onChange={(content) =>
-          onUpdate(layer.id, { content })
-        }
+        value={localContent}
+        onChange={handleContentChange}
       />
 
       {/* Font settings section - contains all font-related controls */}

@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import type { TrackRow, VideoClip } from '../types';
+import type { TextLayer } from '@/features/tools/Text/types';
 
 interface TimelineTracksProps {
   tracks: readonly TrackRow[];
@@ -11,6 +12,7 @@ interface TimelineTracksProps {
   onScroll: (scrollLeft: number) => void; // Callback when tracks are scrolled horizontally
   onClipMove?: (clipId: string, newStartTime: number) => void;
   onClipTrim?: (clipId: string, newSourceEnd: number) => void;
+  textLayers?: readonly TextLayer[];
 }
 
 const ROW_HEIGHT = 48; // Matching TrackControls (48px - 1px border = 47px)
@@ -25,6 +27,7 @@ const TimelineTracks = ({
   onScroll,
   onClipMove,
   onClipTrim,
+  textLayers = [],
 }: TimelineTracksProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackWidth = duration * pixelsPerSecond;
@@ -87,8 +90,8 @@ const TimelineTracks = ({
                 backgroundColor: '#F1F5FB',
               }}
             >
-              {/* Render clips on this track */}
-              {trackClips.map((clip) => {
+              {/* Render video/audio clips on this track */}
+              {track.category !== 'text' && trackClips.map((clip) => {
                 const clipLeft = clip.startTime * pixelsPerSecond;
                 const clipWidth = clip.duration * pixelsPerSecond;
                 
@@ -103,6 +106,32 @@ const TimelineTracks = ({
                     }}
                     title={`Clip: ${clip.startTime.toFixed(1)}s - ${(clip.startTime + clip.duration).toFixed(1)}s`}
                   />
+                );
+              })}
+
+              {/* Render text overlays on text track */}
+              {track.category === 'text' && textLayers.map((textLayer) => {
+                const clipLeft = textLayer.startTime * pixelsPerSecond;
+                const clipWidth = textLayer.duration * pixelsPerSecond;
+                const truncatedContent = textLayer.content.length > 20 
+                  ? textLayer.content.substring(0, 20) + '...' 
+                  : textLayer.content;
+                
+                return (
+                  <div
+                    key={textLayer.id}
+                    className="absolute top-1 bottom-1 bg-purple-500 rounded border border-purple-600 cursor-move overflow-hidden flex items-center px-2"
+                    style={{
+                      left: `${clipLeft}px`,
+                      width: `${clipWidth}px`,
+                      minWidth: '40px',
+                    }}
+                    title={`Text: ${textLayer.content}\n${textLayer.startTime.toFixed(1)}s - ${(textLayer.startTime + textLayer.duration).toFixed(1)}s`}
+                  >
+                    <span className="text-xs text-white font-medium truncate">
+                      {truncatedContent}
+                    </span>
+                  </div>
                 );
               })}
             </div>

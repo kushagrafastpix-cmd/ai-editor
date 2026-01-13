@@ -20,6 +20,7 @@ import AutoCensor from "./components/AutoCensor";
 interface AIToolsToolProps {
   transcript?: TranscriptData;
   onRemovePauses?: (threshold: number) => void;
+  minAppliedPauseThreshold?: number | null;
 }
 
 interface AIToolConfig {
@@ -71,7 +72,7 @@ const AI_TOOLS: AIToolConfig[] = [
   },
 ];
 
-const AIToolsTool = ({ transcript, onRemovePauses }: AIToolsToolProps) => {
+const AIToolsTool = ({ transcript, onRemovePauses, minAppliedPauseThreshold }: AIToolsToolProps) => {
   const [selectedTool, setSelectedTool] = useState<AIToolId | null>(null);
   const [hoveredTool, setHoveredTool] = useState<AIToolId | null>(null);
   const [activeTool, setActiveTool] = useState<AIToolId | null>(null);
@@ -95,6 +96,7 @@ const AIToolsTool = ({ transcript, onRemovePauses }: AIToolsToolProps) => {
         onBack={handleBack}
         transcript={transcript}
         onApply={onRemovePauses}
+        minAppliedPauseThreshold={minAppliedPauseThreshold}
       />
     );
   }

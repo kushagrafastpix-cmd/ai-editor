@@ -2,11 +2,11 @@
 
 import type { TextStyle, TextType } from "./types";
 
-export const DEFAULT_TEXT_DURATION = 2.5; // seconds
+export const DEFAULT_TEXT_DURATION = 3; // seconds
 
 export const DEFAULT_TEXT_CONTENT: Record<TextType, string> = {
   heading: "Heading",
-  body: "Body text",
+  body: "Body Text",
 };
 
 export const DEFAULT_TEXT_STYLE: Record<TextType, TextStyle> = {

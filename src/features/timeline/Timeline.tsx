@@ -9,6 +9,7 @@ export interface TimelineProps {
   timelineState: TimelineState;
   currentTime: number;
   onHide: () => void;
+  onSeek?: (time: number) => void;
   onClipMove?: (clipId: string, newStartTime: number) => void;
   onClipTrim?: (clipId: string, newSourceEnd: number) => void;
   onUndo?: () => void;
@@ -21,6 +22,7 @@ const Timeline = ({
   timelineState,
   currentTime,
   onHide,
+  onSeek,
   onClipMove,
   onClipTrim,
   onUndo,
@@ -44,6 +46,12 @@ const Timeline = ({
   const trackControlsScrollRef = useRef<HTMLDivElement>(null);
   const timelineTracksScrollRef = useRef<HTMLDivElement>(null);
   const isScrollingRef = useRef(false);
+  
+  // Drag state for playhead
+  const [isDragging, setIsDragging] = useState(false);
+  const isDraggingRef = useRef(false);
+  const dragStartXRef = useRef<number | null>(null);
+  const dragStartTimeRef = useRef<number | null>(null);
   
   const handleHorizontalScroll = (newScrollLeft: number) => {
     setScrollLeft(newScrollLeft);
@@ -106,6 +114,99 @@ const Timeline = ({
     console.log("Crop");
   };
 
+  // Calculate time from mouse X position
+  const calculateTimeFromMouseX = (mouseX: number): number => {
+    if (!timelineAreaRef.current) return currentTime;
+    
+    const rect = timelineAreaRef.current.getBoundingClientRect();
+    const relativeX = mouseX - rect.left;
+    const newTime = (relativeX + scrollLeft) / pixelsPerSecond;
+    
+    // Clamp to valid range
+    return Math.max(0, Math.min(newTime, actualDuration));
+  };
+
+  // Handle mouse down on timeline area
+  const handleTimelineMouseDown = (e: React.MouseEvent) => {
+    // Only handle left mouse button
+    if (e.button !== 0) return;
+    
+    // Don't start drag if clicking on interactive elements
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('input') || target.closest('select')) {
+      return;
+    }
+    
+    // Don't interfere with scrolling - check if clicking on scrollable area
+    // If the target is within a scrollable container, let it handle scrolling
+    const scrollableParent = target.closest('[style*="overflow"]');
+    if (scrollableParent && scrollableParent !== timelineAreaRef.current) {
+      // Allow scrolling, but still track for potential drag
+      dragStartXRef.current = e.clientX;
+      dragStartTimeRef.current = currentTime;
+      return;
+    }
+    
+    // Store initial drag position
+    dragStartXRef.current = e.clientX;
+    dragStartTimeRef.current = currentTime;
+    
+    // Don't prevent default here - let scrolling work normally
+    // We'll only prevent default when actually dragging
+  };
+
+  // Handle mouse move and mouse up globally
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // If we have a drag start position, check if we should start dragging
+      if (dragStartXRef.current !== null && !isDraggingRef.current) {
+        const deltaX = Math.abs(e.clientX - dragStartXRef.current);
+        // Start dragging if mouse moved more than 3 pixels (prevents accidental drags)
+        if (deltaX > 3) {
+          setIsDragging(true);
+          isDraggingRef.current = true;
+          // Prevent text selection and default behaviors when dragging starts
+          document.body.style.userSelect = 'none';
+          document.body.style.cursor = 'grabbing';
+        }
+      }
+      
+      // If dragging, update time
+      if (isDraggingRef.current && timelineAreaRef.current) {
+        const newTime = calculateTimeFromMouseX(e.clientX);
+        onSeek?.(newTime);
+        // Prevent default during drag to avoid text selection
+        e.preventDefault();
+      }
+    };
+
+    const handleMouseUp = () => {
+      // If we were dragging, seek to final position
+      if (isDraggingRef.current && dragStartXRef.current !== null) {
+        // Final position already set by last mousemove
+      }
+      
+      // Reset drag state and restore styles
+      setIsDragging(false);
+      isDraggingRef.current = false;
+      dragStartXRef.current = null;
+      dragStartTimeRef.current = null;
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: false });
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      // Cleanup styles in case component unmounts during drag
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+    };
+  }, [isDragging, onSeek, scrollLeft, pixelsPerSecond, actualDuration, currentTime]);
+
   return (
     <div className="h-full flex flex-col bg-[#f3f4f6]">
       {/* Top bar */}
@@ -146,17 +247,33 @@ const Timeline = ({
         </div>
 
         {/* Right timeline area */}
-        <div ref={timelineAreaRef} className="flex-1 min-h-0 flex flex-col relative" style={{ overflow: 'hidden' }}>
+        <div 
+          ref={timelineAreaRef} 
+          className="flex-1 min-h-0 flex flex-col relative" 
+          style={{ 
+            overflow: 'hidden',
+            cursor: isDragging ? 'grabbing' : 'grab',
+          }}
+          onMouseDown={handleTimelineMouseDown}
+          onMouseLeave={() => {
+            // Reset drag start if mouse leaves without dragging
+            if (!isDraggingRef.current) {
+              dragStartXRef.current = null;
+              dragStartTimeRef.current = null;
+            }
+          }}
+        >
           {/* Playhead overlay - spans both ruler and tracks */}
           {rulerWidth > 0 && currentTime !== undefined && (
             <div
-              className="absolute pointer-events-none"
+              className="absolute"
               style={{
                 top: '20px', // Start at middle of 40px ruler
                 left: `${Math.max(-4, (currentTime * pixelsPerSecond) - scrollLeft)}px`, // Clip at left edge
                 transform: 'translateX(-1px)', // Center the 2px bar
                 bottom: '0px', // Extend to bottom
                 zIndex: 100,
+                pointerEvents: 'none', // Playhead itself doesn't capture mouse events
               }}
             >
               {/* Vertical bar */}
@@ -190,7 +307,13 @@ const Timeline = ({
           
           {/* Timeline Ruler - Fixed at top */}
           {rulerWidth > 0 && (
-            <div className="relative" style={{ zIndex: 1 }}>
+            <div 
+              className="relative" 
+              style={{ 
+                zIndex: 1,
+                pointerEvents: isDragging ? 'none' : 'auto',
+              }}
+            >
               <TimelineRuler
                 duration={displayDuration}
                 pixelsPerSecond={pixelsPerSecond}
@@ -212,6 +335,7 @@ const Timeline = ({
               style={{ 
                 overflowX: 'hidden',
                 overflowY: 'auto',
+                pointerEvents: isDragging ? 'none' : 'auto',
               }}
               onScroll={(e) => handleVerticalScroll(e.currentTarget.scrollTop, 'tracks')}
             >
@@ -227,6 +351,7 @@ const Timeline = ({
                     onScroll={handleHorizontalScroll}
                     onClipMove={onClipMove}
                     onClipTrim={onClipTrim}
+                    textLayers={timelineState.textLayers}
                   />
                 </div>
               )}

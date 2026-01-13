@@ -1,3 +1,5 @@
+import type { TextLayer } from '@/features/tools/Text/types';
+
 export type TrackCategory = 'b-roll' | 'text' | 'video' | 'image' | 'main-video' | 'audio';
 
 export interface TrackRow {
@@ -28,5 +30,6 @@ export interface TimelineState {
   readonly tracks: readonly TrackRow[];
   readonly duration: number;
   readonly clips: readonly VideoClip[];  // All clips across all tracks
+  readonly textLayers?: readonly TextLayer[];  // Text overlays
 }
 

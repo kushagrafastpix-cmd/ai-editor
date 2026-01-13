@@ -11,21 +11,40 @@ import {
 import AddTextSection from "./components/AddTextSection";
 import TextEditor from "./components/TextEditor";
 
-const TextTool = () => {
-  const [textLayers, setTextLayers] = useState<TextLayer[]>([]);
+interface TextToolProps {
+  currentTime: number;
+  textLayers: readonly TextLayer[];
+  onPauseVideo: () => void;
+  onAddText: (layer: TextLayer) => void;
+  onUpdateText: (id: string, update: Partial<TextLayer>) => void;
+}
+
+const TextTool = ({ 
+  currentTime, 
+  textLayers,
+  onPauseVideo, 
+  onAddText, 
+  onUpdateText 
+}: TextToolProps) => {
   const [activeTextId, setActiveTextId] = useState<string | null>(null);
 
   const handleAddText = (type: TextType) => {
+    // Pause the video when adding text
+    onPauseVideo();
+
     const newLayer: TextLayer = {
       id: crypto.randomUUID(),
       type,
       content: DEFAULT_TEXT_CONTENT[type],
-      startTime: 0,
+      startTime: currentTime, // Use current playhead position
       duration: DEFAULT_TEXT_DURATION,
       style: DEFAULT_TEXT_STYLE[type],
     };
 
-    setTextLayers((prev) => [...prev, newLayer]);
+    // Notify parent to add text
+    onAddText(newLayer);
+    
+    // Set as active for editing
     setActiveTextId(newLayer.id);
   };
 
@@ -33,11 +52,8 @@ const TextTool = () => {
     id: string,
     update: Partial<TextLayer>
   ) => {
-    setTextLayers((layers) =>
-      layers.map((layer) =>
-        layer.id === id ? { ...layer, ...update } : layer
-      )
-    );
+    // Notify parent to update text
+    onUpdateText(id, update);
   };
 
   const activeLayer = textLayers.find(

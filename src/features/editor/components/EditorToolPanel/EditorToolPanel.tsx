@@ -6,6 +6,7 @@ import ToolCard from "./components/ToolCard/ToolCard";
 
 import type { DrawerToolId } from "./types";
 import type { TranscriptData } from "@/types/transcript";
+import type { TextLayer } from "@/features/tools/Text/types";
 
 // tools
 import TranscriptTool from "@/features/tools/Transcript/TranscriptTool";
@@ -19,10 +20,25 @@ import MusicTool from "@/features/tools/Music/MusicTool";
 
 interface EditorToolPanelProps {
   transcript?: TranscriptData;
+  currentTime: number;
+  textLayers: readonly TextLayer[];
   onRemovePauses?: (threshold: number) => void;
+  minAppliedPauseThreshold?: number | null;
+  onPauseVideo: () => void;
+  onAddText: (layer: TextLayer) => void;
+  onUpdateText: (id: string, update: Partial<TextLayer>) => void;
 }
 
-const EditorToolPanel = ({ transcript, onRemovePauses }: EditorToolPanelProps) => {
+const EditorToolPanel = ({ 
+  transcript, 
+  currentTime,
+  textLayers,
+  onRemovePauses,
+  minAppliedPauseThreshold,
+  onPauseVideo,
+  onAddText,
+  onUpdateText
+}: EditorToolPanelProps) => {
   const [openDrawerTool, setOpenDrawerTool] = useState<DrawerToolId | null>(
     null
   );
@@ -34,6 +50,7 @@ const EditorToolPanel = ({ transcript, onRemovePauses }: EditorToolPanelProps) =
           <AIToolsTool
             transcript={transcript}
             onRemovePauses={onRemovePauses}
+            minAppliedPauseThreshold={minAppliedPauseThreshold}
           />
         );
       case "captions":
@@ -45,7 +62,15 @@ const EditorToolPanel = ({ transcript, onRemovePauses }: EditorToolPanelProps) =
       case "transitions":
         return <TransitionsTool />;
       case "text":
-        return <TextTool />;
+        return (
+          <TextTool
+            currentTime={currentTime}
+            textLayers={textLayers}
+            onPauseVideo={onPauseVideo}
+            onAddText={onAddText}
+            onUpdateText={onUpdateText}
+          />
+        );
       case "music":
         return <MusicTool />;
       default:

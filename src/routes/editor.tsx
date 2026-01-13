@@ -7,6 +7,7 @@ import {
 import { EditorUI } from "@/features/editor";
 import type { TranscriptData } from "@/types/transcript";
 import type { TimelineState } from "@/features/timeline/types";
+import type { TextLayer } from "@/features/tools/Text/types";
 import { detectPauses } from "@/features/tools/AITools/utils/pauseDetection";
 import { removePausesFromTimeline } from "@/features/tools/AITools/utils/timelineUpdater";
 import { generateDummyTranscript, generateDummyTimelineState } from "@/mocks/editorData";
@@ -48,8 +49,9 @@ export async function action({
   const actionType = formData.get("actionType") as string;
 
   if (actionType === "remove-pauses") {
-    // FormData contains intent only: threshold
+    // FormData contains threshold and current state
     const threshold = parseFloat(formData.get("threshold") as string);
+    const currentStateJson = formData.get("currentState") as string;
 
     if (isNaN(threshold) || threshold < 0.5 || threshold > 4.0) {
       return {
@@ -58,12 +60,12 @@ export async function action({
       };
     }
 
-    // Operate on route-owned data (from loader/session/etc)
-    // TODO: In production, read current timeline state from session/database
-    // For now, use dummy data - in production, this would read the current state
-    // that was previously returned by this action or loaded by the loader
+    // Get current timeline state from FormData (with text layers)
+    // Fallback to dummy data if not provided
     const transcript = generateDummyTranscript();
-    const currentTimelineState = generateDummyTimelineState(transcript);
+    const currentTimelineState: TimelineState = currentStateJson 
+      ? JSON.parse(currentStateJson)
+      : generateDummyTimelineState(transcript);
 
     // Call pure utility functions
     const pauses = detectPauses(transcript, threshold);
@@ -81,7 +83,7 @@ export async function action({
       clips: updatedClips.filter(clip => clip.trackId === track.id)
     }));
 
-    // Compute new timeline state
+    // Compute new timeline state - preserve text layers!
     const updatedTimelineState: TimelineState = {
       tracks: updatedTracks,
       clips: updatedClips,
@@ -89,6 +91,7 @@ export async function action({
         updatedClips.length > 0
           ? Math.max(...updatedClips.map((c) => c.startTime + c.duration))
           : 0,
+      textLayers: currentTimelineState.textLayers, // Preserve text layers
     };
     
     console.log(`[RemovePauses] New timeline duration: ${updatedTimelineState.duration}s (was ${currentTimelineState.duration}s)`);
@@ -96,6 +99,94 @@ export async function action({
     return {
       success: true,
       message: `Successfully removed ${pauses.length} pauses`,
+      timelineState: updatedTimelineState,
+      hasUnsavedChanges: true,
+    };
+  }
+
+  if (actionType === "add-text") {
+    // Get text layer data from form
+    const textLayerJson = formData.get("textLayer") as string;
+    const currentStateJson = formData.get("currentState") as string;
+    
+    if (!textLayerJson || !currentStateJson) {
+      return {
+        success: false,
+        message: "Missing text layer or current state data",
+      };
+    }
+
+    const newTextLayer: TextLayer = JSON.parse(textLayerJson);
+    const currentTimelineState: TimelineState = JSON.parse(currentStateJson);
+
+    // Get or create text track
+    let textTrack = currentTimelineState.tracks.find(t => t.category === 'text');
+    let updatedTracks = [...currentTimelineState.tracks];
+
+    if (!textTrack) {
+      // Create new text track
+      textTrack = {
+        id: 'text-track',
+        category: 'text' as const,
+        visible: true,
+        locked: false,
+      };
+      updatedTracks.push(textTrack);
+    }
+
+    // Add text layer to timeline state
+    const updatedTextLayers = [
+      ...(currentTimelineState.textLayers || []),
+      newTextLayer
+    ];
+
+    const updatedTimelineState: TimelineState = {
+      ...currentTimelineState,
+      tracks: updatedTracks,
+      textLayers: updatedTextLayers,
+      duration: Math.max(
+        currentTimelineState.duration,
+        newTextLayer.startTime + newTextLayer.duration
+      ),
+    };
+
+    return {
+      success: true,
+      message: "Text overlay added",
+      timelineState: updatedTimelineState,
+      hasUnsavedChanges: true,
+    };
+  }
+
+  if (actionType === "update-text") {
+    // Get update data from form
+    const textId = formData.get("textId") as string;
+    const updateJson = formData.get("update") as string;
+    const currentStateJson = formData.get("currentState") as string;
+    
+    if (!textId || !updateJson || !currentStateJson) {
+      return {
+        success: false,
+        message: "Missing text update data",
+      };
+    }
+
+    const update: Partial<TextLayer> = JSON.parse(updateJson);
+    const currentTimelineState: TimelineState = JSON.parse(currentStateJson);
+
+    // Update the specific text layer
+    const updatedTextLayers = (currentTimelineState.textLayers || []).map(layer =>
+      layer.id === textId ? { ...layer, ...update } : layer
+    );
+
+    const updatedTimelineState: TimelineState = {
+      ...currentTimelineState,
+      textLayers: updatedTextLayers,
+    };
+
+    return {
+      success: true,
+      message: "Text overlay updated",
       timelineState: updatedTimelineState,
       hasUnsavedChanges: true,
     };

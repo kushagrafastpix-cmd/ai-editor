@@ -7,6 +7,7 @@ import ChevronUpIcon from "@/components/ui/icons/ChevronUpIcon";
 import type { LoaderData, ActionData } from "@/routes/editor";
 import type { TranscriptData } from "@/types/transcript";
 import type { TimelineState } from "@/features/timeline/types";
+import type { TextLayer } from "@/features/tools/Text/types";
 import { useHistory } from "./hooks/useHistory";
 import { createHistoryEntry } from "./utils/stateUtils";
 
@@ -22,6 +23,7 @@ const DEFAULT_TOOL_PANEL_WIDTH = 40; // 40% default
 export function EditorUI() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const topAreaRef = useRef<HTMLDivElement | null>(null);
+  const videoPlayerRef = useRef<{ pause: () => void } | null>(null);
 
   // Route hooks
   const loaderData = useLoaderData() as LoaderData;
@@ -70,6 +72,19 @@ export function EditorUI() {
       
       // Update local state with new state from route action
       setTimelineState(actionData.timelineState);
+
+      // If this was a remove-pauses action, update the minimum applied threshold
+      if (actionData.success && actionData.message?.includes('removed') && actionData.message?.includes('pauses')) {
+        const appliedThreshold = lastAppliedThresholdRef.current;
+        if (appliedThreshold !== null) {
+          // Update minimum applied threshold: if no threshold was set, use current one
+          // Otherwise, use the minimum of current and new threshold
+          setMinAppliedPauseThreshold(prev => 
+            prev === null ? appliedThreshold : Math.min(prev, appliedThreshold)
+          );
+          lastAppliedThresholdRef.current = null; // Reset ref
+        }
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData]);
@@ -83,11 +98,51 @@ export function EditorUI() {
   const [toolPanelWidth, setToolPanelWidth] = useState(DEFAULT_TOOL_PANEL_WIDTH);
   const [isResizingPanels, setIsResizingPanels] = useState(false);
 
+  // Track the minimum threshold that has been applied for remove pauses
+  // Once a threshold is applied, all thresholds >= that value should be disabled
+  const [minAppliedPauseThreshold, setMinAppliedPauseThreshold] = useState<number | null>(null);
+  const lastAppliedThresholdRef = useRef<number | null>(null);
+
   // Handle RemovePauses callback - submit intent to route action
   const handleRemovePauses = (threshold: number) => {
+    // Store the threshold being applied
+    lastAppliedThresholdRef.current = threshold;
     const formData = new FormData();
     formData.set("actionType", "remove-pauses");
     formData.set("threshold", threshold.toString());
+    formData.set("currentState", JSON.stringify(timelineState));
+    submit(formData, { method: "post" });
+  };
+
+  // Handle video pause from text tool
+  const handlePauseVideo = () => {
+    videoPlayerRef.current?.pause();
+  };
+
+  // Handle seek from timeline (playhead drag)
+  const handleSeek = (time: number) => {
+    // Pause video if playing
+    videoPlayerRef.current?.pause();
+    // Update currentTime immediately - this will trigger VideoPlayer to seek
+    setCurrentTime(time);
+  };
+
+  // Handle adding text overlay
+  const handleAddText = (textLayer: TextLayer) => {
+    const formData = new FormData();
+    formData.set("actionType", "add-text");
+    formData.set("textLayer", JSON.stringify(textLayer));
+    formData.set("currentState", JSON.stringify(timelineState));
+    submit(formData, { method: "post" });
+  };
+
+  // Handle updating text overlay
+  const handleUpdateText = (id: string, update: Partial<TextLayer>) => {
+    const formData = new FormData();
+    formData.set("actionType", "update-text");
+    formData.set("textId", id);
+    formData.set("update", JSON.stringify(update));
+    formData.set("currentState", JSON.stringify(timelineState));
     submit(formData, { method: "post" });
   };
 
@@ -264,7 +319,13 @@ export function EditorUI() {
         >
           <EditorToolPanel
             transcript={transcript}
+            currentTime={currentTime}
+            textLayers={timelineState.textLayers || []}
             onRemovePauses={handleRemovePauses}
+            minAppliedPauseThreshold={minAppliedPauseThreshold}
+            onPauseVideo={handlePauseVideo}
+            onAddText={handleAddText}
+            onUpdateText={handleUpdateText}
           />
         </div>
 
@@ -294,6 +355,7 @@ export function EditorUI() {
           }}
         >
           <VideoPlayer 
+            ref={videoPlayerRef}
             currentTime={currentTime} 
             onTimeUpdate={setCurrentTime}
             timelineState={timelineState}
@@ -335,6 +397,7 @@ export function EditorUI() {
         <Timeline
           timelineState={timelineState}
           currentTime={currentTime}
+          onSeek={handleSeek}
           onHide={() => {
             setIsAnimatingTimeline(true);
             setIsTimelineVisible(false);

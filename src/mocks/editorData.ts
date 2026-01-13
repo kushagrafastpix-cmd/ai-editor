@@ -120,6 +120,7 @@ export function generateDummyTimelineState(transcript: TranscriptData): Timeline
         sourceVideoId: "dummy-video-1",
       },
     ],
+    textLayers: [],
   };
 }
 

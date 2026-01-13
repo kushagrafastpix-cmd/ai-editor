@@ -7,11 +7,15 @@ interface RemovePausesProps {
   onBack: () => void;
   transcript: TranscriptData;
   onApply: (threshold: number) => void;
+  minAppliedPauseThreshold?: number | null;
 }
 
-const RemovePauses = ({ onBack, transcript, onApply }: RemovePausesProps) => {
+const RemovePauses = ({ onBack, transcript, onApply, minAppliedPauseThreshold }: RemovePausesProps) => {
   const [pauseDuration, setPauseDuration] = useState(2.0); // Default 2 seconds
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Check if current threshold is disabled (i.e., >= minAppliedPauseThreshold)
+  const isThresholdDisabled = minAppliedPauseThreshold != null && pauseDuration >= minAppliedPauseThreshold;
 
   // Calculate detected pauses and total duration using utilities
   // This is for UI display only - actual mutation happens in route action
@@ -21,6 +25,11 @@ const RemovePauses = ({ onBack, transcript, onApply }: RemovePausesProps) => {
   }, [transcript, pauseDuration]);
 
   const handleRemovePauses = () => {
+    // Don't allow removing pauses if threshold is disabled
+    if (isThresholdDisabled) {
+      return;
+    }
+
     // Express intent only - call onApply callback with threshold
     // EditorUI will handle submission to route action
     onApply(pauseDuration);
@@ -145,21 +154,24 @@ const RemovePauses = ({ onBack, transcript, onApply }: RemovePausesProps) => {
           {/* Action button */}
           <button
             onClick={handleRemovePauses}
-            className="
+            disabled={isThresholdDisabled}
+            className={`
               w-full
               rounded-lg
-              bg-[#0CB16D]
               px-4
               py-3
               text-center
               text-sm
               font-medium
-              text-white
               transition-colors
-              hover:bg-[#0A9D5C]
               focus:outline-none
               mb-4
-            "
+              ${
+                isThresholdDisabled
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-[#0CB16D] text-white hover:bg-[#0A9D5C]"
+              }
+            `}
           >
             Remove pauses ({pauseCount})
           </button>
