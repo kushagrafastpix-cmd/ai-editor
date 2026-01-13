@@ -11,6 +11,10 @@ export interface TimelineProps {
   onHide: () => void;
   onClipMove?: (clipId: string, newStartTime: number) => void;
   onClipTrim?: (clipId: string, newSourceEnd: number) => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
+  canUndo?: boolean;
+  canRedo?: boolean;
 }
 
 const Timeline = ({
@@ -19,6 +23,10 @@ const Timeline = ({
   onHide,
   onClipMove,
   onClipTrim,
+  onUndo,
+  onRedo,
+  canUndo = false,
+  canRedo = false,
 }: TimelineProps) => {
   const tracks = timelineState.tracks;
   const actualDuration = timelineState.duration;
@@ -69,8 +77,14 @@ const Timeline = ({
     return () => window.removeEventListener('resize', updateRulerWidth);
   }, []);
 
-  const handleUndo = () => console.log("Undo");
-  const handleRedo = () => console.log("Redo");
+  const handleUndo = () => {
+    onUndo?.();
+  };
+  
+  const handleRedo = () => {
+    onRedo?.();
+  };
+  
   const handleDelete = () => console.log("Delete");
   const handleCut = () => console.log("Cut");
 
@@ -102,6 +116,8 @@ const Timeline = ({
         onCut={handleCut}
         onCrop={handleCrop}
         onHide={onHide}
+        canUndo={canUndo}
+        canRedo={canRedo}
       />
 
       {/* Timeline body */}

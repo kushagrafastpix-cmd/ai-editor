@@ -7,6 +7,8 @@ import ChevronUpIcon from "@/components/ui/icons/ChevronUpIcon";
 import type { LoaderData, ActionData } from "@/routes/editor";
 import type { TranscriptData } from "@/types/transcript";
 import type { TimelineState } from "@/features/timeline/types";
+import { useHistory } from "./hooks/useHistory";
+import { createHistoryEntry } from "./utils/stateUtils";
 
 const MIN_TIMELINE_HEIGHT = 120;
 const DEFAULT_TIMELINE_HEIGHT = 220;
@@ -37,17 +39,39 @@ export function EditorUI() {
   // Video playback state
   const [currentTime, setCurrentTime] = useState(0);
 
+  // Initialize history with initial state
+  const history = useHistory(
+    createHistoryEntry(loaderData.timelineState, loaderData.transcript)
+  );
+
+  // Debug: Log history state changes
+  useEffect(() => {
+    console.log('[EditorUI] History state changed - canUndo:', history.canUndo, 'canRedo:', history.canRedo);
+  }, [history.canUndo, history.canRedo]);
+
   // Update local state when route data changes
   useEffect(() => {
     setTranscript(loaderData.transcript);
     setTimelineState(loaderData.timelineState);
+    // Reset history when route data changes (new project loaded)
+    history.reset(createHistoryEntry(loaderData.timelineState, loaderData.transcript));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaderData]);
 
   // Update timeline state when action returns new state
   useEffect(() => {
     if (actionData?.timelineState) {
+      console.log('[EditorUI] Action returned new timeline state, pushing to history');
+      // Push new state to history (this automatically moves current present to past)
+      // This captures the "before" state and sets "after" state
+      const newEntry = createHistoryEntry(actionData.timelineState, transcript);
+      history.push(newEntry);
+      console.log('[EditorUI] History pushed, canUndo:', history.canUndo, 'canRedo:', history.canRedo);
+      
+      // Update local state with new state from route action
       setTimelineState(actionData.timelineState);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData]);
 
   const [isAnimatingTimeline, setIsAnimatingTimeline] = useState(false);
@@ -65,6 +89,34 @@ export function EditorUI() {
     formData.set("actionType", "remove-pauses");
     formData.set("threshold", threshold.toString());
     submit(formData, { method: "post" });
+  };
+
+  // Undo handler
+  const handleUndo = () => {
+    console.log('[EditorUI] Undo called, canUndo:', history.canUndo);
+    const restoredState = history.undo();
+    console.log('[EditorUI] Undo restored state:', restoredState);
+    if (restoredState) {
+      setTimelineState(restoredState.timelineState);
+      setTranscript(restoredState.transcript);
+      console.log('[EditorUI] State updated after undo');
+    } else {
+      console.log('[EditorUI] No state to restore');
+    }
+  };
+
+  // Redo handler
+  const handleRedo = () => {
+    console.log('[EditorUI] Redo called, canRedo:', history.canRedo);
+    const restoredState = history.redo();
+    console.log('[EditorUI] Redo restored state:', restoredState);
+    if (restoredState) {
+      setTimelineState(restoredState.timelineState);
+      setTranscript(restoredState.transcript);
+      console.log('[EditorUI] State updated after redo');
+    } else {
+      console.log('[EditorUI] No state to restore');
+    }
   };
 
   const animatedTimelineHeight = isTimelineVisible ? timelineHeight : 0;
@@ -156,6 +208,43 @@ export function EditorUI() {
   }, [isResizingPanels]);
 
   const videoPlayerWidth = 100 - toolPanelWidth;
+
+  // Keyboard shortcuts for undo/redo
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Check if user is typing in an input field
+      const target = e.target as HTMLElement;
+      const isInputField = 
+        target.tagName === 'INPUT' || 
+        target.tagName === 'TEXTAREA' || 
+        target.isContentEditable;
+
+      if (isInputField) {
+        return; // Don't intercept keyboard shortcuts in input fields
+      }
+
+      // Ctrl+Z or Cmd+Z for undo
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        if (history.canUndo) {
+          handleUndo();
+        }
+      }
+
+      // Ctrl+Shift+Z or Cmd+Shift+Z for redo
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && e.shiftKey) {
+        e.preventDefault();
+        if (history.canRedo) {
+          handleRedo();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [history.canUndo, history.canRedo]);
 
   return (
     <div
@@ -250,6 +339,10 @@ export function EditorUI() {
             setIsAnimatingTimeline(true);
             setIsTimelineVisible(false);
           }}
+          onUndo={handleUndo}
+          onRedo={handleRedo}
+          canUndo={history.canUndo}
+          canRedo={history.canRedo}
         />
       </div>
 

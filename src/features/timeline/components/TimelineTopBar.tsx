@@ -12,6 +12,8 @@ interface TimelineTopBarProps {
   onCut: () => void;
   onCrop: () => void;
   onHide: () => void;
+  canUndo?: boolean;
+  canRedo?: boolean;
 }
 
 const TimelineTopBar = ({
@@ -21,6 +23,8 @@ const TimelineTopBar = ({
   onCut,
   onCrop,
   onHide,
+  canUndo = false,
+  canRedo = false,
 }: TimelineTopBarProps) => {
   return (
     <div className="flex-shrink-0">
@@ -30,7 +34,12 @@ const TimelineTopBar = ({
         <div className="flex items-center gap-3">
           <button
             onClick={onUndo}
-            className="flex items-center justify-center p-1.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded"
+            disabled={!canUndo}
+            className={`flex items-center justify-center p-1.5 rounded transition-colors ${
+              canUndo
+                ? "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                : "text-gray-400 cursor-not-allowed"
+            }`}
             aria-label="Undo"
           >
             <UndoIcon className="h-3 w-3" />
@@ -38,9 +47,13 @@ const TimelineTopBar = ({
 
           <button
             onClick={onRedo}
-            className="flex items-center justify-center p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
+            disabled={!canRedo}
+            className={`flex items-center justify-center p-1.5 rounded transition-colors ${
+              canRedo
+                ? "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                : "text-gray-400 cursor-not-allowed"
+            }`}
             aria-label="Redo"
-            disabled
           >
             <RedoIcon className="h-3 w-3" />
           </button>
