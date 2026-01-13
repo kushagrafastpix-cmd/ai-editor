@@ -70,45 +70,44 @@ export const useCanvasRenderer = ({
     const dpr = window.devicePixelRatio || 1;
 
     visibleLayers.forEach(layer => {
-      const { content, style } = layer;
+      const { content, style, type } = layer;
 
-      // Set text properties
-      const fontWeight = style.bold ? 'bold' : style.fontWeight;
-      const fontSize = style.fontSize * dpr; // Scale font size by DPR
-      ctx.font = `${fontWeight} ${fontSize}px ${style.fontFamily}`;
+      // Reduce font sizes - heading bigger than body
+      // Scale factor: heading gets 0.8x, body gets 0.7x (smaller than original)
+      // const sizeMultiplier = type === 'heading' ? 0.5: 0.3;
+      const baseFontSize = style.fontSize;
+      const fontWeight = style.bold ? 'bold' : (style.fontWeight === 'Semibold' ? '600' : style.fontWeight);
+      
+      // Set font first to measure text properly
+      // Scale by DPR to match canvas resolution
+      const fontSize = baseFontSize * dpr;
+      ctx.font = `${fontWeight} ${Math.round(fontSize)}px ${style.fontFamily}`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
       // Calculate text position (centered horizontally, 80% down vertically)
       const x = canvas.width / 2;
-      const y = canvas.height * 0.8;
+      const y = canvas.height * 0.9;
 
-      // Draw text background if opacity > 0
-      if (style.backgroundOpacity > 0) {
-        const metrics = ctx.measureText(content);
-        const textWidth = metrics.width;
-        const textHeight = fontSize * 1.2; // Approximate height
+      // Measure text for background (after font is set)
+      const metrics = ctx.measureText(content);
+      const textWidth = metrics.width;
+      const textHeight = fontSize * 1.8; // Approximate height
 
-        // Parse background color and apply opacity
-        const bgColor = style.backgroundColor;
-        const bgOpacity = style.backgroundOpacity / 100;
-        
-        // Extract RGB from hex color
-        const r = parseInt(bgColor.slice(1, 3), 16);
-        const g = parseInt(bgColor.slice(3, 5), 16);
-        const b = parseInt(bgColor.slice(5, 7), 16);
-        
-        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${bgOpacity})`;
-        
-        // Draw background rectangle with padding
-        const padding = fontSize * 0.3;
-        ctx.fillRect(
-          x - textWidth / 2 - padding,
-          y - textHeight / 2 - padding,
-          textWidth + padding * 2,
-          textHeight + padding * 2
-        );
-      }
+      // Always draw white background
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'; // White with 90% opacity
+      
+      // Draw background rectangle with horizontal padding (more width than height)
+      // Use horizontal padding that makes it wider, and smaller vertical padding
+      const horizontalPadding = fontSize * 0.6; // More horizontal padding
+      const verticalPadding = fontSize * 0.15; // Less vertical padding
+      
+      ctx.fillRect(
+        x - textWidth / 2 - horizontalPadding,
+        y - textHeight / 2 - verticalPadding,
+        textWidth + horizontalPadding * 2,
+        textHeight + verticalPadding * 2
+      );
 
       // Parse text color and apply opacity
       const fillColor = style.fillColor;

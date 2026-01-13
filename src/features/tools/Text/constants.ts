@@ -13,7 +13,7 @@ export const DEFAULT_TEXT_STYLE: Record<TextType, TextStyle> = {
   heading: {
     fontFamily: "Inter",
     fontWeight: "Semibold",
-    fontSize: 40,
+    fontSize: 20,
 
     bold: false,
     underline: false,
@@ -29,7 +29,7 @@ export const DEFAULT_TEXT_STYLE: Record<TextType, TextStyle> = {
   body: {
     fontFamily: "Inter",
     fontWeight: "Regular",
-    fontSize: 24,
+    fontSize: 16,
 
     bold: false,
     underline: false,
