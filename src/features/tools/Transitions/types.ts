@@ -14,3 +14,10 @@ export interface TransitionConfig {
   // thumbnail / preview placeholder for now
   preview?: string;
 }
+
+export interface TransitionEffect {
+  id: string;
+  transitionId: TransitionId;
+  startTime: number;
+  duration: number;
+}

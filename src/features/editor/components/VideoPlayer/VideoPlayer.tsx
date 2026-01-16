@@ -57,6 +57,7 @@ const PreviewPlayer = ({
     timelineTime: currentTime, // Pass timeline time for text layer filtering
     aspectRatio,
     textLayers: timelineState?.textLayers || [],
+    transitions: timelineState?.transitions || [],
   });
 
   // Sync currentTime prop with video element when seeking (not during playback)

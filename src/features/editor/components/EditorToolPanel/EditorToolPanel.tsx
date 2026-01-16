@@ -7,6 +7,7 @@ import ToolCard from "./components/ToolCard/ToolCard";
 import type { DrawerToolId } from "./types";
 import type { TranscriptData } from "@/types/transcript";
 import type { TextLayer } from "@/features/tools/Text/types";
+import type { TransitionEffect } from "@/features/tools/Transitions/types";
 
 // tools
 import TranscriptTool from "@/features/tools/Transcript/TranscriptTool";
@@ -27,6 +28,7 @@ interface EditorToolPanelProps {
   onPauseVideo: () => void;
   onAddText: (layer: TextLayer) => void;
   onUpdateText: (id: string, update: Partial<TextLayer>) => void;
+  onApplyTransition: (transition: TransitionEffect) => void;
 }
 
 const EditorToolPanel = ({ 
@@ -37,7 +39,8 @@ const EditorToolPanel = ({
   minAppliedPauseThreshold,
   onPauseVideo,
   onAddText,
-  onUpdateText
+  onUpdateText,
+  onApplyTransition
 }: EditorToolPanelProps) => {
   const [openDrawerTool, setOpenDrawerTool] = useState<DrawerToolId | null>(
     null
@@ -60,7 +63,12 @@ const EditorToolPanel = ({
       case "b-roll":
         return <BRollTool />;
       case "transitions":
-        return <TransitionsTool />;
+        return (
+          <TransitionsTool
+            currentTime={currentTime}
+            onApplyTransition={onApplyTransition}
+          />
+        );
       case "text":
         return (
           <TextTool

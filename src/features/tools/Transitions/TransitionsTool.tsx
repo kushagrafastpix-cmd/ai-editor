@@ -5,16 +5,29 @@ import { useState } from "react";
 import AutoTransitionToggle from "./components/AutoTransitionToggle";
 import TransitionGrid from "./components/TransitionGrid";
 import { TRANSITIONS } from "./transitions.config";
-import type { TransitionId } from "./types";
+import type { TransitionId, TransitionEffect } from "./types";
 
-const TransitionsTool = () => {
+interface TransitionsToolProps {
+  currentTime: number;
+  onApplyTransition: (transition: TransitionEffect) => void;
+}
+
+const TransitionsTool = ({ currentTime, onApplyTransition }: TransitionsToolProps) => {
   const [autoTransitionEnabled, setAutoTransitionEnabled] = useState(false);
 
   const [feedback, setFeedback] = useState<string | null>(null);
 
   const handleApplyTransition = (id: TransitionId) => {
-    // Placeholder for FFmpeg / backend call
-    console.log("Apply transition:", id);
+    // Create transition effect at current playhead position
+    const transitionEffect: TransitionEffect = {
+      id: crypto.randomUUID(),
+      transitionId: id,
+      startTime: currentTime,
+      duration: 1, // Default 1 second duration
+    };
+
+    // Call parent handler
+    onApplyTransition(transitionEffect);
 
     // Basic feedback
     setFeedback(`Applied "${TRANSITIONS.find((t) => t.id === id)?.label}"`);

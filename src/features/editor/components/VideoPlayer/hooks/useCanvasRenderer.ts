@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { TextLayer } from "@/features/tools/Text/types";
+import type { TransitionEffect } from "@/features/tools/Transitions/types";
+import { applyTransitionEffect } from "../utils/transitionEffects";
 
 interface UseCanvasRendererProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
@@ -9,6 +11,7 @@ interface UseCanvasRendererProps {
   timelineTime?: number; // Timeline time for text layer filtering
   aspectRatio?: string;
   textLayers?: readonly TextLayer[];
+  transitions?: readonly TransitionEffect[];
 }
 
 export const useCanvasRenderer = ({
@@ -19,12 +22,14 @@ export const useCanvasRenderer = ({
   timelineTime,
   aspectRatio,
   textLayers = [],
+  transitions = [],
 }: UseCanvasRendererProps) => {
   const rafIdRef = useRef<number | undefined>(undefined);
   
   // Use refs to store latest values for RAF loop
   const timelineTimeRef = useRef(timelineTime);
   const textLayersRef = useRef(textLayers);
+  const transitionsRef = useRef(transitions);
   
   // Update refs when props change
   useEffect(() => {
@@ -34,6 +39,24 @@ export const useCanvasRenderer = ({
   useEffect(() => {
     textLayersRef.current = textLayers;
   }, [textLayers]);
+  
+  useEffect(() => {
+    transitionsRef.current = transitions;
+  }, [transitions]);
+
+  // Helper function to find active transition at current time
+  const findActiveTransition = (currentTime: number, transitions: readonly TransitionEffect[]): TransitionEffect | undefined => {
+    return transitions.find(t => 
+      currentTime >= t.startTime && 
+      currentTime < t.startTime + t.duration
+    );
+  };
+
+  // Helper function to calculate transition progress (0 to 1)
+  const calculateProgress = (currentTime: number, transition: TransitionEffect): number => {
+    const elapsed = currentTime - transition.startTime;
+    return Math.min(1, Math.max(0, elapsed / transition.duration));
+  };
 
   // Update canvas size based on container dimensions and device pixel ratio
   const updateCanvasSize = () => {
@@ -70,13 +93,25 @@ export const useCanvasRenderer = ({
     const dpr = window.devicePixelRatio || 1;
 
     visibleLayers.forEach(layer => {
+      // Save canvas state before rendering each text layer to ensure isolation
+      ctx.save();
+      
       const { content, style, type } = layer;
 
-      // Reduce font sizes - heading bigger than body
-      // Scale factor: heading gets 0.8x, body gets 0.7x (smaller than original)
-      // const sizeMultiplier = type === 'heading' ? 0.5: 0.3;
-      const baseFontSize = style.fontSize;
-      const fontWeight = style.bold ? 'bold' : (style.fontWeight === 'Semibold' ? '600' : style.fontWeight);
+      // Map font weight to valid CSS values
+      let fontWeight = 'normal';
+      if (style.bold) {
+        fontWeight = 'bold';
+      } else if (style.fontWeight === 'Semibold') {
+        fontWeight = '600';
+      } else if (style.fontWeight === 'Regular' || style.fontWeight === 'Normal') {
+        fontWeight = 'normal';
+      } else {
+        fontWeight = style.fontWeight;
+      }
+      
+      // Use fixed default sizes based on text type - override any style.fontSize
+      const baseFontSize = type === 'heading' ? 24 : 18; // heading: 32px, body: 24px
       
       // Set font first to measure text properly
       // Scale by DPR to match canvas resolution
@@ -146,6 +181,9 @@ export const useCanvasRenderer = ({
 
       // Draw text
       ctx.fillText(content, x, y);
+      
+      // Restore canvas state after rendering each text layer
+      ctx.restore();
     });
   };
 
@@ -165,10 +203,37 @@ export const useCanvasRenderer = ({
     // Clear canvas using internal dimensions
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw video frame to canvas using internal dimensions
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    // Get current timeline time and transitions from refs
+    const currentTimelineTime = timelineTimeRef.current;
+    const currentTransitions = transitionsRef.current;
+    
+    // Use timeline time for transition detection (they use timeline time like text layers)
+    const timeForTransition = currentTimelineTime !== undefined ? currentTimelineTime : currentTime;
+    
+    // Find active transition at current time
+    const activeTransition = findActiveTransition(timeForTransition, currentTransitions);
+    
+    if (activeTransition) {
+      // Calculate transition progress
+      const progress = calculateProgress(timeForTransition, activeTransition);
+      
+      // Save canvas state before applying effects
+      ctx.save();
+      
+      // Apply transition effect (this may modify ctx transform or alpha)
+      applyTransitionEffect(ctx, canvas, activeTransition.transitionId, progress);
+      
+      // Draw video frame with transition applied
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // Restore canvas state after transition
+      ctx.restore();
+    } else {
+      // Normal rendering without transition
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    }
 
-    // Render text overlays on top of video
+    // Render text overlays on top of video (always last, after transitions)
     renderTextLayers(ctx, canvas);
   };
 
@@ -228,12 +293,12 @@ export const useCanvasRenderer = ({
     };
   }, [isPlaying]);
 
-  // Render frame when currentTime, timelineTime, or textLayers changes (for seeking and text updates)
+  // Render frame when currentTime, timelineTime, textLayers, or transitions changes (for seeking and updates)
   useEffect(() => {
     if (!isPlaying) {
       renderFrame();
     }
-  }, [currentTime, timelineTime, textLayers]);
+  }, [currentTime, timelineTime, textLayers, transitions]);
 
   // Initial render when video is loaded
   useEffect(() => {

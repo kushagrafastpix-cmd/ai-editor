@@ -8,6 +8,7 @@ import { EditorUI } from "@/features/editor";
 import type { TranscriptData } from "@/types/transcript";
 import type { TimelineState, VideoClip } from "@/features/timeline/types";
 import type { TextLayer } from "@/features/tools/Text/types";
+import type { TransitionEffect } from "@/features/tools/Transitions/types";
 import { detectPauses } from "@/features/tools/AITools/utils/pauseDetection";
 import { removePausesFromTimeline } from "@/features/tools/AITools/utils/timelineUpdater";
 import { generateDummyTranscript, generateDummyTimelineState } from "@/mocks/editorData";
@@ -102,7 +103,7 @@ export async function action({
       clips: updatedClips.filter(clip => clip.trackId === track.id)
     }));
 
-    // Compute new timeline state - preserve text layers!
+    // Compute new timeline state - preserve text layers and transitions!
     const updatedTimelineState: TimelineState = {
       tracks: updatedTracks,
       clips: updatedClips,
@@ -111,6 +112,7 @@ export async function action({
           ? Math.max(...updatedClips.map((c) => c.startTime + c.duration))
           : 0,
       textLayers: currentTimelineState.textLayers, // Preserve text layers
+      transitions: currentTimelineState.transitions, // Preserve transitions
     };
 
     console.log(`[RemovePauses] New timeline duration: ${updatedTimelineState.duration}s (was ${currentTimelineState.duration}s)`);
@@ -329,6 +331,78 @@ export async function action({
     return {
       success: true,
       message: videoType === "intro" ? "Intro added successfully" : "Outro added successfully",
+      timelineState: updatedTimelineState,
+      hasUnsavedChanges: true,
+    };
+  }
+
+  if (actionType === "add-transition") {
+    const transitionJson = formData.get("transition") as string;
+    const currentStateJson = formData.get("currentState") as string;
+
+    if (!transitionJson || !currentStateJson) {
+      return {
+        success: false,
+        message: "Missing transition data",
+      };
+    }
+
+    const newTransition: TransitionEffect = JSON.parse(transitionJson);
+    const currentTimelineState: TimelineState = JSON.parse(currentStateJson);
+
+    // Check for overlaps with existing transitions
+    const existingTransitions = currentTimelineState.transitions || [];
+    const newTransitionEnd = newTransition.startTime + newTransition.duration;
+    
+    // Find if there's an overlap
+    const overlappingTransition = existingTransitions.find(t => {
+      const tEnd = t.startTime + t.duration;
+      // Check if intervals overlap
+      return (newTransition.startTime < tEnd && newTransitionEnd > t.startTime);
+    });
+
+    // If there's an overlap, adjust the start time to be right after the overlapping transition
+    let finalTransition = newTransition;
+    if (overlappingTransition) {
+      const adjustedStartTime = overlappingTransition.startTime + overlappingTransition.duration;
+      finalTransition = {
+        ...newTransition,
+        startTime: adjustedStartTime,
+      };
+    }
+
+    // Get or create transition track
+    let transitionTrack = currentTimelineState.tracks.find(t => t.category === 'transition');
+    let updatedTracks = [...currentTimelineState.tracks];
+
+    if (!transitionTrack) {
+      // Create new transition track at the beginning
+      transitionTrack = {
+        id: 'transition-track',
+        category: 'transition' as const,
+        visible: true,
+        locked: false,
+      };
+      updatedTracks.unshift(transitionTrack); // Add to beginning
+    }
+
+    // Add transition to timeline state
+    const updatedTransitions = [
+      ...(currentTimelineState.transitions || []),
+      finalTransition
+    ];
+
+    const updatedTimelineState: TimelineState = {
+      ...currentTimelineState,
+      tracks: updatedTracks,
+      transitions: updatedTransitions,
+    };
+
+    return {
+      success: true,
+      message: overlappingTransition 
+        ? `Transition added at ${finalTransition.startTime.toFixed(1)}s (adjusted to avoid overlap)` 
+        : "Transition added",
       timelineState: updatedTimelineState,
       hasUnsavedChanges: true,
     };

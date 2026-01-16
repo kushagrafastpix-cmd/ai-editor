@@ -1,6 +1,7 @@
 import type { TextLayer } from '@/features/tools/Text/types';
+import type { TransitionEffect } from '@/features/tools/Transitions/types';
 
-export type TrackCategory = 'b-roll' | 'text' | 'video' | 'image' | 'main-video' | 'audio';
+export type TrackCategory = 'b-roll' | 'text' | 'video' | 'image' | 'main-video' | 'audio' | 'transition';
 
 export interface TrackRow {
   readonly id: string;
@@ -31,5 +32,6 @@ export interface TimelineState {
   readonly duration: number;
   readonly clips: readonly VideoClip[];  // All clips across all tracks
   readonly textLayers?: readonly TextLayer[];  // Text overlays
+  readonly transitions?: readonly TransitionEffect[];  // Transition effects
 }
 

@@ -8,6 +8,7 @@ import type { LoaderData, ActionData } from "@/routes/editor";
 import type { TranscriptData } from "@/types/transcript";
 import type { TimelineState } from "@/features/timeline/types";
 import type { TextLayer } from "@/features/tools/Text/types";
+import type { TransitionEffect } from "@/features/tools/Transitions/types";
 import { useHistory } from "./hooks/useHistory";
 import { createHistoryEntry } from "./utils/stateUtils";
 
@@ -142,6 +143,18 @@ export function EditorUI() {
     formData.set("actionType", "update-text");
     formData.set("textId", id);
     formData.set("update", JSON.stringify(update));
+    formData.set("currentState", JSON.stringify(timelineState));
+    submit(formData, { method: "post" });
+  };
+
+  // Handle applying transition
+  const handleApplyTransition = (transition: TransitionEffect) => {
+    // Pause video when adding transition
+    videoPlayerRef.current?.pause();
+    
+    const formData = new FormData();
+    formData.set("actionType", "add-transition");
+    formData.set("transition", JSON.stringify(transition));
     formData.set("currentState", JSON.stringify(timelineState));
     submit(formData, { method: "post" });
   };
@@ -376,6 +389,7 @@ export function EditorUI() {
             onPauseVideo={handlePauseVideo}
             onAddText={handleAddText}
             onUpdateText={handleUpdateText}
+            onApplyTransition={handleApplyTransition}
           />
         </div>
 

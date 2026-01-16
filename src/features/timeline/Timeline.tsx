@@ -378,6 +378,7 @@ const Timeline = ({
                     onClipMove={onClipMove}
                     onClipTrim={onClipTrim}
                     textLayers={timelineState.textLayers}
+                    transitions={timelineState.transitions}
                     transcript={transcript}
                     onAddOutro={onAddOutro}
                   />

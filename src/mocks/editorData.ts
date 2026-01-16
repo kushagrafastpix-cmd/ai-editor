@@ -121,6 +121,7 @@ export function generateDummyTimelineState(transcript: TranscriptData): Timeline
       },
     ],
     textLayers: [],
+    transitions: [],
   };
 }
 

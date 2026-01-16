@@ -21,9 +21,12 @@ const TrackControls = ({
   onToggleLock,
   onAddVideo,
 }: TrackControlsProps) => {
+  // Separate transition track
+  const transitionTrack = tracks.find((track) => track.category === "transition");
+
   const nonAudioTracks = tracks.filter(
     (track) =>
-      !track.isMainVideo && !track.isDefaultAudio && track.category !== "audio"
+      !track.isMainVideo && !track.isDefaultAudio && track.category !== "audio" && track.category !== "transition"
   );
 
   const mainVideoTrack = tracks.find((track) => track.isMainVideo);
@@ -95,11 +98,30 @@ const TrackControls = ({
     );
   };
 
+  const renderTransitionRow = (track: TrackRow) => {
+    return (
+      <div
+        key={track.id}
+        className={`
+          flex
+          items-center
+          ${ROW_HEIGHT}
+          px-2
+          border-b border-[#DADCE5]
+        `}
+      >
+        {/* Empty row - no controls for transition track */}
+      </div>
+    );
+  };
+
   return (
     <div
       className="flex-shrink-0"
       style={{ width: "115px", height: 'fit-content' }}
     >
+      {/* Row 0: Transition track (topmost, no controls) */}
+      {transitionTrack && renderTransitionRow(transitionTrack)}
       {/* Row 1: Dynamic non-audio tracks (B-roll, text, video, image, etc.) */}
       {nonAudioTracks.map((track) => renderControlRow(track))}
       {/* Row 2: Main video row (always present) */}

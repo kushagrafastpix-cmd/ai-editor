@@ -1,8 +1,10 @@
 import { useRef, useEffect } from 'react';
 import type { TrackRow, VideoClip } from '../types';
 import type { TextLayer } from '@/features/tools/Text/types';
+import type { TransitionEffect } from '@/features/tools/Transitions/types';
 import type { TranscriptData } from '@/types/transcript';
 import { getOutroClips } from '@/routes/editor';
+import { TRANSITIONS } from '@/features/tools/Transitions/transitions.config';
 import AddIcon from '@/components/ui/icons/AddIcon';
 
 interface TimelineTracksProps {
@@ -16,6 +18,7 @@ interface TimelineTracksProps {
   onClipMove?: (clipId: string, newStartTime: number) => void;
   onClipTrim?: (clipId: string, newSourceEnd: number) => void;
   textLayers?: readonly TextLayer[];
+  transitions?: readonly TransitionEffect[];
   transcript?: TranscriptData; // Needed to identify outros
   onAddOutro?: () => void;
 }
@@ -33,15 +36,17 @@ const TimelineTracks = ({
   onClipMove,
   onClipTrim,
   textLayers = [],
+  transitions = [],
   transcript,
   onAddOutro,
 }: TimelineTracksProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Separate tracks into different groups (matching TrackControls logic)
+  const transitionTrack = tracks.find((track) => track.category === "transition");
   const nonAudioTracks = tracks.filter(
     (track) =>
-      !track.isMainVideo && !track.isDefaultAudio && track.category !== "audio"
+      !track.isMainVideo && !track.isDefaultAudio && track.category !== "audio" && track.category !== "transition"
   );
   const mainVideoTrack = tracks.find((track) => track.isMainVideo);
   const defaultAudioTrack = tracks.find((track) => track.isDefaultAudio);
@@ -51,6 +56,7 @@ const TimelineTracks = ({
 
   // Combine all tracks in the same order as TrackControls
   const orderedTracks: TrackRow[] = [
+    ...(transitionTrack ? [transitionTrack] : []),
     ...nonAudioTracks,
     ...(mainVideoTrack ? [mainVideoTrack] : []),
     ...(defaultAudioTrack ? [defaultAudioTrack] : []),
@@ -157,6 +163,31 @@ const TimelineTracks = ({
                   >
                     <span className="text-xs text-white font-medium truncate">
                       {truncatedContent}
+                    </span>
+                  </div>
+                );
+              })}
+
+              {/* Render transition effects on transition track */}
+              {track.category === 'transition' && transitions.map((transition) => {
+                const clipLeft = transition.startTime * pixelsPerSecond;
+                const clipWidth = transition.duration * pixelsPerSecond;
+                const transitionConfig = TRANSITIONS.find(t => t.id === transition.transitionId);
+                const transitionLabel = transitionConfig?.label || transition.transitionId;
+                
+                return (
+                  <div
+                    key={transition.id}
+                    className="absolute top-1 bottom-1 bg-orange-500 rounded border border-orange-600 cursor-move overflow-hidden flex items-center px-2"
+                    style={{
+                      left: `${clipLeft}px`,
+                      width: `${clipWidth}px`,
+                      minWidth: '60px',
+                    }}
+                    title={`Transition: ${transitionLabel}\n${transition.startTime.toFixed(1)}s - ${(transition.startTime + transition.duration).toFixed(1)}s`}
+                  >
+                    <span className="text-xs text-white font-medium truncate">
+                      {transitionLabel}
                     </span>
                   </div>
                 );
