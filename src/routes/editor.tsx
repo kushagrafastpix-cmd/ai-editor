@@ -29,7 +29,7 @@ export type ActionData = {
 } | null;
 
 // Loader
-export async function loader({}: LoaderFunctionArgs): Promise<LoaderData> {
+export async function loader({ }: LoaderFunctionArgs): Promise<LoaderData> {
   // Return initial state data
   // Can be extended later for fetching project data, user preferences, etc.
   const transcript = generateDummyTranscript();
@@ -63,17 +63,18 @@ export async function action({
     // Get current timeline state from FormData (with text layers)
     // Fallback to dummy data if not provided
     const transcript = generateDummyTranscript();
-    const currentTimelineState: TimelineState = currentStateJson 
+    const currentTimelineState: TimelineState = currentStateJson
       ? JSON.parse(currentStateJson)
       : generateDummyTimelineState(transcript);
 
     // Call pure utility functions
     const pauses = detectPauses(transcript, threshold);
     console.log(`[RemovePauses] Detected ${pauses.length} pauses:`, pauses);
-    
+
     const updatedClips = removePausesFromTimeline(
       currentTimelineState.clips,
-      pauses
+      pauses,
+      transcript
     );
     console.log(`[RemovePauses] Updated clips:`, updatedClips);
 
@@ -93,7 +94,7 @@ export async function action({
           : 0,
       textLayers: currentTimelineState.textLayers, // Preserve text layers
     };
-    
+
     console.log(`[RemovePauses] New timeline duration: ${updatedTimelineState.duration}s (was ${currentTimelineState.duration}s)`);
 
     return {
@@ -108,7 +109,7 @@ export async function action({
     // Get text layer data from form
     const textLayerJson = formData.get("textLayer") as string;
     const currentStateJson = formData.get("currentState") as string;
-    
+
     if (!textLayerJson || !currentStateJson) {
       return {
         success: false,
@@ -163,7 +164,7 @@ export async function action({
     const textId = formData.get("textId") as string;
     const updateJson = formData.get("update") as string;
     const currentStateJson = formData.get("currentState") as string;
-    
+
     if (!textId || !updateJson || !currentStateJson) {
       return {
         success: false,
@@ -208,6 +209,96 @@ export async function action({
     return {
       success: true,
       message: "Export completed successfully",
+    };
+  }
+
+  if (actionType === "add-video") {
+    const duration = parseFloat(formData.get("duration") as string);
+    const sourceVideoId = formData.get("sourceVideoId") as string;
+    const currentStateJson = formData.get("currentState") as string;
+
+    if (!duration || !sourceVideoId || !currentStateJson) {
+      return {
+        success: false,
+        message: "Missing video data",
+      };
+    }
+
+    const currentTimelineState: TimelineState = JSON.parse(currentStateJson);
+    const insertTime = 0; // Always adding intro for now
+
+    // 1. Shift existing clips
+    const updatedClips = currentTimelineState.clips.map((clip) => {
+      // Only shift clips that are after or at the insertion point
+      // For now, since we insert at 0, this affects ALL clips
+      if (clip.startTime >= insertTime) {
+        return {
+          ...clip,
+          startTime: clip.startTime + duration,
+        };
+      }
+      return clip;
+    });
+
+    // 2. Create new clip
+    // We need a unique ID for the new clip. 
+    // In a real app, this might come from the backend or a UUID generator.
+    // For now, we'll use a timestamp-based ID.
+    const newClipId = `clip-${Date.now()}`;
+    const mainVideoTrack = currentTimelineState.tracks.find(t => t.category === 'main-video');
+    const trackId = mainVideoTrack ? mainVideoTrack.id : 'track-main-video';
+
+    const newClip = {
+      id: newClipId,
+      trackId: trackId,
+      startTime: insertTime,
+      duration: duration,
+      sourceStartTime: 0,
+      sourceEndTime: duration,
+      sourceVideoId: sourceVideoId,
+    };
+
+    // 3. Add new clip to the list
+    const finalClips = [...updatedClips, newClip];
+
+    // 4. Update track references
+    // We also need to update text layers if they should shift (optional but good for consistency)
+    // For now, let's assuming text layers should also shift if they are locked to time? 
+    // The requirement said "Preserve text layers and tracks", but typically you'd want text to shift with the video.
+    // Given the "Add Intro" semantics, shifting everything seems correct.
+    const updatedTextLayers = (currentTimelineState.textLayers || []).map(layer => {
+      if (layer.startTime >= insertTime) {
+        return {
+          ...layer,
+          startTime: layer.startTime + duration
+        };
+      }
+      return layer;
+    });
+
+    const updatedTracks = currentTimelineState.tracks.map(track => ({
+      ...track,
+      clips: finalClips.filter(c => c.trackId === track.id)
+    }));
+
+    // 5. Compute new duration
+    const newDuration = Math.max(
+      ...finalClips.map((c) => c.startTime + c.duration)
+    );
+
+    const updatedTimelineState: TimelineState = {
+      ...currentTimelineState,
+      tracks: updatedTracks,
+      clips: finalClips,
+      duration: newDuration,
+      textLayers: updatedTextLayers, // Using shifted text layers
+    };
+
+    return {
+      success: true,
+      message: "Intro added successfully",
+      timelineState: updatedTimelineState,
+      hasUnsavedChanges: true,
     };
   }
 

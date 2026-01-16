@@ -37,7 +37,7 @@ export function EditorUI() {
   const [timelineState, setTimelineState] = useState<TimelineState>(
     loaderData.timelineState
   );
-  
+
   // Video playback state
   const [currentTime, setCurrentTime] = useState(0);
 
@@ -69,7 +69,7 @@ export function EditorUI() {
       const newEntry = createHistoryEntry(actionData.timelineState, transcript);
       history.push(newEntry);
       console.log('[EditorUI] History pushed, canUndo:', history.canUndo, 'canRedo:', history.canRedo);
-      
+
       // Update local state with new state from route action
       setTimelineState(actionData.timelineState);
 
@@ -79,7 +79,7 @@ export function EditorUI() {
         if (appliedThreshold !== null) {
           // Update minimum applied threshold: if no threshold was set, use current one
           // Otherwise, use the minimum of current and new threshold
-          setMinAppliedPauseThreshold(prev => 
+          setMinAppliedPauseThreshold(prev =>
             prev === null ? appliedThreshold : Math.min(prev, appliedThreshold)
           );
           lastAppliedThresholdRef.current = null; // Reset ref
@@ -144,6 +144,48 @@ export function EditorUI() {
     formData.set("update", JSON.stringify(update));
     formData.set("currentState", JSON.stringify(timelineState));
     submit(formData, { method: "post" });
+  };
+
+  // Video sources management
+  const [videoSources, setVideoSources] = useState<Record<string, string>>({});
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAddVideo = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Create a temporary video element to get duration
+    const tempVideo = document.createElement('video');
+    const objectUrl = URL.createObjectURL(file);
+
+    tempVideo.preload = 'metadata';
+    tempVideo.onloadedmetadata = () => {
+      const duration = tempVideo.duration;
+      const sourceVideoId = `local-video-${Date.now()}`;
+
+      // Store the blob URL
+      setVideoSources(prev => ({
+        ...prev,
+        [sourceVideoId]: objectUrl
+      }));
+
+      // Submit action
+      const formData = new FormData();
+      formData.set("actionType", "add-video");
+      formData.set("duration", duration.toString());
+      formData.set("sourceVideoId", sourceVideoId);
+      formData.set("currentState", JSON.stringify(timelineState));
+      submit(formData, { method: "post" });
+
+      // Clear input
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
+    tempVideo.src = objectUrl;
   };
 
   // Undo handler
@@ -269,9 +311,9 @@ export function EditorUI() {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Check if user is typing in an input field
       const target = e.target as HTMLElement;
-      const isInputField = 
-        target.tagName === 'INPUT' || 
-        target.tagName === 'TEXTAREA' || 
+      const isInputField =
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
         target.isContentEditable;
 
       if (isInputField) {
@@ -309,10 +351,10 @@ export function EditorUI() {
       {/* TOP AREA */}
       <div ref={topAreaRef} className="flex flex-1 overflow-hidden relative">
         {/* Tool Panel */}
-        <div 
+        <div
           className="flex-shrink-0 bg-white"
-          style={{ 
-            width: `${toolPanelWidth}%`, 
+          style={{
+            width: `${toolPanelWidth}%`,
             flexBasis: `${toolPanelWidth}%`,
             minWidth: `${MIN_TOOL_PANEL_WIDTH}%`
           }}
@@ -342,23 +384,24 @@ export function EditorUI() {
           style={{
             width: '2px',
             backgroundColor: '#DADCE5',
-          }} 
+          }}
         />
 
         {/* Video Player */}
-        <div 
+        <div
           className="flex-shrink-0 pt-4 pr-4 pb-4 pl-4"
-          style={{ 
-            width: `${videoPlayerWidth}%`, 
+          style={{
+            width: `${videoPlayerWidth}%`,
             flexBasis: `${videoPlayerWidth}%`,
             minWidth: `${MIN_VIDEO_PLAYER_WIDTH}%`
           }}
         >
-          <VideoPlayer 
+          <VideoPlayer
             ref={videoPlayerRef}
-            currentTime={currentTime} 
+            currentTime={currentTime}
             onTimeUpdate={setCurrentTime}
             timelineState={timelineState}
+            videoSourceMap={videoSources}
           />
         </div>
       </div>
@@ -377,22 +420,20 @@ export function EditorUI() {
       {/* RESIZE HANDLE */}
       <div
         onMouseDown={isTimelineVisible ? startResize : undefined}
-        className={`h-0.5 transition-opacity duration-200 ${
-          isTimelineVisible
-            ? "cursor-row-resize bg-[#DADCE5]"
-            : "opacity-0 pointer-events-none"
-        }`}
+        className={`h-0.5 transition-opacity duration-200 ${isTimelineVisible
+          ? "cursor-row-resize bg-[#DADCE5]"
+          : "opacity-0 pointer-events-none"
+          }`}
       />
 
       {/* TIMELINE */}
       <div
         style={{ height: animatedTimelineHeight }}
         onTransitionEnd={handleTimelineTransitionEnd}
-        className={`overflow-hidden bg-white ${
-          isAnimatingTimeline
-            ? "transition-[height] duration-300 ease-in-out"
-            : ""
-        }`}
+        className={`overflow-hidden bg-white ${isAnimatingTimeline
+          ? "transition-[height] duration-300 ease-in-out"
+          : ""
+          }`}
       >
         <Timeline
           timelineState={timelineState}
@@ -406,6 +447,15 @@ export function EditorUI() {
           onRedo={handleRedo}
           canUndo={history.canUndo}
           canRedo={history.canRedo}
+          onAddVideo={handleAddVideo}
+        />
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileSelect}
+          accept="video/*"
+          className="hidden"
+          style={{ display: 'none' }}
         />
       </div>
 

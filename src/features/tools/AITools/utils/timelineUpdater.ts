@@ -1,5 +1,6 @@
 import type { VideoClip } from "@/features/timeline/types";
 import type { PauseSegment } from "./pauseDetection";
+import type { TranscriptData } from "@/types/transcript";
 
 /**
  * Pure function: Calculate timeline shift offset after removing pauses
@@ -20,14 +21,17 @@ export function calculateTimelineShift(
 /**
  * Pure function: Removes pauses from timeline by updating clip mappings
  * Non-destructive: Only updates timeline mapping, doesn't modify media
+ * Only processes main video clips - intro/outro clips are preserved unchanged
  * 
  * @param clips - Current timeline clips (immutable)
  * @param pauses - Pause segments to remove (immutable)
+ * @param transcript - Transcript data to identify main video clips
  * @returns New timeline state with updated clips (never mutates input)
  */
 export function removePausesFromTimeline(
   clips: readonly VideoClip[],
-  pauses: readonly PauseSegment[]
+  pauses: readonly PauseSegment[],
+  transcript: TranscriptData
 ): readonly VideoClip[] {
   if (pauses.length === 0) {
     return clips;
@@ -36,9 +40,37 @@ export function removePausesFromTimeline(
   console.log('[timelineUpdater] Input clips:', clips);
   console.log('[timelineUpdater] Pauses to remove:', pauses);
 
+  const mainVideoId = transcript.videoId;
+  
+  // Separate main video clips from intro/outro clips
+  const mainVideoClips = clips.filter(c => c.sourceVideoId === mainVideoId);
+  const otherClips = clips.filter(c => c.sourceVideoId !== mainVideoId);
+  
+  console.log('[timelineUpdater] Main video clips:', mainVideoClips);
+  console.log('[timelineUpdater] Intro/outro clips (preserved):', otherClips);
+
+  // If no main video clips, return original clips
+  if (mainVideoClips.length === 0) {
+    console.log('[timelineUpdater] No main video clips found, returning original clips');
+    return clips;
+  }
+
+  // Calculate base timeline offset - where main video should start
+  // This is the timeline position of the first main video clip
+  const firstMainClipStart = mainVideoClips.length > 0 
+    ? Math.min(...mainVideoClips.map(mc => mc.startTime))
+    : 0;
+  
+  // Count all intro clips (clips before main video)
+  const baseTimelineOffset = otherClips
+    .filter(c => c.startTime < firstMainClipStart)
+    .reduce((sum, c) => sum + c.duration, 0);
+  
+  console.log(`[timelineUpdater] Base timeline offset: ${baseTimelineOffset}s (first main clip was at ${firstMainClipStart}s)`);
+
   const updatedClips: VideoClip[] = [];
 
-  for (const clip of clips) {
+  for (const clip of mainVideoClips) {
     console.log(`[timelineUpdater] Processing clip ${clip.id}: source ${clip.sourceStartTime}-${clip.sourceEndTime}`);
     
     // Find pauses that overlap with this clip's source time range
@@ -53,13 +85,13 @@ export function removePausesFromTimeline(
     if (overlappingPauses.length === 0) {
       // No pauses in this clip, just shift its timeline position based on removed time before it
       const shift = calculateTimelineShift(pauses, clip.sourceStartTime);
-      const newTimelineStart = clip.sourceStartTime - shift;
+      const newTimelineStart = baseTimelineOffset + (clip.sourceStartTime - shift);
       const newClip = {
         ...clip,
         startTime: newTimelineStart,
         duration: clip.duration, // Duration stays the same
       };
-      console.log(`[timelineUpdater] No overlapping pauses, shifting clip by ${shift}s: timeline ${newClip.startTime}s, duration ${newClip.duration}s`);
+      console.log(`[timelineUpdater] No overlapping pauses, shifting clip by ${shift}s: timeline ${newClip.startTime}s (base offset: ${baseTimelineOffset}s), duration ${newClip.duration}s`);
       updatedClips.push(newClip);
       continue;
     }
@@ -74,9 +106,9 @@ export function removePausesFromTimeline(
     
     // Calculate the timeline start for this clip based on pauses BEFORE it
     const initialShift = calculateTimelineShift(pauses, clip.sourceStartTime);
-    let currentTimelineStart = clip.sourceStartTime - initialShift;
+    let currentTimelineStart = baseTimelineOffset + (clip.sourceStartTime - initialShift);
 
-    console.log(`[timelineUpdater] Initial: sourceStart=${currentSourceStart}, shift=${initialShift}, timelineStart=${currentTimelineStart}`);
+    console.log(`[timelineUpdater] Initial: sourceStart=${currentSourceStart}, shift=${initialShift}, timelineStart=${currentTimelineStart} (base offset: ${baseTimelineOffset}s)`);
 
     for (const pause of sortedPauses) {
       // If pause starts after current segment, create segment before pause
@@ -120,9 +152,12 @@ export function removePausesFromTimeline(
     }
   }
 
+  // Combine intro/outro clips with updated main video clips
+  const allClips = [...otherClips, ...updatedClips];
+  
   // Sort clips by timeline start time
-  const sorted = updatedClips.sort((a, b) => a.startTime - b.startTime);
-  console.log('[timelineUpdater] Final sorted clips:', sorted);
+  const sorted = allClips.sort((a, b) => a.startTime - b.startTime);
+  console.log('[timelineUpdater] Final sorted clips (including intro/outro):', sorted);
   return sorted;
 }
 

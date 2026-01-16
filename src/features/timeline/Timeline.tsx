@@ -12,6 +12,7 @@ export interface TimelineProps {
   onSeek?: (time: number) => void;
   onClipMove?: (clipId: string, newStartTime: number) => void;
   onClipTrim?: (clipId: string, newSourceEnd: number) => void;
+  onAddVideo?: () => void;
   onUndo?: () => void;
   onRedo?: () => void;
   canUndo?: boolean;
@@ -25,6 +26,7 @@ const Timeline = ({
   onSeek,
   onClipMove,
   onClipTrim,
+  onAddVideo,
   onUndo,
   onRedo,
   canUndo = false,
@@ -38,35 +40,35 @@ const Timeline = ({
   const timelineAreaRef = useRef<HTMLDivElement>(null);
   const timelineTracksContainerRef = useRef<HTMLDivElement>(null);
   const [rulerWidth, setRulerWidth] = useState(0);
-  
+
   // Horizontal scroll synchronization
   const [scrollLeft, setScrollLeft] = useState(0);
-  
+
   // Vertical scroll synchronization
   const trackControlsScrollRef = useRef<HTMLDivElement>(null);
   const timelineTracksScrollRef = useRef<HTMLDivElement>(null);
   const isScrollingRef = useRef(false);
-  
+
   // Drag state for playhead
   const [isDragging, setIsDragging] = useState(false);
   const isDraggingRef = useRef(false);
   const dragStartXRef = useRef<number | null>(null);
   const dragStartTimeRef = useRef<number | null>(null);
-  
+
   const handleHorizontalScroll = (newScrollLeft: number) => {
     setScrollLeft(newScrollLeft);
   };
-  
+
   const handleVerticalScroll = (scrollTop: number, source: 'controls' | 'tracks') => {
     if (isScrollingRef.current) return;
     isScrollingRef.current = true;
-    
+
     if (source === 'controls' && timelineTracksScrollRef.current) {
       timelineTracksScrollRef.current.scrollTop = scrollTop;
     } else if (source === 'tracks' && trackControlsScrollRef.current) {
       trackControlsScrollRef.current.scrollTop = scrollTop;
     }
-    
+
     requestAnimationFrame(() => {
       isScrollingRef.current = false;
     });
@@ -88,11 +90,11 @@ const Timeline = ({
   const handleUndo = () => {
     onUndo?.();
   };
-  
+
   const handleRedo = () => {
     onRedo?.();
   };
-  
+
   const handleDelete = () => console.log("Delete");
   const handleCut = () => console.log("Cut");
 
@@ -106,9 +108,7 @@ const Timeline = ({
     console.log("Toggle lock", trackId);
   };
 
-  const handleAddVideo = () => {
-    console.log("Add video/clip");
-  };
+
 
   const handleCrop = () => {
     console.log("Crop");
@@ -117,11 +117,11 @@ const Timeline = ({
   // Calculate time from mouse X position
   const calculateTimeFromMouseX = (mouseX: number): number => {
     if (!timelineAreaRef.current) return currentTime;
-    
+
     const rect = timelineAreaRef.current.getBoundingClientRect();
     const relativeX = mouseX - rect.left;
     const newTime = (relativeX + scrollLeft) / pixelsPerSecond;
-    
+
     // Clamp to valid range
     return Math.max(0, Math.min(newTime, actualDuration));
   };
@@ -130,13 +130,13 @@ const Timeline = ({
   const handleTimelineMouseDown = (e: React.MouseEvent) => {
     // Only handle left mouse button
     if (e.button !== 0) return;
-    
+
     // Don't start drag if clicking on interactive elements
     const target = e.target as HTMLElement;
     if (target.closest('button') || target.closest('input') || target.closest('select')) {
       return;
     }
-    
+
     // Don't interfere with scrolling - check if clicking on scrollable area
     // If the target is within a scrollable container, let it handle scrolling
     const scrollableParent = target.closest('[style*="overflow"]');
@@ -146,11 +146,11 @@ const Timeline = ({
       dragStartTimeRef.current = currentTime;
       return;
     }
-    
+
     // Store initial drag position
     dragStartXRef.current = e.clientX;
     dragStartTimeRef.current = currentTime;
-    
+
     // Don't prevent default here - let scrolling work normally
     // We'll only prevent default when actually dragging
   };
@@ -170,7 +170,7 @@ const Timeline = ({
           document.body.style.cursor = 'grabbing';
         }
       }
-      
+
       // If dragging, update time
       if (isDraggingRef.current && timelineAreaRef.current) {
         const newTime = calculateTimeFromMouseX(e.clientX);
@@ -185,7 +185,7 @@ const Timeline = ({
       if (isDraggingRef.current && dragStartXRef.current !== null) {
         // Final position already set by last mousemove
       }
-      
+
       // Reset drag state and restore styles
       setIsDragging(false);
       isDraggingRef.current = false;
@@ -227,11 +227,11 @@ const Timeline = ({
         <div className="flex-shrink-0 border-r border-[#DADCE5]" style={{ width: "115px" }}>
           {/* Empty space matching ruler height */}
           <div style={{ height: "40px" }}></div>
-          
+
           {/* Scrollable TrackControls */}
-          <div 
+          <div
             ref={trackControlsScrollRef}
-            className="overflow-y-auto scrollbar-hide" 
+            className="overflow-y-auto scrollbar-hide"
             style={{ height: "calc(100% - 40px)" }}
             onScroll={(e) => handleVerticalScroll(e.currentTarget.scrollTop, 'controls')}
           >
@@ -240,17 +240,18 @@ const Timeline = ({
                 tracks={tracks}
                 onToggleVisibility={handleToggleVisibility}
                 onToggleLock={handleToggleLock}
-                onAddVideo={handleAddVideo}
+
+                onAddVideo={onAddVideo}
               />
             </div>
           </div>
         </div>
 
         {/* Right timeline area */}
-        <div 
-          ref={timelineAreaRef} 
-          className="flex-1 min-h-0 flex flex-col relative" 
-          style={{ 
+        <div
+          ref={timelineAreaRef}
+          className="flex-1 min-h-0 flex flex-col relative"
+          style={{
             overflow: 'hidden',
             cursor: isDragging ? 'grabbing' : 'grab',
           }}
@@ -284,7 +285,7 @@ const Timeline = ({
                   backgroundColor: '#E20E0E',
                 }}
               />
-              
+
               {/* Pentagon at the top (middle of ruler) */}
               <svg
                 width="9"
@@ -304,12 +305,12 @@ const Timeline = ({
               </svg>
             </div>
           )}
-          
+
           {/* Timeline Ruler - Fixed at top */}
           {rulerWidth > 0 && (
-            <div 
-              className="relative" 
-              style={{ 
+            <div
+              className="relative"
+              style={{
                 zIndex: 1,
                 pointerEvents: isDragging ? 'none' : 'auto',
               }}
@@ -323,16 +324,16 @@ const Timeline = ({
               />
             </div>
           )}
-          
+
           {/* Scrollable TimelineTracks */}
-          <div 
+          <div
             ref={timelineTracksContainerRef}
             className="flex-1 min-h-0 flex flex-col relative"
           >
-            <div 
+            <div
               ref={timelineTracksScrollRef}
               className="flex-1 min-h-0 scrollbar-hide relative"
-              style={{ 
+              style={{
                 overflowX: 'hidden',
                 overflowY: 'auto',
                 pointerEvents: isDragging ? 'none' : 'auto',
