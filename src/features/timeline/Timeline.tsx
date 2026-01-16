@@ -4,6 +4,7 @@ import TimelineTopBar from "./components/TimelineTopBar";
 import TimelineRuler from "./components/TimelineRuler";
 import TimelineTracks from "./components/TimelineTracks";
 import type { TimelineState } from "./types";
+import type { TranscriptData } from "@/types/transcript";
 
 export interface TimelineProps {
   timelineState: TimelineState;
@@ -13,10 +14,12 @@ export interface TimelineProps {
   onClipMove?: (clipId: string, newStartTime: number) => void;
   onClipTrim?: (clipId: string, newSourceEnd: number) => void;
   onAddVideo?: () => void;
+  onAddOutro?: () => void;
   onUndo?: () => void;
   onRedo?: () => void;
   canUndo?: boolean;
   canRedo?: boolean;
+  transcript?: TranscriptData;
 }
 
 const Timeline = ({
@@ -27,15 +30,37 @@ const Timeline = ({
   onClipMove,
   onClipTrim,
   onAddVideo,
+  onAddOutro,
   onUndo,
   onRedo,
   canUndo = false,
   canRedo = false,
+  transcript,
 }: TimelineProps) => {
   const tracks = timelineState.tracks;
   const actualDuration = timelineState.duration;
+  
+  // Calculate minimum duration to accommodate outro button if present
+  let minDurationForOutroButton = actualDuration;
+  if (transcript) {
+    const mainVideoClips = timelineState.clips.filter(c => c.sourceVideoId === transcript.videoId);
+    const outroClips = timelineState.clips.filter(c => 
+      c.sourceVideoId !== transcript.videoId && 
+      mainVideoClips.length > 0 &&
+      c.startTime >= Math.max(...mainVideoClips.map(mc => mc.startTime + mc.duration))
+    );
+    
+    if (outroClips.length > 0) {
+      const lastOutroEnd = Math.max(...outroClips.map(c => c.startTime + c.duration));
+      minDurationForOutroButton = lastOutroEnd + 2.4; // Add space for button (48px / 20px per second)
+    } else if (mainVideoClips.length > 0) {
+      const mainVideoEnd = Math.max(...mainVideoClips.map(c => c.startTime + c.duration));
+      minDurationForOutroButton = mainVideoEnd + 2.4; // Add space for button
+    }
+  }
+  
   // Minimum 2 minutes (120 seconds) for ruler display, regardless of video length
-  const displayDuration = Math.max(actualDuration, 120);
+  const displayDuration = Math.max(actualDuration, 120, minDurationForOutroButton);
   const [pixelsPerSecond] = useState(20); // Zoom scale (default: 20px per second)
   const timelineAreaRef = useRef<HTMLDivElement>(null);
   const timelineTracksContainerRef = useRef<HTMLDivElement>(null);
@@ -353,6 +378,8 @@ const Timeline = ({
                     onClipMove={onClipMove}
                     onClipTrim={onClipTrim}
                     textLayers={timelineState.textLayers}
+                    transcript={transcript}
+                    onAddOutro={onAddOutro}
                   />
                 </div>
               )}

@@ -152,8 +152,29 @@ export function removePausesFromTimeline(
     }
   }
 
-  // Combine intro/outro clips with updated main video clips
-  const allClips = [...otherClips, ...updatedClips];
+  // Separate intro clips from outro clips
+  const introClips = otherClips.filter(c => c.startTime < firstMainClipStart);
+  const outroClips = otherClips.filter(c => c.startTime >= firstMainClipStart);
+  
+  // Calculate how much the main video section has changed
+  const originalMainVideoEnd = Math.max(...mainVideoClips.map(c => c.startTime + c.duration));
+  const newMainVideoEnd = updatedClips.length > 0 
+    ? Math.max(...updatedClips.map(c => c.startTime + c.duration))
+    : baseTimelineOffset;
+  const mainVideoShift = originalMainVideoEnd - newMainVideoEnd;
+  
+  console.log(`[timelineUpdater] Main video: original end ${originalMainVideoEnd}s, new end ${newMainVideoEnd}s, shift ${mainVideoShift}s`);
+  
+  // Adjust outro clips - shift them forward by the amount removed from main video
+  const adjustedOutroClips = outroClips.map(clip => ({
+    ...clip,
+    startTime: clip.startTime - mainVideoShift
+  }));
+  
+  console.log(`[timelineUpdater] Adjusted ${adjustedOutroClips.length} outro clips by ${mainVideoShift}s`);
+  
+  // Combine intro clips (unchanged) + updated main video clips + adjusted outro clips
+  const allClips = [...introClips, ...updatedClips, ...adjustedOutroClips];
   
   // Sort clips by timeline start time
   const sorted = allClips.sort((a, b) => a.startTime - b.startTime);

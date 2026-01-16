@@ -6,12 +6,30 @@ import {
 } from "react-router";
 import { EditorUI } from "@/features/editor";
 import type { TranscriptData } from "@/types/transcript";
-import type { TimelineState } from "@/features/timeline/types";
+import type { TimelineState, VideoClip } from "@/features/timeline/types";
 import type { TextLayer } from "@/features/tools/Text/types";
 import { detectPauses } from "@/features/tools/AITools/utils/pauseDetection";
 import { removePausesFromTimeline } from "@/features/tools/AITools/utils/timelineUpdater";
 import { generateDummyTranscript, generateDummyTimelineState } from "@/mocks/editorData";
 import "@/App.css";
+
+// Helper function to identify outro clips (clips after main video ends)
+export function getOutroClips(clips: readonly VideoClip[], transcript: TranscriptData): readonly VideoClip[] {
+  const mainVideoId = transcript.videoId;
+  const mainVideoClips = clips.filter(c => c.sourceVideoId === mainVideoId);
+  
+  if (mainVideoClips.length === 0) return [];
+  
+  // Find where main video ends
+  const lastMainClipEnd = Math.max(
+    ...mainVideoClips.map(c => c.startTime + c.duration)
+  );
+  
+  // Outros are non-main-video clips after main video ends
+  return clips.filter(
+    c => c.sourceVideoId !== mainVideoId && c.startTime >= lastMainClipEnd
+  );
+}
 
 // Types
 export type LoaderData = {
@@ -216,6 +234,7 @@ export async function action({
     const duration = parseFloat(formData.get("duration") as string);
     const sourceVideoId = formData.get("sourceVideoId") as string;
     const currentStateJson = formData.get("currentState") as string;
+    const videoType = (formData.get("videoType") as string) || "intro"; // Default to intro for backward compatibility
 
     if (!duration || !sourceVideoId || !currentStateJson) {
       return {
@@ -225,20 +244,47 @@ export async function action({
     }
 
     const currentTimelineState: TimelineState = JSON.parse(currentStateJson);
-    const insertTime = 0; // Always adding intro for now
+    
+    let insertTime: number;
+    let updatedClips: typeof currentTimelineState.clips;
+    let updatedTextLayers = currentTimelineState.textLayers || [];
 
-    // 1. Shift existing clips
-    const updatedClips = currentTimelineState.clips.map((clip) => {
-      // Only shift clips that are after or at the insertion point
-      // For now, since we insert at 0, this affects ALL clips
-      if (clip.startTime >= insertTime) {
-        return {
-          ...clip,
-          startTime: clip.startTime + duration,
-        };
-      }
-      return clip;
-    });
+    if (videoType === "intro") {
+      // Intro: Insert at time 0, shift all clips forward
+      insertTime = 0;
+
+      // 1. Shift existing clips
+      updatedClips = currentTimelineState.clips.map((clip) => {
+        // Only shift clips that are after or at the insertion point
+        if (clip.startTime >= insertTime) {
+          return {
+            ...clip,
+            startTime: clip.startTime + duration,
+          };
+        }
+        return clip;
+      });
+
+      // Shift text layers forward
+      updatedTextLayers = (currentTimelineState.textLayers || []).map(layer => {
+        if (layer.startTime >= insertTime) {
+          return {
+            ...layer,
+            startTime: layer.startTime + duration
+          };
+        }
+        return layer;
+      });
+    } else if (videoType === "outro") {
+      // Outro: Insert at end of timeline, no shifting needed
+      insertTime = currentTimelineState.duration;
+      updatedClips = currentTimelineState.clips; // No shifting for outros
+    } else {
+      return {
+        success: false,
+        message: `Invalid videoType: ${videoType}. Must be "intro" or "outro"`,
+      };
+    }
 
     // 2. Create new clip
     // We need a unique ID for the new clip. 
@@ -262,20 +308,6 @@ export async function action({
     const finalClips = [...updatedClips, newClip];
 
     // 4. Update track references
-    // We also need to update text layers if they should shift (optional but good for consistency)
-    // For now, let's assuming text layers should also shift if they are locked to time? 
-    // The requirement said "Preserve text layers and tracks", but typically you'd want text to shift with the video.
-    // Given the "Add Intro" semantics, shifting everything seems correct.
-    const updatedTextLayers = (currentTimelineState.textLayers || []).map(layer => {
-      if (layer.startTime >= insertTime) {
-        return {
-          ...layer,
-          startTime: layer.startTime + duration
-        };
-      }
-      return layer;
-    });
-
     const updatedTracks = currentTimelineState.tracks.map(track => ({
       ...track,
       clips: finalClips.filter(c => c.trackId === track.id)
@@ -291,12 +323,12 @@ export async function action({
       tracks: updatedTracks,
       clips: finalClips,
       duration: newDuration,
-      textLayers: updatedTextLayers, // Using shifted text layers
+      textLayers: updatedTextLayers,
     };
 
     return {
       success: true,
-      message: "Intro added successfully",
+      message: videoType === "intro" ? "Intro added successfully" : "Outro added successfully",
       timelineState: updatedTimelineState,
       hasUnsavedChanges: true,
     };

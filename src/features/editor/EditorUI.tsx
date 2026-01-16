@@ -149,8 +149,15 @@ export function EditorUI() {
   // Video sources management
   const [videoSources, setVideoSources] = useState<Record<string, string>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoTypeRef = useRef<'intro' | 'outro'>('intro');
 
   const handleAddVideo = () => {
+    videoTypeRef.current = 'intro';
+    fileInputRef.current?.click();
+  };
+
+  const handleAddOutro = () => {
+    videoTypeRef.current = 'outro';
     fileInputRef.current?.click();
   };
 
@@ -176,6 +183,7 @@ export function EditorUI() {
       // Submit action
       const formData = new FormData();
       formData.set("actionType", "add-video");
+      formData.set("videoType", videoTypeRef.current);
       formData.set("duration", duration.toString());
       formData.set("sourceVideoId", sourceVideoId);
       formData.set("currentState", JSON.stringify(timelineState));
@@ -448,6 +456,8 @@ export function EditorUI() {
           canUndo={history.canUndo}
           canRedo={history.canRedo}
           onAddVideo={handleAddVideo}
+          onAddOutro={handleAddOutro}
+          transcript={transcript}
         />
         <input
           type="file"

@@ -1,6 +1,9 @@
 import { useRef, useEffect } from 'react';
 import type { TrackRow, VideoClip } from '../types';
 import type { TextLayer } from '@/features/tools/Text/types';
+import type { TranscriptData } from '@/types/transcript';
+import { getOutroClips } from '@/routes/editor';
+import AddIcon from '@/components/ui/icons/AddIcon';
 
 interface TimelineTracksProps {
   tracks: readonly TrackRow[];
@@ -13,6 +16,8 @@ interface TimelineTracksProps {
   onClipMove?: (clipId: string, newStartTime: number) => void;
   onClipTrim?: (clipId: string, newSourceEnd: number) => void;
   textLayers?: readonly TextLayer[];
+  transcript?: TranscriptData; // Needed to identify outros
+  onAddOutro?: () => void;
 }
 
 const ROW_HEIGHT = 48; // Matching TrackControls (48px - 1px border = 47px)
@@ -28,9 +33,10 @@ const TimelineTracks = ({
   onClipMove,
   onClipTrim,
   textLayers = [],
+  transcript,
+  onAddOutro,
 }: TimelineTracksProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const trackWidth = duration * pixelsPerSecond;
 
   // Separate tracks into different groups (matching TrackControls logic)
   const nonAudioTracks = tracks.filter(
@@ -63,6 +69,27 @@ const TimelineTracks = ({
   };
 
   const totalTracksHeight = orderedTracks.length * ROW_HEIGHT;
+  
+  // Calculate outro button position (after last outro, or after main video if no outros)
+  let outroButtonTime: number | null = null;
+  if (transcript && onAddOutro && mainVideoTrack) {
+    const outroClips = getOutroClips(clips, transcript);
+    if (outroClips.length > 0) {
+      // Button after last outro
+      outroButtonTime = Math.max(...outroClips.map(c => c.startTime + c.duration));
+    } else {
+      // No outros yet - button at end of main video or timeline
+      const mainVideoClips = clips.filter(c => c.sourceVideoId === transcript.videoId);
+      if (mainVideoClips.length > 0) {
+        outroButtonTime = Math.max(...mainVideoClips.map(c => c.startTime + c.duration));
+      } else {
+        // No main video - use timeline duration
+        outroButtonTime = duration;
+      }
+    }
+  }
+  
+  const trackWidth = duration * pixelsPerSecond;
   
   return (
     <div
@@ -134,6 +161,27 @@ const TimelineTracks = ({
                   </div>
                 );
               })}
+
+              {/* Render "Add outro" button on main video track */}
+              {track.isMainVideo && outroButtonTime !== null && onAddOutro && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onAddOutro();
+                  }}
+                  className="absolute top-1/2 -translate-y-1/2 rounded border border-gray-300 bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors pointer-events-auto"
+                  style={{
+                    left: `${outroButtonTime * pixelsPerSecond + 8}px`,
+                    width: '32px',
+                    height: '32px',
+                    zIndex: 10,
+                  }}
+                  aria-label="Add outro"
+                  title="Add outro"
+                >
+                  <AddIcon className="h-4 w-4 text-gray-700" />
+                </button>
+              )}
             </div>
           );
         })}
