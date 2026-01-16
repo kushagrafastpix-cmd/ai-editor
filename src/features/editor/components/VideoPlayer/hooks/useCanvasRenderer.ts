@@ -110,8 +110,8 @@ export const useCanvasRenderer = ({
         fontWeight = style.fontWeight;
       }
       
-      // Use fixed default sizes based on text type - override any style.fontSize
-      const baseFontSize = type === 'heading' ? 24 : 18; // heading: 32px, body: 24px
+      // Use fontSize from style (which comes from constants or user customization)
+      const baseFontSize = style.fontSize; 
       
       // Set font first to measure text properly
       // Scale by DPR to match canvas resolution
