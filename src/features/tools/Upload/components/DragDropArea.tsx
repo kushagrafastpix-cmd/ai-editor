@@ -27,12 +27,8 @@ const DragDropArea = ({ onFilesSelected }: DragDropAreaProps) => {
     setIsDragging(false);
 
     const files = Array.from(e.dataTransfer.files);
-    const validFiles = files.filter(
-      (file) =>
-        file.type.startsWith("video/") ||
-        file.type.startsWith("audio/") ||
-        file.type.startsWith("image/")
-    );
+    // Only accept images for now
+    const validFiles = files.filter((file) => file.type.startsWith("image/"));
 
     if (validFiles.length > 0) {
       onFilesSelected(validFiles);
@@ -96,7 +92,7 @@ const DragDropArea = ({ onFilesSelected }: DragDropAreaProps) => {
         ref={fileInputRef}
         type="file"
         multiple
-        accept="video/*,audio/*,image/*"
+        accept="image/*"
         className="hidden"
         onChange={handleFileChange}
       />

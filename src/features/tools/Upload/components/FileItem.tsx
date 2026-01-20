@@ -99,12 +99,20 @@ const FileItem = ({ file, onClick }: FileItemProps) => {
 
   return (
     <div
-      className="flex flex-col gap-2 cursor-pointer"
+      className="flex flex-col gap-2 cursor-pointer group"
       onClick={() => onClick?.(file)}
     >
       {/* Thumbnail */}
-      <div className="w-full aspect-square rounded-md overflow-hidden bg-gray-100">
+      <div className="w-full aspect-square rounded-md overflow-hidden bg-gray-100 relative">
         {getThumbnailContent()}
+        {/* Hover overlay for images */}
+        {file.type === "image" && (
+          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
+            <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+              Add to timeline
+            </span>
+          </div>
+        )}
       </div>
 
       {/* File name */}

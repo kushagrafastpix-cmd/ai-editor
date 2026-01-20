@@ -159,10 +159,38 @@ export function EditorUI() {
     submit(formData, { method: "post" });
   };
 
+  // Handle adding image to timeline
+  const handleAddImage = (uploadedFile: { id: string; name: string; file: File }) => {
+    // Pause video when adding image
+    videoPlayerRef.current?.pause();
+
+    // Create blob URL for the image
+    const imageUrl = URL.createObjectURL(uploadedFile.file);
+    const imageId = `image-${uploadedFile.id}`;
+
+    // Store the blob URL
+    setImageSources(prev => ({
+      ...prev,
+      [imageId]: imageUrl
+    }));
+
+    // Submit action to add image to timeline
+    const formData = new FormData();
+    formData.set("actionType", "add-image");
+    formData.set("imageId", imageId);
+    formData.set("imageName", uploadedFile.name);
+    formData.set("requestedTime", currentTime.toString());
+    formData.set("currentState", JSON.stringify(timelineState));
+    submit(formData, { method: "post" });
+  };
+
   // Video sources management
   const [videoSources, setVideoSources] = useState<Record<string, string>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoTypeRef = useRef<'intro' | 'outro'>('intro');
+
+  // Image sources management
+  const [imageSources, setImageSources] = useState<Record<string, string>>({});
 
   const handleAddVideo = () => {
     videoTypeRef.current = 'intro';
@@ -384,12 +412,14 @@ export function EditorUI() {
             transcript={transcript}
             currentTime={currentTime}
             textLayers={timelineState.textLayers || []}
+            timelineState={timelineState}
             onRemovePauses={handleRemovePauses}
             minAppliedPauseThreshold={minAppliedPauseThreshold}
             onPauseVideo={handlePauseVideo}
             onAddText={handleAddText}
             onUpdateText={handleUpdateText}
             onApplyTransition={handleApplyTransition}
+            onAddImage={handleAddImage}
           />
         </div>
 
@@ -424,6 +454,7 @@ export function EditorUI() {
             onTimeUpdate={setCurrentTime}
             timelineState={timelineState}
             videoSourceMap={videoSources}
+            imageSourceMap={imageSources}
           />
         </div>
       </div>

@@ -23,6 +23,7 @@ interface PreviewPlayerProps {
   aspectRatio?: string;
   timelineState?: TimelineState;
   videoSourceMap?: Record<string, string>;
+  imageSourceMap?: Record<string, string>;
 }
 
 const PreviewPlayer = ({
@@ -34,6 +35,7 @@ const PreviewPlayer = ({
   aspectRatio,
   timelineState,
   videoSourceMap = {},
+  imageSourceMap = {},
 }: PreviewPlayerProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -41,6 +43,12 @@ const PreviewPlayer = ({
   const videoClips = timelineState ? timelineState.clips.filter(clip => {
     const track = timelineState.tracks.find(t => t.id === clip.trackId);
     return track?.category === 'main-video';
+  }) : [];
+
+  // Get image clips for rendering
+  const imageClips = timelineState ? timelineState.clips.filter(clip => {
+    const track = timelineState.tracks.find(t => t.id === clip.trackId);
+    return track?.category === 'image';
   }) : [];
 
   // Convert timeline time to source time for seeking (not during playback)
@@ -58,6 +66,8 @@ const PreviewPlayer = ({
     aspectRatio,
     textLayers: timelineState?.textLayers || [],
     transitions: timelineState?.transitions || [],
+    imageClips,
+    imageSourceMap,
   });
 
   // Sync currentTime prop with video element when seeking (not during playback)
@@ -136,13 +146,15 @@ interface VideoPlayerProps {
   onTimeUpdate?: (time: number) => void;
   timelineState?: TimelineState;
   videoSourceMap?: Record<string, string>;
+  imageSourceMap?: Record<string, string>;
 }
 
 const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
   currentTime: externalCurrentTime,
   onTimeUpdate,
   timelineState,
-  videoSourceMap
+  videoSourceMap,
+  imageSourceMap = {}
 }, ref) => {
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>("16:9");
   const [layout, setLayout] = useState<Layout>("fit");
@@ -521,6 +533,7 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
             aspectRatio={aspectRatio}
             timelineState={timelineState}
             videoSourceMap={videoSourceMap}
+            imageSourceMap={imageSourceMap}
           />
         </div>
       </div>

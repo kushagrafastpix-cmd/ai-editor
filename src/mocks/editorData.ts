@@ -21,7 +21,7 @@ export function generateDummyTranscript(): TranscriptData {
       { word: "how", startTime: 6.1, endTime: 6.4 },
       { word: "pause", startTime: 6.4, endTime: 6.9 },
       { word: "removal", startTime: 6.9, endTime: 7.6 },
-      // --- Segment 4 ---
+      // --- Segment 4 ---Th
       // --- Pause: 4.0s (EDGE CASE MAX, SHOULD be removed) ---
       { word: "works", startTime: 11.6, endTime: 12.2 },
       { word: "in", startTime: 12.2, endTime: 16.6 },

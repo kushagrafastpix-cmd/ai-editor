@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { TextLayer } from "@/features/tools/Text/types";
 import type { TransitionEffect } from "@/features/tools/Transitions/types";
+import type { VideoClip } from "@/features/timeline/types";
 import { applyTransitionEffect } from "../utils/transitionEffects";
 
 interface UseCanvasRendererProps {
@@ -12,6 +13,8 @@ interface UseCanvasRendererProps {
   aspectRatio?: string;
   textLayers?: readonly TextLayer[];
   transitions?: readonly TransitionEffect[];
+  imageClips?: readonly VideoClip[]; // Image clips from timeline
+  imageSourceMap?: Record<string, string>; // Map of image IDs to blob URLs
 }
 
 export const useCanvasRenderer = ({
@@ -23,6 +26,8 @@ export const useCanvasRenderer = ({
   aspectRatio,
   textLayers = [],
   transitions = [],
+  imageClips = [],
+  imageSourceMap = {},
 }: UseCanvasRendererProps) => {
   const rafIdRef = useRef<number | undefined>(undefined);
   
@@ -30,6 +35,11 @@ export const useCanvasRenderer = ({
   const timelineTimeRef = useRef(timelineTime);
   const textLayersRef = useRef(textLayers);
   const transitionsRef = useRef(transitions);
+  const imageClipsRef = useRef(imageClips);
+  const imageSourceMapRef = useRef(imageSourceMap);
+  
+  // Cache for loaded images
+  const [imageCache] = useState<Map<string, HTMLImageElement>>(new Map());
   
   // Update refs when props change
   useEffect(() => {
@@ -44,12 +54,46 @@ export const useCanvasRenderer = ({
     transitionsRef.current = transitions;
   }, [transitions]);
 
+  useEffect(() => {
+    imageClipsRef.current = imageClips;
+  }, [imageClips]);
+
+  useEffect(() => {
+    imageSourceMapRef.current = imageSourceMap;
+  }, [imageSourceMap]);
+
   // Helper function to find active transition at current time
   const findActiveTransition = (currentTime: number, transitions: readonly TransitionEffect[]): TransitionEffect | undefined => {
     return transitions.find(t => 
       currentTime >= t.startTime && 
       currentTime < t.startTime + t.duration
     );
+  };
+
+  // Helper function to find active image clip at current time
+  const findActiveImageClip = (currentTime: number, clips: readonly VideoClip[]): VideoClip | undefined => {
+    return clips.find(clip => 
+      currentTime >= clip.startTime && 
+      currentTime < clip.startTime + clip.duration
+    );
+  };
+
+  // Helper function to load image
+  const loadImage = (imageId: string, imageUrl: string): Promise<HTMLImageElement> => {
+    // Check cache first
+    if (imageCache.has(imageId)) {
+      return Promise.resolve(imageCache.get(imageId)!);
+    }
+
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        imageCache.set(imageId, img);
+        resolve(img);
+      };
+      img.onerror = reject;
+      img.src = imageUrl;
+    });
   };
 
   // Helper function to calculate transition progress (0 to 1)
@@ -197,43 +241,91 @@ export const useCanvasRenderer = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Check if video is ready to render
-    if (video.readyState < video.HAVE_CURRENT_DATA) return;
-
     // Clear canvas using internal dimensions
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Get current timeline time and transitions from refs
+    // Get current timeline time and data from refs
     const currentTimelineTime = timelineTimeRef.current;
     const currentTransitions = transitionsRef.current;
+    const currentImageClips = imageClipsRef.current;
+    const currentImageSourceMap = imageSourceMapRef.current;
     
-    // Use timeline time for transition detection (they use timeline time like text layers)
-    const timeForTransition = currentTimelineTime !== undefined ? currentTimelineTime : currentTime;
+    // Use timeline time for image and transition detection
+    const timeForRendering = currentTimelineTime !== undefined ? currentTimelineTime : currentTime;
+    
+    // Check if there's an active image clip at current time
+    const activeImageClip = findActiveImageClip(timeForRendering, currentImageClips);
     
     // Find active transition at current time
-    const activeTransition = findActiveTransition(timeForTransition, currentTransitions);
-    
-    if (activeTransition) {
-      // Calculate transition progress
-      const progress = calculateProgress(timeForTransition, activeTransition);
+    const activeTransition = findActiveTransition(timeForRendering, currentTransitions);
+
+    if (activeImageClip && currentImageSourceMap[activeImageClip.sourceVideoId]) {
+      // Render image instead of video
+      const imageUrl = currentImageSourceMap[activeImageClip.sourceVideoId];
       
-      // Save canvas state before applying effects
-      ctx.save();
+      // Try to get cached image or render placeholder
+      const cachedImage = imageCache.get(activeImageClip.sourceVideoId);
       
-      // Apply transition effect (this may modify ctx transform or alpha)
-      applyTransitionEffect(ctx, canvas, activeTransition.transitionId, progress);
-      
-      // Draw video frame with transition applied
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
-      // Restore canvas state after transition
-      ctx.restore();
+      if (cachedImage && cachedImage.complete) {
+        // Image is loaded, render it
+        if (activeTransition) {
+          // Apply transition to image
+          const progress = calculateProgress(timeForRendering, activeTransition);
+          ctx.save();
+          applyTransitionEffect(ctx, canvas, activeTransition.transitionId, progress);
+          ctx.drawImage(cachedImage, 0, 0, canvas.width, canvas.height);
+          ctx.restore();
+        } else {
+          // Normal image rendering
+          ctx.drawImage(cachedImage, 0, 0, canvas.width, canvas.height);
+        }
+      } else {
+        // Image not loaded yet, load it asynchronously and show placeholder
+        loadImage(activeImageClip.sourceVideoId, imageUrl).then(() => {
+          // Re-render once image is loaded
+          if (!isPlaying) {
+            renderFrame();
+          }
+        }).catch((err) => {
+          console.error('Failed to load image:', err);
+        });
+        
+        // Show placeholder while loading
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Loading image...', canvas.width / 2, canvas.height / 2);
+      }
     } else {
-      // Normal rendering without transition
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      // Render video (normal behavior)
+      // Check if video is ready to render
+      if (video.readyState < video.HAVE_CURRENT_DATA) return;
+
+      if (activeTransition) {
+        // Calculate transition progress
+        const progress = calculateProgress(timeForRendering, activeTransition);
+        
+        // Save canvas state before applying effects
+        ctx.save();
+        
+        // Apply transition effect (this may modify ctx transform or alpha)
+        applyTransitionEffect(ctx, canvas, activeTransition.transitionId, progress);
+        
+        // Draw video frame with transition applied
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        // Restore canvas state after transition
+        ctx.restore();
+      } else {
+        // Normal rendering without transition
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      }
     }
 
-    // Render text overlays on top of video (always last, after transitions)
+    // Render text overlays on top of video/image (always last, after transitions)
     renderTextLayers(ctx, canvas);
   };
 
@@ -293,12 +385,12 @@ export const useCanvasRenderer = ({
     };
   }, [isPlaying]);
 
-  // Render frame when currentTime, timelineTime, textLayers, or transitions changes (for seeking and updates)
+  // Render frame when currentTime, timelineTime, textLayers, transitions, or imageClips changes (for seeking and updates)
   useEffect(() => {
     if (!isPlaying) {
       renderFrame();
     }
-  }, [currentTime, timelineTime, textLayers, transitions]);
+  }, [currentTime, timelineTime, textLayers, transitions, imageClips, imageSourceMap]);
 
   // Initial render when video is loaded
   useEffect(() => {

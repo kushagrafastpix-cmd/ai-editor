@@ -1,10 +1,17 @@
 import { useState } from "react";
 import type { UploadedFile, FileFilter } from "./types";
+import type { TimelineState } from "@/features/timeline/types";
 import DragDropArea from "./components/DragDropArea";
 import FileTypeFilter from "./components/FileTypeFilter";
 import FileGrid from "./components/FileGrid";
 
-const UploadTool = () => {
+interface UploadToolProps {
+  currentTime?: number;
+  timelineState?: TimelineState;
+  onAddImage?: (file: UploadedFile) => void;
+}
+
+const UploadTool = ({ currentTime, timelineState, onAddImage }: UploadToolProps) => {
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [filter, setFilter] = useState<FileFilter>("all");
 
@@ -17,10 +24,13 @@ const UploadTool = () => {
   };
 
   const handleFilesSelected = (selectedFiles: File[]) => {
-    const newFiles: UploadedFile[] = selectedFiles.map((file) => ({
+    // Filter to only images
+    const imageFiles = selectedFiles.filter(file => file.type.startsWith("image/"));
+    
+    const newFiles: UploadedFile[] = imageFiles.map((file) => ({
       id: crypto.randomUUID(),
       name: file.name,
-      type: getFileType(file),
+      type: "image",
       file,
       size: file.size,
       uploadedAt: new Date(),
@@ -30,8 +40,10 @@ const UploadTool = () => {
   };
 
   const handleFileClick = (file: UploadedFile) => {
-    // Future: Handle file selection/click
-    console.log("File clicked:", file);
+    // Only handle image clicks for now
+    if (file.type === "image" && onAddImage) {
+      onAddImage(file);
+    }
   };
 
   return (

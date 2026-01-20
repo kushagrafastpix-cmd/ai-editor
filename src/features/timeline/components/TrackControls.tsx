@@ -23,10 +23,13 @@ const TrackControls = ({
 }: TrackControlsProps) => {
   // Separate transition track
   const transitionTrack = tracks.find((track) => track.category === "transition");
+  
+  // Separate image track
+  const imageTrack = tracks.find((track) => track.category === "image");
 
   const nonAudioTracks = tracks.filter(
     (track) =>
-      !track.isMainVideo && !track.isDefaultAudio && track.category !== "audio" && track.category !== "transition"
+      !track.isMainVideo && !track.isDefaultAudio && track.category !== "audio" && track.category !== "transition" && track.category !== "image"
   );
 
   const mainVideoTrack = tracks.find((track) => track.isMainVideo);
@@ -122,13 +125,15 @@ const TrackControls = ({
     >
       {/* Row 0: Transition track (topmost, no controls) */}
       {transitionTrack && renderTransitionRow(transitionTrack)}
-      {/* Row 1: Dynamic non-audio tracks (B-roll, text, video, image, etc.) */}
+      {/* Row 1: Image track */}
+      {imageTrack && renderControlRow(imageTrack)}
+      {/* Row 2: Dynamic non-audio tracks (B-roll, text, video, etc.) */}
       {nonAudioTracks.map((track) => renderControlRow(track))}
-      {/* Row 2: Main video row (always present) */}
+      {/* Row 3: Main video row (always present) */}
       {mainVideoTrack && renderControlRow(mainVideoTrack, true)}
-      {/* Row 3: Default audio track (always present) */}
+      {/* Row 4: Default audio track (always present) */}
       {defaultAudioTrack && renderControlRow(defaultAudioTrack)}
-      {/* Row 4: Additional audio tracks */}
+      {/* Row 5: Additional audio tracks */}
       {additionalAudioTracks.map((track) => renderControlRow(track))}
     </div>
   );

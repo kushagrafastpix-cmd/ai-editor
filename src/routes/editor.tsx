@@ -255,9 +255,15 @@ export async function action({
       // Intro: Insert at time 0, shift all clips forward
       insertTime = 0;
 
-      // 1. Shift existing clips
+      // 1. Shift existing clips (but NOT image clips - they're overlays that maintain absolute timeline positions)
       updatedClips = currentTimelineState.clips.map((clip) => {
-        // Only shift clips that are after or at the insertion point
+        // Don't shift image clips - they're timeline-positioned overlays
+        const isImageClip = clip.sourceVideoId.startsWith('image-');
+        if (isImageClip) {
+          return clip; // Keep image at its original timeline position
+        }
+        
+        // Shift video clips that are after or at the insertion point
         if (clip.startTime >= insertTime) {
           return {
             ...clip,
@@ -267,16 +273,9 @@ export async function action({
         return clip;
       });
 
-      // Shift text layers forward
-      updatedTextLayers = (currentTimelineState.textLayers || []).map(layer => {
-        if (layer.startTime >= insertTime) {
-          return {
-            ...layer,
-            startTime: layer.startTime + duration
-          };
-        }
-        return layer;
-      });
+      // Don't shift text layers or transitions - they're timeline-positioned overlays
+      // They maintain their absolute timeline positions
+      updatedTextLayers = currentTimelineState.textLayers || [];
     } else if (videoType === "outro") {
       // Outro: Insert at end of timeline, no shifting needed
       insertTime = currentTimelineState.duration;
@@ -403,6 +402,123 @@ export async function action({
       message: overlappingTransition 
         ? `Transition added at ${finalTransition.startTime.toFixed(1)}s (adjusted to avoid overlap)` 
         : "Transition added",
+      timelineState: updatedTimelineState,
+      hasUnsavedChanges: true,
+    };
+  }
+
+  if (actionType === "add-image") {
+    const imageId = formData.get("imageId") as string;
+    const imageName = formData.get("imageName") as string;
+    const requestedTime = parseFloat(formData.get("requestedTime") as string);
+    const currentStateJson = formData.get("currentState") as string;
+
+    if (!imageId || !currentStateJson || isNaN(requestedTime)) {
+      return {
+        success: false,
+        message: "Missing image data",
+      };
+    }
+
+    const currentTimelineState: TimelineState = JSON.parse(currentStateJson);
+    const imageDuration = 3; // Default 3 seconds
+
+    // Find image track or create it
+    let imageTrack = currentTimelineState.tracks.find(t => t.category === 'image');
+    let updatedTracks = [...currentTimelineState.tracks];
+
+    if (!imageTrack) {
+      // Create image track (should be between transition and main-video)
+      imageTrack = {
+        id: 'track-image',
+        category: 'image' as const,
+        visible: true,
+        locked: false,
+      };
+      // Insert before main-video track
+      const mainVideoIndex = updatedTracks.findIndex(t => t.isMainVideo);
+      if (mainVideoIndex !== -1) {
+        updatedTracks.splice(mainVideoIndex, 0, imageTrack);
+      } else {
+        updatedTracks.push(imageTrack);
+      }
+    }
+
+    // Get existing image clips
+    const existingImageClips = currentTimelineState.clips.filter(
+      c => c.trackId === imageTrack.id
+    );
+
+    // Find non-overlapping time using the algorithm from the plan
+    const findNonOverlappingTime = (
+      requestedTime: number,
+      duration: number,
+      existingClips: typeof existingImageClips
+    ): number => {
+      let startTime = requestedTime;
+      let hasOverlap = true;
+      
+      while (hasOverlap) {
+        const endTime = startTime + duration;
+        const overlapping = existingClips.filter(clip => {
+          const clipEnd = clip.startTime + clip.duration;
+          return (startTime < clipEnd && endTime > clip.startTime);
+        });
+        
+        if (overlapping.length === 0) {
+          hasOverlap = false;
+        } else {
+          // Move start time to after the last overlapping clip
+          startTime = Math.max(...overlapping.map(c => c.startTime + c.duration));
+        }
+      }
+      
+      return startTime;
+    };
+
+    const finalStartTime = findNonOverlappingTime(requestedTime, imageDuration, existingImageClips);
+
+    // Create new image clip
+    const newClip: VideoClip = {
+      id: `clip-image-${Date.now()}`,
+      trackId: imageTrack.id,
+      startTime: finalStartTime,
+      duration: imageDuration,
+      sourceStartTime: 0,
+      sourceEndTime: imageDuration,
+      sourceVideoId: imageId,
+    };
+
+    // Add clip to timeline
+    const updatedClips = [...currentTimelineState.clips, newClip];
+
+    // Update tracks with new clips
+    const finalTracks = updatedTracks.map(track => ({
+      ...track,
+      clips: updatedClips.filter(c => c.trackId === track.id)
+    }));
+
+    // Calculate new duration
+    const newDuration = Math.max(
+      currentTimelineState.duration,
+      finalStartTime + imageDuration
+    );
+
+    const updatedTimelineState: TimelineState = {
+      ...currentTimelineState,
+      tracks: finalTracks,
+      clips: updatedClips,
+      duration: newDuration,
+    };
+
+    const wasAdjusted = finalStartTime !== requestedTime;
+    const message = wasAdjusted 
+      ? `Image "${imageName}" added at ${finalStartTime.toFixed(1)}s (adjusted to avoid overlap)` 
+      : `Image "${imageName}" added at ${finalStartTime.toFixed(1)}s`;
+
+    return {
+      success: true,
+      message,
       timelineState: updatedTimelineState,
       hasUnsavedChanges: true,
     };

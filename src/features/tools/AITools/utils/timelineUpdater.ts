@@ -61,9 +61,10 @@ export function removePausesFromTimeline(
     ? Math.min(...mainVideoClips.map(mc => mc.startTime))
     : 0;
   
-  // Count all intro clips (clips before main video)
+  // Count all intro/outro VIDEO clips (clips before main video)
+  // Exclude image clips - they're overlays, not sequential content
   const baseTimelineOffset = otherClips
-    .filter(c => c.startTime < firstMainClipStart)
+    .filter(c => c.startTime < firstMainClipStart && !c.sourceVideoId.startsWith('image-'))
     .reduce((sum, c) => sum + c.duration, 0);
   
   console.log(`[timelineUpdater] Base timeline offset: ${baseTimelineOffset}s (first main clip was at ${firstMainClipStart}s)`);
@@ -152,9 +153,12 @@ export function removePausesFromTimeline(
     }
   }
 
-  // Separate intro clips from outro clips
-  const introClips = otherClips.filter(c => c.startTime < firstMainClipStart);
-  const outroClips = otherClips.filter(c => c.startTime >= firstMainClipStart);
+  // Separate clips by type
+  const introClips = otherClips.filter(c => c.startTime < firstMainClipStart && !c.sourceVideoId.startsWith('image-'));
+  const outroClips = otherClips.filter(c => c.startTime >= firstMainClipStart && !c.sourceVideoId.startsWith('image-'));
+  
+  // Image clips are timeline-positioned overlays - preserve them unchanged (like text layers)
+  const imageClips = otherClips.filter(c => c.sourceVideoId.startsWith('image-'));
   
   // Calculate how much the main video section has changed
   const originalMainVideoEnd = Math.max(...mainVideoClips.map(c => c.startTime + c.duration));
@@ -172,9 +176,10 @@ export function removePausesFromTimeline(
   }));
   
   console.log(`[timelineUpdater] Adjusted ${adjustedOutroClips.length} outro clips by ${mainVideoShift}s`);
+  console.log(`[timelineUpdater] Preserved ${imageClips.length} image clips unchanged (timeline overlays)`);
   
-  // Combine intro clips (unchanged) + updated main video clips + adjusted outro clips
-  const allClips = [...introClips, ...updatedClips, ...adjustedOutroClips];
+  // Combine intro clips (unchanged) + updated main video clips + adjusted outro clips + image clips (unchanged)
+  const allClips = [...introClips, ...updatedClips, ...adjustedOutroClips, ...imageClips];
   
   // Sort clips by timeline start time
   const sorted = allClips.sort((a, b) => a.startTime - b.startTime);

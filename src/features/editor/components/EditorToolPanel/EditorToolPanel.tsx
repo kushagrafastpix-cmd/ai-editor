@@ -8,6 +8,7 @@ import type { DrawerToolId } from "./types";
 import type { TranscriptData } from "@/types/transcript";
 import type { TextLayer } from "@/features/tools/Text/types";
 import type { TransitionEffect } from "@/features/tools/Transitions/types";
+import type { TimelineState } from "@/features/timeline/types";
 
 // tools
 import TranscriptTool from "@/features/tools/Transcript/TranscriptTool";
@@ -23,24 +24,28 @@ interface EditorToolPanelProps {
   transcript?: TranscriptData;
   currentTime: number;
   textLayers: readonly TextLayer[];
+  timelineState?: TimelineState;
   onRemovePauses?: (threshold: number) => void;
   minAppliedPauseThreshold?: number | null;
   onPauseVideo: () => void;
   onAddText: (layer: TextLayer) => void;
   onUpdateText: (id: string, update: Partial<TextLayer>) => void;
   onApplyTransition: (transition: TransitionEffect) => void;
+  onAddImage?: (uploadedFile: { id: string; name: string; file: File }) => void;
 }
 
 const EditorToolPanel = ({ 
   transcript, 
   currentTime,
   textLayers,
+  timelineState,
   onRemovePauses,
   minAppliedPauseThreshold,
   onPauseVideo,
   onAddText,
   onUpdateText,
-  onApplyTransition
+  onApplyTransition,
+  onAddImage
 }: EditorToolPanelProps) => {
   const [openDrawerTool, setOpenDrawerTool] = useState<DrawerToolId | null>(
     null
@@ -59,7 +64,13 @@ const EditorToolPanel = ({
       case "captions":
         return <CaptionsTool />;
       case "upload":
-        return <UploadTool />;
+        return (
+          <UploadTool
+            currentTime={currentTime}
+            timelineState={timelineState}
+            onAddImage={onAddImage}
+          />
+        );
       case "b-roll":
         return <BRollTool />;
       case "transitions":

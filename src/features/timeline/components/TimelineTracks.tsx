@@ -44,9 +44,10 @@ const TimelineTracks = ({
 
   // Separate tracks into different groups (matching TrackControls logic)
   const transitionTrack = tracks.find((track) => track.category === "transition");
+  const imageTrack = tracks.find((track) => track.category === "image");
   const nonAudioTracks = tracks.filter(
     (track) =>
-      !track.isMainVideo && !track.isDefaultAudio && track.category !== "audio" && track.category !== "transition"
+      !track.isMainVideo && !track.isDefaultAudio && track.category !== "audio" && track.category !== "transition" && track.category !== "image"
   );
   const mainVideoTrack = tracks.find((track) => track.isMainVideo);
   const defaultAudioTrack = tracks.find((track) => track.isDefaultAudio);
@@ -57,6 +58,7 @@ const TimelineTracks = ({
   // Combine all tracks in the same order as TrackControls
   const orderedTracks: TrackRow[] = [
     ...(transitionTrack ? [transitionTrack] : []),
+    ...(imageTrack ? [imageTrack] : []),
     ...nonAudioTracks,
     ...(mainVideoTrack ? [mainVideoTrack] : []),
     ...(defaultAudioTrack ? [defaultAudioTrack] : []),
@@ -124,7 +126,7 @@ const TimelineTracks = ({
               }}
             >
               {/* Render video/audio clips on this track */}
-              {track.category !== 'text' && trackClips.map((clip) => {
+              {track.category !== 'text' && track.category !== 'image' && trackClips.map((clip) => {
                 const clipLeft = clip.startTime * pixelsPerSecond;
                 const clipWidth = clip.duration * pixelsPerSecond;
                 
@@ -139,6 +141,29 @@ const TimelineTracks = ({
                     }}
                     title={`Clip: ${clip.startTime.toFixed(1)}s - ${(clip.startTime + clip.duration).toFixed(1)}s`}
                   />
+                );
+              })}
+
+              {/* Render image clips on image track */}
+              {track.category === 'image' && trackClips.map((clip) => {
+                const clipLeft = clip.startTime * pixelsPerSecond;
+                const clipWidth = clip.duration * pixelsPerSecond;
+                
+                return (
+                  <div
+                    key={clip.id}
+                    className="absolute top-1 bottom-1 bg-pink-500 rounded border border-pink-600 cursor-move overflow-hidden flex items-center px-2"
+                    style={{
+                      left: `${clipLeft}px`,
+                      width: `${clipWidth}px`,
+                      minWidth: '40px',
+                    }}
+                    title={`Image: ${clip.startTime.toFixed(1)}s - ${(clip.startTime + clip.duration).toFixed(1)}s`}
+                  >
+                    <span className="text-xs text-white font-medium truncate">
+                      Image
+                    </span>
+                  </div>
                 );
               })}
 
