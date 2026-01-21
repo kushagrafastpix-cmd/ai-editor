@@ -29,32 +29,27 @@ export function timelineToSourceTime(
   // Find the clip that contains this timeline time
   for (const clip of sortedClips) {
     const clipEndTime = clip.startTime + clip.duration;
-    
+
     if (timelineTime >= clip.startTime && timelineTime < clipEndTime) {
       // Calculate offset within the clip
       const offsetInClip = timelineTime - clip.startTime;
-      
+
       // Map to source time
       const sourceTime = clip.sourceStartTime + offsetInClip;
-      
+
       return sourceTime;
     }
   }
 
   // Timeline time is either before first clip, after last clip, or in a gap
   // For simplicity, clamp to nearest clip boundary
-  const firstClip = sortedClips[0];
+  // const firstClip = sortedClips[0]; // Removed unused variable
   const lastClip = sortedClips[sortedClips.length - 1];
-  
-  if (timelineTime < firstClip.startTime) {
-    // Before first clip - return start of first clip's source
-    return firstClip.sourceStartTime;
-  }
-  
+
   const lastClipEndTime = lastClip.startTime + lastClip.duration;
   if (timelineTime >= lastClipEndTime) {
-    // After last clip - return end of last clip's source
-    return lastClip.sourceEndTime;
+    // After last clip - return null
+    return null;
   }
 
   // In a gap between clips - return null to indicate invalid position
@@ -89,10 +84,10 @@ export function sourceToTimelineTime(
     if (sourceTime >= clip.sourceStartTime && sourceTime < clip.sourceEndTime) {
       // Calculate offset within the source range
       const offsetInSource = sourceTime - clip.sourceStartTime;
-      
+
       // Map to timeline time
       const timelineTime = clip.startTime + offsetInSource;
-      
+
       return timelineTime;
     }
   }
@@ -100,15 +95,15 @@ export function sourceToTimelineTime(
   // Source time is not in any clip (it was removed as a pause)
   // Find the nearest clip
   const sortedClips = [...clips].sort((a, b) => a.sourceStartTime - b.sourceStartTime);
-  
+
   const firstClip = sortedClips[0];
   const lastClip = sortedClips[sortedClips.length - 1];
-  
+
   if (sourceTime < firstClip.sourceStartTime) {
     // Before first clip
     return firstClip.startTime;
   }
-  
+
   if (sourceTime >= lastClip.sourceEndTime) {
     // After last clip
     return lastClip.startTime + lastClip.duration;
@@ -119,7 +114,7 @@ export function sourceToTimelineTime(
   for (let i = 0; i < sortedClips.length - 1; i++) {
     const currentClip = sortedClips[i];
     const nextClip = sortedClips[i + 1];
-    
+
     if (sourceTime >= currentClip.sourceEndTime && sourceTime < nextClip.sourceStartTime) {
       // This source time was removed - map to end of current clip on timeline
       return currentClip.startTime + currentClip.duration;
@@ -139,7 +134,7 @@ export function getTimelineDuration(clips: readonly VideoClip[]): number {
   if (clips.length === 0) {
     return 0;
   }
-  
+
   return Math.max(...clips.map(clip => clip.startTime + clip.duration));
 }
 

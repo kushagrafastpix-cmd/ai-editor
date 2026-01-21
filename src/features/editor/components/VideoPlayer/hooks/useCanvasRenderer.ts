@@ -14,6 +14,7 @@ interface UseCanvasRendererProps {
   textLayers?: readonly TextLayer[];
   transitions?: readonly TransitionEffect[];
   imageClips?: readonly VideoClip[]; // Image clips from timeline
+  videoClips?: readonly VideoClip[]; // Video clips from timeline for boundary checks
   imageSourceMap?: Record<string, string>; // Map of image IDs to blob URLs
 }
 
@@ -27,29 +28,31 @@ export const useCanvasRenderer = ({
   textLayers = [],
   transitions = [],
   imageClips = [],
+  videoClips = [],
   imageSourceMap = {},
 }: UseCanvasRendererProps) => {
   const rafIdRef = useRef<number | undefined>(undefined);
-  
+
   // Use refs to store latest values for RAF loop
   const timelineTimeRef = useRef(timelineTime);
   const textLayersRef = useRef(textLayers);
   const transitionsRef = useRef(transitions);
   const imageClipsRef = useRef(imageClips);
+  const videoClipsRef = useRef(videoClips);
   const imageSourceMapRef = useRef(imageSourceMap);
-  
+
   // Cache for loaded images
   const [imageCache] = useState<Map<string, HTMLImageElement>>(new Map());
-  
+
   // Update refs when props change
   useEffect(() => {
     timelineTimeRef.current = timelineTime;
   }, [timelineTime]);
-  
+
   useEffect(() => {
     textLayersRef.current = textLayers;
   }, [textLayers]);
-  
+
   useEffect(() => {
     transitionsRef.current = transitions;
   }, [transitions]);
@@ -59,21 +62,25 @@ export const useCanvasRenderer = ({
   }, [imageClips]);
 
   useEffect(() => {
+    videoClipsRef.current = videoClips;
+  }, [videoClips]);
+
+  useEffect(() => {
     imageSourceMapRef.current = imageSourceMap;
   }, [imageSourceMap]);
 
   // Helper function to find active transition at current time
   const findActiveTransition = (currentTime: number, transitions: readonly TransitionEffect[]): TransitionEffect | undefined => {
-    return transitions.find(t => 
-      currentTime >= t.startTime && 
+    return transitions.find(t =>
+      currentTime >= t.startTime &&
       currentTime < t.startTime + t.duration
     );
   };
 
   // Helper function to find active image clip at current time
   const findActiveImageClip = (currentTime: number, clips: readonly VideoClip[]): VideoClip | undefined => {
-    return clips.find(clip => 
-      currentTime >= clip.startTime && 
+    return clips.find(clip =>
+      currentTime >= clip.startTime &&
       currentTime < clip.startTime + clip.duration
     );
   };
@@ -122,10 +129,10 @@ export const useCanvasRenderer = ({
     // Use latest timeline time and text layers from refs (for RAF loop)
     const currentTimelineTime = timelineTimeRef.current;
     const currentTextLayers = textLayersRef.current;
-    
+
     // Use timeline time for filtering text layers (they use timeline time)
     const timeForFiltering = currentTimelineTime !== undefined ? currentTimelineTime : currentTime;
-    
+
     // Filter text layers visible at current time
     const visibleLayers = currentTextLayers.filter(
       layer => timeForFiltering >= layer.startTime && timeForFiltering < layer.startTime + layer.duration
@@ -139,8 +146,8 @@ export const useCanvasRenderer = ({
     visibleLayers.forEach(layer => {
       // Save canvas state before rendering each text layer to ensure isolation
       ctx.save();
-      
-      const { content, style, type } = layer;
+
+      const { content, style } = layer;
 
       // Map font weight to valid CSS values
       let fontWeight = 'normal';
@@ -153,10 +160,10 @@ export const useCanvasRenderer = ({
       } else {
         fontWeight = style.fontWeight;
       }
-      
+
       // Use fontSize from style (which comes from constants or user customization)
-      const baseFontSize = style.fontSize; 
-      
+      const baseFontSize = style.fontSize;
+
       // Set font first to measure text properly
       // Scale by DPR to match canvas resolution
       const fontSize = baseFontSize * dpr;
@@ -175,12 +182,12 @@ export const useCanvasRenderer = ({
 
       // Always draw white background
       ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'; // White with 90% opacity
-      
+
       // Draw background rectangle with horizontal padding (more width than height)
       // Use horizontal padding that makes it wider, and smaller vertical padding
       const horizontalPadding = fontSize * 0.6; // More horizontal padding
       const verticalPadding = fontSize * 0.15; // Less vertical padding
-      
+
       ctx.fillRect(
         x - textWidth / 2 - horizontalPadding,
         y - textHeight / 2 - verticalPadding,
@@ -191,22 +198,22 @@ export const useCanvasRenderer = ({
       // Parse text color and apply opacity
       const fillColor = style.fillColor;
       const fillOpacity = style.fillOpacity / 100;
-      
+
       // Extract RGB from hex color
       const r = parseInt(fillColor.slice(1, 3), 16);
       const g = parseInt(fillColor.slice(3, 5), 16);
       const b = parseInt(fillColor.slice(5, 7), 16);
-      
+
       ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${fillOpacity})`;
 
       // Apply text decorations
       if (style.underline || style.strike) {
         const metrics = ctx.measureText(content);
         const textWidth = metrics.width;
-        
+
         ctx.strokeStyle = ctx.fillStyle;
         ctx.lineWidth = Math.max(1, fontSize / 20);
-        
+
         if (style.underline) {
           const underlineY = y + fontSize * 0.1;
           ctx.beginPath();
@@ -214,7 +221,7 @@ export const useCanvasRenderer = ({
           ctx.lineTo(x + textWidth / 2, underlineY);
           ctx.stroke();
         }
-        
+
         if (style.strike) {
           ctx.beginPath();
           ctx.moveTo(x - textWidth / 2, y);
@@ -225,7 +232,7 @@ export const useCanvasRenderer = ({
 
       // Draw text
       ctx.fillText(content, x, y);
-      
+
       // Restore canvas state after rendering each text layer
       ctx.restore();
     });
@@ -249,23 +256,26 @@ export const useCanvasRenderer = ({
     const currentTransitions = transitionsRef.current;
     const currentImageClips = imageClipsRef.current;
     const currentImageSourceMap = imageSourceMapRef.current;
-    
+
     // Use timeline time for image and transition detection
     const timeForRendering = currentTimelineTime !== undefined ? currentTimelineTime : currentTime;
-    
+
     // Check if there's an active image clip at current time
     const activeImageClip = findActiveImageClip(timeForRendering, currentImageClips);
-    
+
+    // Check if there's an active video clip at current time
+    const activeVideoClip = findActiveImageClip(timeForRendering, videoClipsRef.current);
+
     // Find active transition at current time
     const activeTransition = findActiveTransition(timeForRendering, currentTransitions);
 
     if (activeImageClip && currentImageSourceMap[activeImageClip.sourceVideoId]) {
       // Render image instead of video
       const imageUrl = currentImageSourceMap[activeImageClip.sourceVideoId];
-      
+
       // Try to get cached image or render placeholder
       const cachedImage = imageCache.get(activeImageClip.sourceVideoId);
-      
+
       if (cachedImage && cachedImage.complete) {
         // Image is loaded, render it
         if (activeTransition) {
@@ -289,7 +299,7 @@ export const useCanvasRenderer = ({
         }).catch((err) => {
           console.error('Failed to load image:', err);
         });
-        
+
         // Show placeholder while loading
         ctx.fillStyle = '#1a1a1a';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -299,33 +309,37 @@ export const useCanvasRenderer = ({
         ctx.textBaseline = 'middle';
         ctx.fillText('Loading image...', canvas.width / 2, canvas.height / 2);
       }
-    } else {
-      // Render video (normal behavior)
-      // Check if video is ready to render
-      if (video.readyState < video.HAVE_CURRENT_DATA) return;
-
+    } else if (activeVideoClip && video.readyState >= video.HAVE_CURRENT_DATA) {
+      // Render video (normal behavior) - even if paused (for seeking/static frames)
+      // but ONLY if the current timeline time is actually within a video clip.
       if (activeTransition) {
         // Calculate transition progress
         const progress = calculateProgress(timeForRendering, activeTransition);
-        
+
         // Save canvas state before applying effects
         ctx.save();
-        
+
         // Apply transition effect (this may modify ctx transform or alpha)
         applyTransitionEffect(ctx, canvas, activeTransition.transitionId, progress);
-        
+
         // Draw video frame with transition applied
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        
+
         // Restore canvas state after transition
         ctx.restore();
       } else {
         // Normal rendering without transition
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       }
+    } else {
+      // No video/image available OR video is paused (beyond video duration)
+      // Render black screen
+      // This handles: timeline beyond video duration, gaps, loading states
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Render text overlays on top of video/image (always last, after transitions)
+    // Render text overlays on top of video/image/black screen (always last, after transitions)
     renderTextLayers(ctx, canvas);
   };
 

@@ -104,18 +104,36 @@ export async function action({
     }));
 
     // Compute new timeline state - preserve text layers and transitions!
+    // Calculate duration from all content types to handle overlays beyond main video
+    const mainVideoEnd = updatedClips.length > 0
+      ? Math.max(...updatedClips.map((c) => c.startTime + c.duration))
+      : 0;
+    
+    // Check text layers
+    const textLayers = currentTimelineState.textLayers || [];
+    const textLayerEnd = textLayers.length > 0
+      ? Math.max(...textLayers.map((t) => t.startTime + t.duration))
+      : 0;
+    
+    // Check transitions
+    const transitions = currentTimelineState.transitions || [];
+    const transitionEnd = transitions.length > 0
+      ? Math.max(...transitions.map((t) => t.startTime + t.duration))
+      : 0;
+    
+    // Final timeline duration = max of all content types
+    // This ensures overlays beyond main video are accommodated (black screen will fill gaps)
+    const finalDuration = Math.max(mainVideoEnd, textLayerEnd, transitionEnd);
+
     const updatedTimelineState: TimelineState = {
       tracks: updatedTracks,
       clips: updatedClips,
-      duration:
-        updatedClips.length > 0
-          ? Math.max(...updatedClips.map((c) => c.startTime + c.duration))
-          : 0,
+      duration: finalDuration,
       textLayers: currentTimelineState.textLayers, // Preserve text layers
       transitions: currentTimelineState.transitions, // Preserve transitions
     };
 
-    console.log(`[RemovePauses] New timeline duration: ${updatedTimelineState.duration}s (was ${currentTimelineState.duration}s)`);
+    console.log(`[RemovePauses] New timeline duration: ${finalDuration}s (was ${currentTimelineState.duration}s, main video: ${mainVideoEnd}s)`);
 
     return {
       success: true,
@@ -277,8 +295,12 @@ export async function action({
       // They maintain their absolute timeline positions
       updatedTextLayers = currentTimelineState.textLayers || [];
     } else if (videoType === "outro") {
-      // Outro: Insert at end of timeline, no shifting needed
-      insertTime = currentTimelineState.duration;
+      // Outro: Insert at end of MAIN VIDEO (not overall timeline)
+      // Find the end of the last main video/intro/outro clip (not overlays like text/images)
+      const videoClips = currentTimelineState.clips.filter(c => !c.sourceVideoId.startsWith('image-'));
+      insertTime = videoClips.length > 0
+        ? Math.max(...videoClips.map(c => c.startTime + c.duration))
+        : 0;
       updatedClips = currentTimelineState.clips; // No shifting for outros
     } else {
       return {

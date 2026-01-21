@@ -53,7 +53,7 @@ const PreviewPlayer = ({
 
   // Convert timeline time to source time for seeking (not during playback)
   const sourceTime = videoClips.length > 0
-    ? timelineToSourceTime(currentTime, videoClips) ?? currentTime
+    ? timelineToSourceTime(currentTime, videoClips) ?? -1
     : currentTime;
 
   // Initialize canvas renderer - it will render whatever the video element is showing
@@ -67,13 +67,14 @@ const PreviewPlayer = ({
     textLayers: timelineState?.textLayers || [],
     transitions: timelineState?.transitions || [],
     imageClips,
+    videoClips,
     imageSourceMap,
   });
 
   // Sync currentTime prop with video element when seeking (not during playback)
   // During playback, VideoPlayer RAF loop handles jumping between clips
   useEffect(() => {
-    if (!isPlaying && videoRef.current && Math.abs(videoRef.current.currentTime - sourceTime) > 0.1) {
+    if (!isPlaying && videoRef.current && sourceTime >= 0 && Math.abs(videoRef.current.currentTime - sourceTime) > 0.1) {
       console.log(`[PreviewPlayer] Seeking to source time ${sourceTime.toFixed(3)}s (timeline ${currentTime.toFixed(3)}s)`);
       videoRef.current.currentTime = sourceTime;
     }
@@ -99,6 +100,21 @@ const PreviewPlayer = ({
           return '/videos/testing-video.mp4';
         }
       }
+
+      // If we are beyond the last clip, stick to the last clip's source
+      // This prevents the video element from switching back to the default src
+      // which might reset its currentTime and trigger unwanted time updates.
+      if (mainVideoClips.length > 0) {
+        const sorted = [...mainVideoClips].sort((a, b) => a.startTime - b.startTime);
+        const lastClip = sorted[sorted.length - 1];
+        if (currentTime >= lastClip.startTime) {
+          if (videoSourceMap[lastClip.sourceVideoId]) {
+            return videoSourceMap[lastClip.sourceVideoId];
+          } else if (lastClip.sourceVideoId === 'dummy-video-1') {
+            return '/videos/testing-video.mp4';
+          }
+        }
+      }
     }
     return src || '/videos/testing-video.mp4';
   })();
@@ -108,8 +124,11 @@ const PreviewPlayer = ({
     if (isPlaying && videoRef.current) {
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
-        playPromise.catch(() => {
+        playPromise.catch((e) => {
           // Abort error is expected when swapping sources quickly
+          if (e.name !== 'AbortError') {
+            console.error('[PreviewPlayer] Play error:', e);
+          }
         });
       }
     }
@@ -122,9 +141,17 @@ const PreviewPlayer = ({
         ref={videoRef}
         src={activeSrc}
         muted={false}
+        loop={false}
         onTimeUpdate={(e) =>
           onTimeUpdate((e.target as HTMLVideoElement).currentTime)
         }
+        onEnded={() => {
+          // Prevent video from looping - handle ended event
+          const video = videoRef.current;
+          if (video) {
+            video.pause();
+          }
+        }}
         style={{ display: "none" }}
       />
       {/* Visible canvas - displays rendered output */}
@@ -162,6 +189,9 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Track if we're in manual playback mode (beyond video clips, on black screen)
+  const isManualPlaybackRef = useRef(false);
+
   // Expose pause method via ref
   useImperativeHandle(ref, () => ({
     pause: () => {
@@ -183,14 +213,32 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
     }
   }, [timelineState]);
 
-  // Ref to track current timeline time for RAF loop
-  const internalCurrentTimeRef = useRef(internalCurrentTime);
-  useEffect(() => {
-    internalCurrentTimeRef.current = internalCurrentTime;
-  }, [internalCurrentTime]);
-
   // Use external currentTime if provided, otherwise use internal state
   const currentTime = externalCurrentTime ?? internalCurrentTime;
+
+  // Ref to track current timeline time for RAF loop
+  // Use currentTime (which accounts for external updates) to keep the RAF loop in sync
+  const internalCurrentTimeRef = useRef(currentTime);
+  useEffect(() => {
+    internalCurrentTimeRef.current = currentTime;
+  }, [currentTime]);
+
+  // Update manual playback state when scrubbing/seeking
+  // This ensures that dragging the playhead back from the end correctly resets the state
+  useEffect(() => {
+    if (!isPlaying && timelineState) {
+      const videoClips = timelineState.clips.filter(clip => {
+        const track = timelineState.tracks.find(t => t.id === clip.trackId);
+        return track?.category === 'main-video';
+      });
+      const videoDuration = getTimelineDuration(videoClips);
+      if (currentTime >= videoDuration - 0.05) {
+        isManualPlaybackRef.current = true;
+      } else {
+        isManualPlaybackRef.current = false;
+      }
+    }
+  }, [currentTime, isPlaying, timelineState]);
 
   // Helper to find the timeline time that matches the source time
   // closest to our current expected position. This resolves ambiguity
@@ -218,6 +266,12 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
   };
 
   const handleTimeUpdate = (time: number) => {
+    // When we're in manual playback mode (black screen / overlays beyond last video clip),
+    // ignore video element time updates to avoid snapping back if the element loops/resets.
+    if (isManualPlaybackRef.current) {
+      return;
+    }
+
     // time is source video time
     // Without timeline state, just use source time directly
     if (!timelineState) {
@@ -231,6 +285,20 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
       const track = timelineState.tracks.find(t => t.id === clip.trackId);
       return track?.category === 'main-video';
     });
+
+    // Guard: Prevent snapping back if we are currently positioned beyond the last clip
+    // or if the video element is at its end while the timeline continues.
+    if (videoClips.length > 0) {
+      const sorted = [...videoClips].sort((a, b) => a.startTime - b.startTime);
+      const lastClip = sorted[sorted.length - 1];
+      const lastClipEndTime = lastClip.startTime + lastClip.duration;
+
+      // If we are significantly beyond the last clip, or already in manual mode,
+      // ignore automated updates from the video element.
+      if (internalCurrentTimeRef.current > lastClipEndTime - 0.05 || isManualPlaybackRef.current) {
+        return;
+      }
+    }
 
     // Resolve timeline time based on proximity to current state
     let timelineTime = mapSourceToTimelineClosest(time, videoClips, internalCurrentTimeRef.current);
@@ -291,7 +359,9 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
       sourceId: c.sourceVideoId
     })));
 
-    const updateTime = () => {
+    let lastTimestamp: number | null = null;
+
+    const updateTime = (timestamp?: number) => {
       if (!video) return;
 
       const sourceTime = video.currentTime;
@@ -304,17 +374,17 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
       );
 
       if (currentClipIndex === -1) {
-        // We are in a gap or at the end
-        // Check if we haven't reached the end of the timeline
-        const timelineDuration = getTimelineDuration(sortedClips);
-        if (currentTimelineTime >= timelineDuration) {
-          console.log(`[VideoPlayer] Reached end of timeline (${currentTimelineTime.toFixed(3)}s), stopping playback`);
+        // We are in a gap or beyond the last video clip
+        // Check if we've reached the end of the OVERALL timeline (including overlays)
+        const overallTimelineDuration = timelineState.duration;
+        if (currentTimelineTime >= overallTimelineDuration) {
+          console.log(`[VideoPlayer] Reached end of overall timeline (${currentTimelineTime.toFixed(3)}s), stopping playback`);
           video.pause();
           setIsPlaying(false);
           return;
         }
 
-        // Must be a gap - jump to next clip
+        // Check if there's a next video clip
         const nextClip = sortedClips.find(clip => clip.startTime > currentTimelineTime);
         if (nextClip) {
           console.log(`[VideoPlayer] In pause/gap at ${currentTimelineTime.toFixed(3)}s, jumping to next clip at ${nextClip.startTime.toFixed(3)}s`);
@@ -323,6 +393,35 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
           onTimeUpdate?.(nextClip.startTime);
           // We don't set video.currentTime here because the src might need to change
           // PreviewPlayer will handle the seek after render
+        } else {
+          // No more video clips, but timeline continues (overlays on black screen)
+          // Enter manual playback mode
+          isManualPlaybackRef.current = true;
+
+          // Pause the video element to prevent timeupdate conflicts
+          if (video.paused === false) {
+            video.pause();
+          }
+
+          // Continue incrementing time based on real elapsed time
+          if (timestamp !== undefined && lastTimestamp !== null) {
+            const elapsed = (timestamp - lastTimestamp) / 1000; // Convert ms to seconds
+            const newTime = currentTimelineTime + elapsed;
+
+            if (newTime < overallTimelineDuration) {
+              setInternalCurrentTime(newTime);
+              onTimeUpdate?.(newTime);
+            } else {
+              // Reached true end
+              isManualPlaybackRef.current = false;
+              setIsPlaying(false);
+              return;
+            }
+          }
+
+          if (timestamp !== undefined) {
+            lastTimestamp = timestamp;
+          }
         }
       } else {
         const currentClip = sortedClips[currentClipIndex];
@@ -339,6 +438,8 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
 
         if (timeLeftInClip <= 0.05) { // 50ms buffer
           const nextClip = sortedClips[currentClipIndex + 1];
+          const overallTimelineDuration = timelineState.duration;
+
           if (nextClip) {
             console.log(`[VideoPlayer] Near end of clip ${currentClip.id}, jumping to next clip ${nextClip.id} at ${nextClip.startTime}`);
             // Optimistically update internal time to next clip start
@@ -348,10 +449,27 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
             // Force seek to next clip source
             video.currentTime = nextClip.sourceStartTime;
           } else {
-            console.log(`[VideoPlayer] Reached end of last clip`);
-            video.pause();
-            setIsPlaying(false);
-            return;
+            // No more video clips - check if timeline continues (overlays on black screen)
+            const nextTimelineTime = endOfClip;
+
+            if (nextTimelineTime < overallTimelineDuration) {
+              console.log(`[VideoPlayer] Reached end of last video clip, continuing timeline for overlays`);
+              // Enter manual playback mode
+              isManualPlaybackRef.current = true;
+
+              // Pause the video element to prevent timeupdate conflicts
+              if (video.paused === false) {
+                video.pause();
+              }
+              setInternalCurrentTime(nextTimelineTime);
+              onTimeUpdate?.(nextTimelineTime);
+            } else {
+              console.log(`[VideoPlayer] Reached end of overall timeline`);
+              isManualPlaybackRef.current = false;
+              video.pause();
+              setIsPlaying(false);
+              return;
+            }
           }
         } else if (sourceTime < currentClip.sourceStartTime - 0.25) {
           // Detect if we are physically in a gap/pause BEFORE this clip
@@ -359,18 +477,75 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
           // Threshold is 0.25s to allow minor seeking drift but catch large gaps
           console.log(`[VideoPlayer] Source ${sourceTime.toFixed(3)}s lagging behind clip start ${currentClip.sourceStartTime}, seeking`);
           video.currentTime = currentClip.sourceStartTime;
+        } else if (sourceTime > currentClip.sourceEndTime) {
+          // Video has passed the end of this clip's source range - prevent looping
+          const clipTimelineEnd = currentClip.startTime + currentClip.duration;
+          const overallTimelineDuration = timelineState.duration;
+
+          // Clamp video to end of source to prevent looping
+          video.currentTime = currentClip.sourceEndTime;
+
+          // Check if timeline continues beyond this clip
+          if (clipTimelineEnd < overallTimelineDuration - 0.1) {
+            // Timeline continues with overlays - enter manual playback mode
+            console.log(`[VideoPlayer] Video source ended but timeline continues (${clipTimelineEnd.toFixed(3)}s < ${overallTimelineDuration.toFixed(3)}s), entering manual playback mode`);
+            isManualPlaybackRef.current = true;
+            if (video.paused === false) {
+              video.pause();
+            }
+            // Update timeline to clip end
+            setInternalCurrentTime(clipTimelineEnd);
+            onTimeUpdate?.(clipTimelineEnd);
+          } else {
+            // Reached true end - stop playback
+            console.log(`[VideoPlayer] Reached end of overall timeline`);
+            isManualPlaybackRef.current = false;
+            video.pause();
+            setIsPlaying(false);
+            return;
+          }
         } else {
           // Normal playback: update timeline time based on video progress
 
-          // We need to map sourceTime -> timelineTime
-          // BUT, we only care about the CURRENT CLIP'S context
-          const relevantClips = [currentClip]; // We know we are in this clip
-          const timelineTime = sourceToTimelineTime(sourceTime, relevantClips) ?? (currentClip.startTime + (sourceTime - currentClip.sourceStartTime));
+          // Check if video has reached or passed the clip's source end
+          if (sourceTime >= currentClip.sourceEndTime) {
+            // Video reached end - prevent looping
+            const clipTimelineEnd = currentClip.startTime + currentClip.duration;
+            const overallTimelineDuration = timelineState.duration;
 
-          // Only update if time advanced meaningfully (avoid jitter/loops)
-          if (timelineTime > currentTimelineTime || Math.abs(timelineTime - currentTimelineTime) > 0.5) {
-            setInternalCurrentTime(timelineTime);
-            onTimeUpdate?.(timelineTime);
+            // Clamp video to end of source
+            video.currentTime = currentClip.sourceEndTime;
+
+            // Check if timeline continues beyond this clip
+            if (clipTimelineEnd < overallTimelineDuration - 0.1) {
+              // Timeline continues with overlays - enter manual playback mode
+              console.log(`[VideoPlayer] Video source ended but timeline continues (${clipTimelineEnd.toFixed(3)}s < ${overallTimelineDuration.toFixed(3)}s), entering manual playback mode`);
+              isManualPlaybackRef.current = true;
+              if (video.paused === false) {
+                video.pause();
+              }
+              // Update timeline to clip end
+              setInternalCurrentTime(clipTimelineEnd);
+              onTimeUpdate?.(clipTimelineEnd);
+            } else {
+              // Reached true end - stop playback
+              console.log(`[VideoPlayer] Reached end of overall timeline`);
+              isManualPlaybackRef.current = false;
+              video.pause();
+              setIsPlaying(false);
+              return;
+            }
+          } else {
+            // We need to map sourceTime -> timelineTime
+            // BUT, we only care about the CURRENT CLIP'S context
+            const relevantClips = [currentClip]; // We know we are in this clip
+            const timelineTime = sourceToTimelineTime(sourceTime, relevantClips) ?? (currentClip.startTime + (sourceTime - currentClip.sourceStartTime));
+
+            // Only update if time advanced meaningfully (avoid jitter/loops)
+            if (timelineTime > currentTimelineTime || Math.abs(timelineTime - currentTimelineTime) > 0.5) {
+              setInternalCurrentTime(timelineTime);
+              onTimeUpdate?.(timelineTime);
+            }
           }
         }
       }
@@ -414,20 +589,75 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
     if (isPlaying) {
       videoRef.current.pause();
       setIsPlaying(false);
-    } else {
-      // Before playing, ensure video is at correct source position for timeline time
+
+      // Only reset manual playback ref if we are NOT at the end of the video clips
+      // This prevents the video element's pause/timeupdate from snapping the playhead back
       if (timelineState) {
         const videoClips = timelineState.clips.filter(clip => {
           const track = timelineState.tracks.find(t => t.id === clip.trackId);
           return track?.category === 'main-video';
         });
+        const duration = getTimelineDuration(videoClips);
+        if (currentTime < duration - 0.1) {
+          isManualPlaybackRef.current = false;
+        }
+      } else {
+        isManualPlaybackRef.current = false;
+      }
+    } else {
+      // Before playing, check if we are at the end of the timeline
+      const timelineDuration = timelineState?.duration ?? 0;
+
+      // If we are at the very end, restart from beginning
+      if (timelineDuration > 0 && currentTime >= timelineDuration - 0.05) {
+        console.log('[VideoPlayer] At end of timeline, restarting from 0');
+        setInternalCurrentTime(0);
+        onTimeUpdate?.(0);
+
+        // Position video element to start of first clip
+        if (timelineState) {
+          const videoClips = timelineState.clips.filter(clip => {
+            const track = timelineState.tracks.find(t => t.id === clip.trackId);
+            return track?.category === 'main-video';
+          });
+          const startSourceTime = timelineToSourceTime(0, videoClips) ?? 0;
+          videoRef.current.currentTime = startSourceTime;
+        } else {
+          videoRef.current.currentTime = 0;
+        }
+      } else if (timelineState) {
+        // Check if we are starting from a gap or beyond video clips
+        const videoClips = timelineState.clips.filter(clip => {
+          const track = timelineState.tracks.find(t => t.id === clip.trackId);
+          return track?.category === 'main-video';
+        });
+
+        const videoDuration = getTimelineDuration(videoClips);
+        if (currentTime >= videoDuration - 0.05) {
+          isManualPlaybackRef.current = true;
+        } else {
+          isManualPlaybackRef.current = false;
+        }
+
+        // Normal positioning before playback
         const sourceTime = timelineToSourceTime(currentTime, videoClips);
         if (sourceTime !== null && Math.abs(videoRef.current.currentTime - sourceTime) > 0.1) {
           console.log(`[VideoPlayer] Starting playback: positioning to source ${sourceTime.toFixed(3)}s for timeline ${currentTime.toFixed(3)}s`);
           videoRef.current.currentTime = sourceTime;
         }
       }
-      videoRef.current.play();
+
+      // Only play video element if we are NOT in manual playback mode
+      if (!isManualPlaybackRef.current) {
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(e => {
+            if (e.name !== 'AbortError') {
+              console.error('[VideoPlayer] Play error:', e);
+            }
+          });
+        }
+      }
       setIsPlaying(true);
     }
   };
@@ -494,9 +724,34 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(({
     const video = videoRef.current;
     if (!video) return;
 
-    const handlePlayEvent = () => setIsPlaying(true);
-    const handlePauseEvent = () => setIsPlaying(false);
-    const handleEndedEvent = () => setIsPlaying(false);
+    const handlePlayEvent = () => {
+      // Check if we started playing from beyond video clips
+      if (timelineState) {
+        const videoClips = timelineState.clips.filter(clip => {
+          const track = timelineState.tracks.find(t => t.id === clip.trackId);
+          return track?.category === 'main-video';
+        });
+        const duration = getTimelineDuration(videoClips);
+        // Use the ref for the most up-to-date time
+        if (internalCurrentTimeRef.current >= duration - 0.05) {
+          isManualPlaybackRef.current = true;
+        } else {
+          isManualPlaybackRef.current = false;
+        }
+      }
+      setIsPlaying(true);
+    };
+    const handlePauseEvent = () => {
+      // Only stop playing if we're NOT in manual playback mode
+      if (!isManualPlaybackRef.current) {
+        setIsPlaying(false);
+      }
+    };
+    const handleEndedEvent = () => {
+      if (!isManualPlaybackRef.current) {
+        setIsPlaying(false);
+      }
+    };
 
     video.addEventListener("play", handlePlayEvent);
     video.addEventListener("pause", handlePauseEvent);
