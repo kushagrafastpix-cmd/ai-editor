@@ -1,0 +1,168 @@
+{
+  "id": "track-f1kXtY",
+  "trackType": "MediaTrack",
+  "sections": [
+    {
+      "id": "section-lKd4v1",
+      "secDur": {
+        "ost": 0,
+        "oet": 2000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 32655,
+        "et": 34655
+      },
+      "segments": [
+        {
+          "id": "segment-96sw3g",
+          "contentType": "Media",
+          "content": {
+            "id": "content-LCU2R2",
+            "mediaResource": {
+              "id": "69730377f9758f6a11b955ae",
+              "rId": "R6EghcB9lj",
+              "orgId": "org_1jffuehjo0fI1K1iW7J0M",
+              "userId": "user_01KFFYDQK90VCEKVQZ74PG7J0M",
+              "type": "UploadMedia",
+              "name": "AISpeakerColor.png",
+              "storagePath": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/R6EghcB9lj/upload-media.png",
+              "status": "active",
+              "storageSize": 5083557,
+              "extra": {
+                "duration": 0,
+                "thumbnailPath": "https://signed-ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/R6EghcB9lj/upload-media-thumbnail.png?v=1769145207491908&hdnts=URLPrefix=aHR0cHM6Ly9zaWduZWQtZXh0LmNkbi5vcHVzLnByby91cGxvYWQvb3JnXzFqZmZ1ZWhqbzBmSTFLMWlXN0owTQ~Expires=1769260322~Signature=ra9CowmKn6Ti3qcb7dmwKtS25t2jkCgrwtwnFVR74_LQ6lKJy24k9eQJ8iXMECrsLgy1OrNEaChZeID-30hxDw",
+                "thumbnailWidth": 895,
+                "thumbnailHeight": 480,
+                "rTyp": "image",
+                "extension": "png",
+                "previewPath": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/R6EghcB9lj/upload-media-thumbnail.png?v=1769145207491908"
+              },
+              "createdAt": "2026-01-23T05:13:27.614Z",
+              "updatedAt": "2026-01-23T05:13:27.614Z"
+            },
+            "sourceUri": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/R6EghcB9lj/upload-media.png",
+            "previewSourceUri": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/R6EghcB9lj/upload-media-thumbnail.png?v=1769145207491908",
+            "rTyp": "image",
+            "width": 895,
+            "height": 480,
+            "cropArea": {
+              "wPct": 1,
+              "hPct": 1,
+              "xPct": 0,
+              "yPct": 0,
+              "type": "CPct"
+            },
+            "targetArea": {
+              "wPct": 1,
+              "hPct": 0.3016759776536313,
+              "xPct": 0,
+              "yPct": 0,
+              "type": "CPct"
+            },
+            "duration": {
+              "type": "TS",
+              "ost": 0,
+              "oet": 2000
+            },
+            "timeline": {
+              "st": 32655,
+              "et": 34655
+            }
+          },
+          "duration": {
+            "type": "TS",
+            "ost": 0,
+            "oet": 2000
+          },
+          "timeline": {
+            "st": 32655,
+            "et": 34655
+          }
+        }
+      ],
+      "sceneId": "S.000"
+    },
+    {
+      "id": "section-mmjzYN",
+      "secDur": {
+        "ost": 0,
+        "oet": 5760,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 83145,
+        "et": 88905
+      },
+      "segments": [
+        {
+          "id": "segment-6mUjS2",
+          "contentType": "Media",
+          "content": {
+            "id": "content-vFY0Ih",
+            "mediaResource": {
+              "id": "6970bcea14ab08e3f6748294",
+              "rId": "cJVJ9OhkIT",
+              "orgId": "org_1jffuehjo0fI1K1iW7J0M",
+              "userId": "user_01KFFYDQK90VCEKVQZ74PG7J0M",
+              "type": "UploadMedia",
+              "name": "sample-5s.mp4",
+              "storagePath": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/cJVJ9OhkIT/upload-media.mp4",
+              "status": "active",
+              "storageSize": 2848208,
+              "extra": {
+                "duration": 5.76,
+                "thumbnailPath": "https://signed-ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/cJVJ9OhkIT/upload-media-thumbnail.png?v=1768996073745704&hdnts=URLPrefix=aHR0cHM6Ly9zaWduZWQtZXh0LmNkbi5vcHVzLnByby91cGxvYWQvb3JnXzFqZmZ1ZWhqbzBmSTFLMWlXN0owTQ~Expires=1769260873~Signature=HTMRxmwM785JBa7H2ESVpnzTyLRDYhkcwFhbsgFYzmWCyvC1jjDHWa9ZNNjkc7bosTzuyiH89V7ldgdsqTVBAQ",
+                "thumbnailWidth": 640,
+                "thumbnailHeight": 360,
+                "rTyp": "video",
+                "extension": "mp4",
+                "previewPath": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/cJVJ9OhkIT/upload-media-resized-preview.mp4?v=1768996073382023"
+              },
+              "createdAt": "2026-01-21T11:47:54.312Z",
+              "updatedAt": "2026-01-21T11:47:54.312Z"
+            },
+            "sourceUri": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/cJVJ9OhkIT/upload-media.mp4",
+            "previewSourceUri": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/cJVJ9OhkIT/upload-media-resized-preview.mp4?v=1768996073382023",
+            "rTyp": "video",
+            "width": 640,
+            "height": 360,
+            "cropArea": {
+              "wPct": 1,
+              "hPct": 1,
+              "xPct": 0,
+              "yPct": 0,
+              "type": "CPct"
+            },
+            "targetArea": {
+              "wPct": 1,
+              "hPct": 0.31640625,
+              "xPct": 0,
+              "yPct": 0,
+              "type": "CPct"
+            },
+            "duration": {
+              "type": "TS",
+              "ost": 0,
+              "oet": 5760
+            },
+            "timeline": {
+              "st": 83145,
+              "et": 88905
+            }
+          },
+          "duration": {
+            "type": "TS",
+            "ost": 0,
+            "oet": 5760
+          },
+          "timeline": {
+            "st": 83145,
+            "et": 88905
+          }
+        }
+      ],
+      "sceneId": "S.000"
+    }
+  ]
+}

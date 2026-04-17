@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track JSON Structure Diagram - opusresultjson.js</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .structure-box {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid;
+            text-align: left;
+            position: relative;
+        }
+        .root-level { background-color: #e1f5ff; border-color: #4a90e2; max-width: 900px; }
+        .track-level { background-color: #e8f4f8; border-color: #3498db; max-width: 900px; }
+        .section-level { background-color: #fff8e1; border-color: #f39c12; max-width: 1000px; }
+        .segment-level { background-color: #f3e5f5; border-color: #9c27b0; max-width: 1000px; }
+        .content-level { background-color: #e8f5e9; border-color: #4caf50; max-width: 1200px; }
+        
+        h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 20px;
+            border-bottom: 2px solid;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .code-block {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        .code-block .key { color: #0066cc; font-weight: bold; }
+        .code-block .string { color: #008800; }
+        .code-block .number { color: #ff6600; }
+        .code-block .comment { color: #888; font-style: italic; }
+        
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 25px solid #333;
+            margin: 15px auto;
+        }
+        
+        .explanation {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        .explanation h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 16px;
+        }
+        .explanation ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .explanation li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        
+        .track-types {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .track-type-item {
+            padding: 10px;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .track-type-item strong {
+            color: #0066cc;
+        }
+        
+        .time-format {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .time-format h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        
+        .content-examples {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .content-example {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+        }
+        .content-example h4 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+        
+        .hierarchy {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Track JSON Structure Explanation</h1>
+        <p class="subtitle">Understanding the structure of opusresultjson.js - How all track types are organized</p>
+        
+        <!-- Hierarchy Overview -->
+        <div class="hierarchy">
+            Root → Tracks → Sections → Segments → Content
+        </div>
+        
+        <!-- Root Level -->
+        <div class="structure-box root-level">
+            <h2>Root Level Structure</h2>
+            <div class="code-block">
+{
+  <span class="key">"targets"</span>: [<span class="string">"VIDEO_PREVIEW"</span>, <span class="string">"VIDEO_FILE"</span>],
+  <span class="key">"clipBody"</span>: {
+    <span class="key">"editingScript"</span>: {
+      <span class="key">"tracks"</span>: [<span class="comment">/* Array of track objects */</span>]
+    },
+    <span class="key">"renderPreferenceOverride"</span>: {<span class="comment">/* Render settings */</span>}
+  }
+}
+            </div>
+            <div class="explanation">
+                <h3>Root Structure</h3>
+                <ul>
+                    <li><strong>targets:</strong> Array specifying output types (preview, final video file)</li>
+                    <li><strong>clipBody:</strong> Contains the complete editing specification</li>
+                    <li><strong>editingScript:</strong> Contains all tracks that define the video composition</li>
+                    <li><strong>tracks:</strong> Array of track objects (can contain 0-10 different track types)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Track Types -->
+        <div class="structure-box track-level">
+            <h2>Track Types (10 Different Types)</h2>
+            <div class="track-types">
+                <div class="track-type-item"><strong>KeyFrameTrack</strong> - Main video track with keyframes</div>
+                <div class="track-type-item"><strong>CaptionTrack</strong> - Captions/subtitles</div>
+                <div class="track-type-item"><strong>EmojiTrack</strong> - Emoji overlays</div>
+                <div class="track-type-item"><strong>BRollTrack</strong> - B-roll footage</div>
+                <div class="track-type-item"><strong>MediaTrack</strong> - Media overlays</div>
+                <div class="track-type-item"><strong>VideoEffectTrack</strong> - Transitions/effects</div>
+                <div class="track-type-item"><strong>TextOverlayTrack</strong> - Text overlays</div>
+                <div class="track-type-item"><strong>VoiceOverTrack</strong> - Voiceover audio</div>
+                <div class="track-type-item"><strong>AudioTrack</strong> - Voice enhancement</div>
+                <div class="track-type-item"><strong>AudioTrack</strong> - Background music/sound</div>
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Track Level -->
+        <div class="structure-box track-level">
+            <h2>Track Level Structure</h2>
+            <div class="code-block">
+{
+  <span class="key">"id"</span>: <span class="string">"track-00AbwZ"</span>,              <span class="comment">// Unique track identifier</span>
+  <span class="key">"trackType"</span>: <span class="string">"KeyFrameTrack"</span>,        <span class="comment">// Type of track (one of 10 types)</span>
+  <span class="key">"sections"</span>: [<span class="comment">/* Array of section objects */</span>]  <span class="comment">// Sections within this track</span>
+}
+            </div>
+            <div class="explanation">
+                <h3>Track Properties</h3>
+                <ul>
+                    <li><strong>id:</strong> Unique identifier for the track (format: "track-xxxxx")</li>
+                    <li><strong>trackType:</strong> Specifies what type of track this is (determines content structure)</li>
+                    <li><strong>sections:</strong> Array of sections that make up this track (each section represents a time segment)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Section Level -->
+        <div class="structure-box section-level">
+            <h2>Section Level Structure</h2>
+            <div class="code-block">
+{
+  <span class="key">"id"</span>: <span class="string">"section-iVVns4"</span>,                    <span class="comment">// Unique section identifier</span>
+  <span class="key">"sectionDuration"</span>: {                                    <span class="comment">// Duration in source video</span>
+    <span class="key">"sO"</span>: <span class="number">0</span>,                              <span class="comment">// Start offset (milliseconds)</span>
+    <span class="key">"eO"</span>: <span class="number">5760</span>,                           <span class="comment">// End offset (milliseconds)</span>
+    <span class="key">"type"</span>: <span class="string">"TS"</span>                           <span class="comment">// TimeStamp type</span>
+  },
+  <span class="key">"sectionTimeline"</span>: {                                   <span class="comment">// Position on edited timeline</span>
+    <span class="key">"in"</span>: <span class="number">0</span>,                               <span class="comment">// Timeline start position</span>
+    <span class="key">"out"</span>: <span class="number">5760</span>                            <span class="comment">// Timeline end position</span>
+  },
+  <span class="key">"segments"</span>: [<span class="comment">/* Array of segment objects */</span>],  <span class="comment">// Segments within this section</span>
+  <span class="key">"propertiesMap"</span>: {                                     <span class="comment">// Metadata (varies by track type)</span>
+    <span class="key">"subType"</span>: <span class="string">"intro"</span>,
+    <span class="key">"resourceId"</span>: <span class="string">"cJVJ9OhkIT"</span>,
+    <span class="key">"resourceType"</span>: <span class="string">"video"</span>,
+    <span class="comment">/* ... more properties ... */</span>
+  },
+  <span class="key">"sceneId"</span>: <span class="string">"S.intro"</span>                      <span class="comment">// Scene identifier</span>
+}
+            </div>
+            <div class="explanation">
+                <h3>Section Properties</h3>
+                <ul>
+                    <li><strong>id:</strong> Unique identifier for the section</li>
+                    <li><strong>sectionDuration:</strong> Time range in the <em>source video</em> (where the content comes from)</li>
+                    <li><strong>sectionTimeline:</strong> Position on the <em>edited timeline</em> (where it appears in final video)</li>
+                    <li><strong>segments:</strong> Array of segments that contain the actual content</li>
+                    <li><strong>propertiesMap:</strong> Metadata about the section (resource info, type, URLs, etc.)</li>
+                    <li><strong>sceneId:</strong> Identifier linking to a scene (e.g., "S.intro", "S.000")</li>
+                </ul>
+            </div>
+            <div class="time-format">
+                <h4>⏱️ Time Format Explanation</h4>
+                <p><strong>sectionDuration vs sectionTimeline:</strong></p>
+                <ul>
+                    <li><strong>sectionDuration:</strong> References time in the <em>original source video</em> (before editing)</li>
+                    <li><strong>sectionTimeline:</strong> References time in the <em>final edited video</em> (after cuts/edits)</li>
+                    <li>Example: A section might use seconds 10-20 from source video, but appear at seconds 5-15 in final video</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Segment Level -->
+        <div class="structure-box segment-level">
+            <h2>Segment Level Structure</h2>
+            <div class="code-block">
+{
+  <span class="key">"id"</span>: <span class="string">"segment-pfV5wE"</span>,              <span class="comment">// Unique segment identifier</span>
+  <span class="key">"contentType"</span>: <span class="string">"KeyFrameGroup"</span>,        <span class="comment">// Type of content (varies by track)</span>
+  <span class="key">"content"</span>: {<span class="comment">/* Content object - structure varies by contentType */</span>},
+  <span class="key">"duration"</span>: {                                         <span class="comment">// Duration in source</span>
+    <span class="key">"sO"</span>: <span class="number">0</span>,
+    <span class="key">"eO"</span>: <span class="number">5760</span>,
+    <span class="key">"type"</span>: <span class="string">"TS"</span>
+  },
+  <span class="key">"timeline"</span>: {                                         <span class="comment">// Position on timeline</span>
+    <span class="key">"in"</span>: <span class="number">0</span>,
+    <span class="key">"out"</span>: <span class="number">5760</span>
+  }
+}
+            </div>
+            <div class="explanation">
+                <h3>Segment Properties</h3>
+                <ul>
+                    <li><strong>id:</strong> Unique identifier for the segment</li>
+                    <li><strong>contentType:</strong> Determines the structure of the <code>content</code> object (see Content Types below)</li>
+                    <li><strong>content:</strong> The actual content data (structure varies based on contentType)</li>
+                    <li><strong>duration:</strong> Time range in source (similar to sectionDuration)</li>
+                    <li><strong>timeline:</strong> Position on edited timeline (similar to sectionTimeline)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Content Types -->
+        <div class="structure-box content-level">
+            <h2>Content Level Structure (Varies by Track Type)</h2>
+            <p style="text-align: center; margin-bottom: 20px; color: #666;">
+                The <code>content</code> object structure depends on the <code>contentType</code>, which is determined by the <code>trackType</code>
+            </p>
+            
+            <div class="content-examples">
+                <div class="content-example">
+                    <h4>KeyFrameGroup (KeyFrameTrack)</h4>
+                    <div class="code-block" style="font-size: 11px;">
+{
+  <span class="key">"layoutType"</span>: <span class="string">"Fill"</span>,
+  <span class="key">"keyFrameContents"</span>: [{
+    <span class="key">"resourceUri"</span>: <span class="string">"https://..."</span>,
+    <span class="key">"resourceType"</span>: <span class="string">"video"</span>,
+    <span class="key">"cropAreas"</span>: [{<span class="key">"xPct"</span>, <span class="key">"yPct"</span>, <span class="key">"wPct"</span>, <span class="key">"hPct"</span>}],
+    <span class="key">"analysisResult"</span>: {<span class="key">"face"</span>, <span class="key">"people"</span>, ...}
+  }]
+}
+                    </div>
+                </div>
+                
+                <div class="content-example">
+                    <h4>Caption (CaptionTrack)</h4>
+                    <div class="code-block" style="font-size: 11px;">
+{
+  <span class="key">"textElements"</span>: [{
+    <span class="key">"id"</span>: <span class="string">"text-xxx"</span>,
+    <span class="key">"text"</span>: <span class="string">"Caption text"</span>,
+    <span class="key">"duration"</span>: {<span class="key">"sO"</span>, <span class="key">"eO"</span>},
+    <span class="key">"timeline"</span>: {<span class="key">"in"</span>, <span class="key">"out"</span>},
+    <span class="key">"color"</span>: <span class="number">0</span>
+  }]
+}
+                    </div>
+                </div>
+                
+                <div class="content-example">
+                    <h4>VideoEffect (VideoEffectTrack)</h4>
+                    <div class="code-block" style="font-size: 11px;">
+{
+  <span class="key">"effectType"</span>: <span class="string">"crossFade"</span>,
+  <span class="key">"effectParams"</span>: [{
+    <span class="key">"alpha"</span>: <span class="number">1</span>,
+    <span class="key">"effectTimestamp"</span>: <span class="number">0</span>,
+    <span class="key">"mode"</span>: <span class="string">"bezier"</span>
+  }]
+}
+                    </div>
+                </div>
+                
+                <div class="content-example">
+                    <h4>BRoll (BRollTrack)</h4>
+                    <div class="code-block" style="font-size: 11px;">
+{
+  <span class="key">"bRollElements"</span>: [{
+    <span class="key">"brollType"</span>: <span class="string">"Stock"</span>,
+    <span class="key">"keyword"</span>: <span class="string">"debt"</span>,
+    <span class="key">"broll"</span>: {
+      <span class="key">"sourceId"</span>, <span class="key">"url"</span>, <span class="key">"previewUrl"</span>
+    },
+    <span class="key">"cropArea"</span>, <span class="key">"targetArea"</span>
+  }]
+}
+                    </div>
+                </div>
+                
+                <div class="content-example">
+                    <h4>VoiceOver (VoiceOverTrack)</h4>
+                    <div class="code-block" style="font-size: 11px;">
+{
+  <span class="key">"textElements"</span>: [{
+    <span class="key">"text"</span>: <span class="string">"word"</span>,
+    <span class="key">"duration"</span>, <span class="key">"timeline"</span>
+  }]
+}
+                    </div>
+                </div>
+                
+                <div class="content-example">
+                    <h4>Emoji (EmojiTrack)</h4>
+                    <div class="code-block" style="font-size: 11px;">
+{
+  <span class="key">"emojiElements"</span>: [{
+    <span class="comment">/* Emoji data */</span>
+  }]
+}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="explanation">
+                <h3>Content Type Mapping</h3>
+                <ul>
+                    <li><strong>KeyFrameTrack</strong> → contentType: "KeyFrameGroup" → Contains video keyframes with crops and analysis</li>
+                    <li><strong>CaptionTrack</strong> → contentType: "Caption" → Contains text elements for captions</li>
+                    <li><strong>VideoEffectTrack</strong> → contentType: "VideoEffect" → Contains effect type and parameters</li>
+                    <li><strong>BRollTrack</strong> → contentType: "BRoll" → Contains B-roll elements with media URLs</li>
+                    <li><strong>VoiceOverTrack</strong> → contentType: "VoiceOver" → Contains text elements for voiceover</li>
+                    <li><strong>EmojiTrack</strong> → contentType: "Emoji" → Contains emoji elements</li>
+                    <li><strong>MediaTrack</strong> → contentType: "Media" → Contains media overlay data</li>
+                    <li><strong>TextOverlayTrack</strong> → contentType: "TextOverlay" → Contains text overlay data</li>
+                    <li><strong>AudioTrack</strong> → contentType: "Audio" → Contains audio track data</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Summary -->
+        <div style="margin-top: 40px; padding: 25px; background-color: #f8f9fa; border-radius: 8px; border-left: 5px solid #3498db;">
+            <h3 style="margin-top: 0; color: #333;">Key Takeaways</h3>
+            <ul style="line-height: 2;">
+                <li><strong>Unified Structure:</strong> All 10 track types follow the same hierarchical structure: Track → Section → Segment → Content</li>
+                <li><strong>Time References:</strong> Two types of time references:
+                    <ul>
+                        <li><code>duration</code>/<code>sectionDuration</code> = time in source video</li>
+                        <li><code>timeline</code>/<code>sectionTimeline</code> = position in final edited video</li>
+                    </ul>
+                </li>
+                <li><strong>Time Format:</strong> All time values use <code>{sO, eO, type: "TS"}</code> format (milliseconds)</li>
+                <li><strong>Content Variation:</strong> The <code>content</code> object structure varies by <code>contentType</code>, which is determined by <code>trackType</code></li>
+                <li><strong>Multiple Sections:</strong> Each track can contain multiple sections, each representing a different time segment</li>
+                <li><strong>Multiple Segments:</strong> Each section can contain multiple segments, allowing complex compositions</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

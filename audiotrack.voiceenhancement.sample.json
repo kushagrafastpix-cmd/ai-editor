@@ -1,0 +1,212 @@
+{
+  "id": "track-mtkfPH",
+  "trackType": "AudioTrack",
+  "category": "VoiceEnhancement",
+  "sections": [
+    {
+      "id": "section-koC9Kz",
+      "secDur": {
+        "ost": 0,
+        "oet": 5760,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 0,
+        "et": 5760
+      },
+      "segments": [
+        {
+          "id": "segment-gx8QFl",
+          "contentType": "Audio",
+          "content": {
+            "id": "content-tB8E94",
+            "volume": 100,
+            "sourceUri": "",
+            "duration": {
+              "ost": 0,
+              "oet": 5760,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 0,
+              "et": 5760
+            }
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 5760,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 0,
+            "et": 5760
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-PZgIdK",
+      "secDur": {
+        "ost": 0,
+        "oet": 47350,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 5760,
+        "et": 53110
+      },
+      "segments": [
+        {
+          "id": "segment-p7QtS6",
+          "contentType": "Audio",
+          "content": {
+            "id": "content-f1meyB",
+            "volume": 100,
+            "sourceUri": "https://ext.cdn.opus.pro/media/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/P3012312tW0Z/c.kacgCFq0ps/ve-2026-01-23-1769174037375.m4a?v=1769174037549916",
+            "duration": {
+              "ost": 0,
+              "oet": 47350,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 5760,
+              "et": 53110
+            }
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 47350,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 5760,
+            "et": 53110
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-0Z8Yjw",
+      "secDur": {
+        "ost": 47350,
+        "oet": 51864,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 53110,
+        "et": 57624
+      },
+      "segments": [
+        {
+          "id": "segment-gyXZjx",
+          "contentType": "Audio",
+          "content": {
+            "id": "content-0jgNwx",
+            "volume": 100,
+            "sourceUri": "https://ext.cdn.opus.pro/media/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/P3012312tW0Z/c.kacgCFq0ps/ve-2026-01-23-1769174037375.m4a?v=1769174037549916",
+            "duration": {
+              "ost": 47350,
+              "oet": 51864,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 53110,
+              "et": 57624
+            }
+          },
+          "duration": {
+            "ost": 47350,
+            "oet": 51864,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 53110,
+            "et": 57624
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-0r8kgt",
+      "secDur": {
+        "ost": 51864,
+        "oet": 69404,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 57624,
+        "et": 75164
+      },
+      "segments": [
+        {
+          "id": "segment-cnrQln",
+          "contentType": "Audio",
+          "content": {
+            "id": "content-t0v822",
+            "volume": 100,
+            "sourceUri": "https://ext.cdn.opus.pro/media/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/P3012312tW0Z/c.kacgCFq0ps/ve-2026-01-23-1769174037375.m4a?v=1769174037549916",
+            "duration": {
+              "ost": 51864,
+              "oet": 69404,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 57624,
+              "et": 75164
+            }
+          },
+          "duration": {
+            "ost": 51864,
+            "oet": 69404,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 57624,
+            "et": 75164
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-Ye7y4M",
+      "secDur": {
+        "ost": 75164,
+        "oet": 83084,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 75164,
+        "et": 83084
+      },
+      "segments": [
+        {
+          "id": "segment-WWvLNn",
+          "contentType": "Audio",
+          "content": {
+            "id": "content-DFccOT",
+            "volume": 100,
+            "sourceUri": "",
+            "duration": {
+              "ost": 75164,
+              "oet": 83084,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 75164,
+              "et": 83084
+            }
+          },
+          "duration": {
+            "ost": 75164,
+            "oet": 83084,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 75164,
+            "et": 83084
+          }
+        }
+      ]
+    }
+  ]
+}

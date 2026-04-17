@@ -1,0 +1,346 @@
+{
+  "id": "track-S4JNlU",
+  "trackType": "BRollTrack",
+  "sections": [
+    {
+      "id": "section-DVbjyQ",
+      "secDur": {
+        "ost": 1000,
+        "oet": 4000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 9280,
+        "et": 12280
+      },
+      "segments": [
+        {
+          "id": "segment-OlY56L",
+          "contentType": "BRoll",
+          "content": {
+            "id": "content-Iq9Gbo",
+            "bRollElements": [
+              {
+                "content": {
+                  "brollType": "Stock",
+                  "startMs": 9280,
+                  "endMs": 11500,
+                  "keyword": "debt",
+                  "width": 1920,
+                  "height": 1080,
+                  "speed": 1.5,
+                  "broll": {
+                    "sourceId": "351656606",
+                    "insertType": "auto",
+                    "previewUrl": "https://dm0qx8t0i9gc9.cloudfront.net/content/video/MPaEbz-/v3-0041-20241024-pm-chukhlomin-asthmatic-at-home-2-podsolnuhi-crossmedia00000000-7zoxcker56_1080__D.mp4?type=download&origin=VIDEOBLOCKS&timestamp_ms=1769174275301&publicKey=IHhS1EH12JDfjfyJVkRf0usdzArjG5Ohod5HMDUI0mJRNf9nB883ALSHJNgyfcss&organizationId=109015&apiVersion=2.0&endUserId=2c839e965f7ad2bd916aa1b856c9efb87735fd10&projectId=story_blocks_opus&stockItemId=351656606&format=HDMP4&resolution=1080p&response-content-disposition=attachment&Expires=1769176075&Signature=SqLhZd3Bxy~YyIYGB8K7UH3jK1es0IGpu5X23wTCwM4snbaWuVDPQyz2FecyvFyXEvK9QG2DT5Cy~8yxnBoC5aDtQ3m~nXfxkBzdASOZmaoVoqP0SqHw8gGmY-gZrxlUlFAZpdharZ0CJLt97b4CispJ56o~eJuilqqyhu6GutMQx6bM3-bBaZca~qV5Hcz~uKBA4xiNJXef2BNXDHuue7S4svFa1shIt9FMT9YJzJMBBNS-dhzoACcy5BowO--XsgRP55rdPNgPFGOEs4eetMqbu9LkWqbdgscQtws8eIOjpJXSnoHFJgGL70T6eSW8-9kw0MwKZTloTO3HNWaXPg__&Key-Pair-Id=APKAIAQ2JPZIIO2PHR7Q",
+                    "url": "https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/MPaEbz-/v3-0041-20241024-pm-chukhlomin-asthmatic-at-home-2-podsolnuhi-crossmedia00000000-7zoxcker56__e2f9dc2e66a215909bc8dfeba2f40464__P720.mp4?type=preview&origin=VIDEOBLOCKS&timestamp_ms=1769174156454&publicKey=IHhS1EH12JDfjfyJVkRf0usdzArjG5Ohod5HMDUI0mJRNf9nB883ALSHJNgyfcss&organizationId=109015&apiVersion=2.0&stockItemId=351656606&resolution=720p&endUserId=2c839e965f7ad2bd916aa1b856c9efb87735fd10&projectId=story_blocks_opus&searchId=a7c6f8c9-a131-44a2-8d34-21f5aa6f145f&searchPageId=05463494-84da-4960-a30e-2af179882298",
+                    "image": "https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/MPaEbz-/v3-0041-20241024-pm-chukhlomin-asthmatic-at-home-2-podsolnuhi-crossmedia00000000-7zoxcker56_thumbnail-180_01.jpg",
+                    "duration": 11,
+                    "mediaType": "Video"
+                  },
+                  "id": "broll-content-gwrXLB"
+                },
+                "cropArea": {
+                  "xPct": 0,
+                  "yPct": 0,
+                  "wPct": 0.31640625,
+                  "hPct": 1
+                },
+                "targetArea": {
+                  "xPct": 0,
+                  "yPct": 0,
+                  "wPct": 1,
+                  "hPct": 1
+                },
+                "duration": {
+                  "type": "TS",
+                  "ost": 1000,
+                  "oet": 4000
+                },
+                "timeline": {
+                  "st": 9280,
+                  "et": 12280
+                }
+              }
+            ],
+            "duration": {
+              "ost": 1000,
+              "oet": 4000,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 9280,
+              "et": 12280
+            }
+          },
+          "duration": {
+            "type": "TS",
+            "ost": 1000,
+            "oet": 4000
+          },
+          "timeline": {
+            "st": 9280,
+            "et": 12280
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-VG5aFp",
+      "secDur": {
+        "ost": 1000,
+        "oet": 4000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 18667,
+        "et": 21667
+      },
+      "segments": [
+        {
+          "id": "segment-CDsjRl",
+          "contentType": "BRoll",
+          "content": {
+            "id": "content-tLzJ9z",
+            "bRollElements": [
+              {
+                "content": {
+                  "id": "broll-content-Qxt9LL",
+                  "brollType": "Prompt",
+                  "startMs": 18667,
+                  "endMs": 21667,
+                  "keyword": "",
+                  "genAiImagePrompt": "this is a comedy show where a person is standing and doing comedy and all the audiednce is laughing",
+                  "width": 768,
+                  "height": 1344,
+                  "broll": {
+                    "sourceId": "",
+                    "insertType": "manual",
+                    "image": "https://ext.cdn.opus.pro/media/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/P3012312tW0Z/c.kacgCFq0ps/broll/wlnxPE3SEI/low_res_image.png?v=1769174229305606",
+                    "duration": 0,
+                    "previewStaticImageUrl": "https://ext.cdn.opus.pro/media/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/P3012312tW0Z/c.kacgCFq0ps/broll/wlnxPE3SEI/image.png?v=1769174229077163",
+                    "previewLowResImageUrl": "https://ext.cdn.opus.pro/media/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/P3012312tW0Z/c.kacgCFq0ps/broll/wlnxPE3SEI/low_res_image.png?v=1769174229305606",
+                    "previewUrl": "",
+                    "url": "",
+                    "mediaType": "Image"
+                  }
+                },
+                "cropArea": {
+                  "wPct": 0.984375,
+                  "hPct": 1,
+                  "xPct": 0,
+                  "yPct": 0,
+                  "type": "CPct"
+                },
+                "targetArea": {
+                  "wPct": 1,
+                  "hPct": 1,
+                  "xPct": 0,
+                  "yPct": 0,
+                  "type": "CPct"
+                },
+                "duration": {
+                  "type": "TS",
+                  "ost": 1000,
+                  "oet": 4000
+                },
+                "timeline": {
+                  "st": 18667,
+                  "et": 21667
+                }
+              }
+            ],
+            "duration": {
+              "ost": 1000,
+              "oet": 4000,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 18667,
+              "et": 21667
+            }
+          },
+          "duration": {
+            "type": "TS",
+            "ost": 1000,
+            "oet": 4000
+          },
+          "timeline": {
+            "st": 18667,
+            "et": 21667
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-aiZxvI",
+      "secDur": {
+        "ost": 1000,
+        "oet": 4000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 23415,
+        "et": 26415
+      },
+      "segments": [
+        {
+          "id": "segment-EhJ28X",
+          "contentType": "BRoll",
+          "content": {
+            "id": "content-ULwIV2",
+            "bRollElements": [
+              {
+                "content": {
+                  "id": "broll-content-7Q5SUU",
+                  "brollType": "Stock",
+                  "startMs": 23415,
+                  "endMs": 26415,
+                  "keyword": "animal",
+                  "width": 1920,
+                  "height": 1080,
+                  "speed": 1.5,
+                  "broll": {
+                    "sourceId": "10997366",
+                    "insertType": "manual",
+                    "image": "https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/49_20HQOeijh9fog1/videoblocks-19141_rgma9xm5p_thumbnail-180_03.jpg",
+                    "duration": 6,
+                    "previewStaticImageUrl": "",
+                    "previewLowResImageUrl": "",
+                    "previewUrl": "https://dm0qx8t0i9gc9.cloudfront.net/content/video/49_20HQOeijh9fog1/videoblocks-19141_rgma9xm5p_1080__D.mp4?type=download&origin=VIDEOBLOCKS&timestamp_ms=1769174275175&publicKey=IHhS1EH12JDfjfyJVkRf0usdzArjG5Ohod5HMDUI0mJRNf9nB883ALSHJNgyfcss&organizationId=109015&apiVersion=2.0&endUserId=2c839e965f7ad2bd916aa1b856c9efb87735fd10&projectId=story_blocks_opus&stockItemId=10997366&format=HDMP4&resolution=1080p&response-content-disposition=attachment&Expires=1769176075&Signature=F8IO9qLtPD5AggQveR4Um0m8NEhSIa-TlNd6BLXEr5RyQoc2erVCvJuvw8aJuzo~Z-27xZl7P08o2fDKA-Ffy-iXxni6wd2Tn9Uk4SqLzwHLMVLM4KmFI3BjHEh8PTDkmD6d~VRdMhahit55MKhVIGMmJIrALSQfNyA~bIKfQ1KNdn3AYbViU4RFtR~sjNNDvMnmAdpcp7NbVfplCOusXiYezTP~KNNdcTzGRMwUlVmvSzNZ6-PSsrHiYPTl3AyJTEKBajMfyYyiKXvrxPMH1o6RHtsYvmUH9k3VoyuVrJiynYvk9yjEQwaO4G~tpvfsLaBgySbyVZ-AMr4Fecjvpg__&Key-Pair-Id=APKAIAQ2JPZIIO2PHR7Q",
+                    "url": "https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/49_20HQOeijh9fog1/videoblocks-19141_rgma9xm5p__e95161461e67994d27b9a21552c74648__P720.mp4?type=preview&origin=VIDEOBLOCKS&timestamp_ms=1769174115944&publicKey=IHhS1EH12JDfjfyJVkRf0usdzArjG5Ohod5HMDUI0mJRNf9nB883ALSHJNgyfcss&organizationId=109015&apiVersion=2.0&stockItemId=10997366&resolution=720p&endUserId=2c839e965f7ad2bd916aa1b856c9efb87735fd10&projectId=story_blocks_opus&searchId=aef81719-0287-4b24-9eea-43c5b453dd4e&searchPageId=871c40bc-ddd0-4f06-a993-7ee15dc91509",
+                    "mediaType": "Video"
+                  }
+                },
+                "cropArea": {
+                  "wPct": 0.31640625,
+                  "hPct": 1,
+                  "xPct": 0,
+                  "yPct": 0,
+                  "type": "CPct"
+                },
+                "targetArea": {
+                  "wPct": 1,
+                  "hPct": 1,
+                  "xPct": 0,
+                  "yPct": 0,
+                  "type": "CPct"
+                },
+                "duration": {
+                  "type": "TS",
+                  "ost": 1000,
+                  "oet": 4000
+                },
+                "timeline": {
+                  "st": 23415,
+                  "et": 26415
+                }
+              }
+            ],
+            "duration": {
+              "ost": 1000,
+              "oet": 4000,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 23415,
+              "et": 26415
+            }
+          },
+          "duration": {
+            "type": "TS",
+            "ost": 1000,
+            "oet": 4000
+          },
+          "timeline": {
+            "st": 23415,
+            "et": 26415
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-2traAg",
+      "secDur": {
+        "ost": 1000,
+        "oet": 4000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 31360,
+        "et": 34360
+      },
+      "segments": [
+        {
+          "id": "segment-wsThA6",
+          "contentType": "BRoll",
+          "content": {
+            "id": "content-iZlBeu",
+            "bRollElements": [
+              {
+                "content": {
+                  "brollType": "Stock",
+                  "startMs": 31360,
+                  "endMs": 33920,
+                  "keyword": "trillion dollars",
+                  "width": 1920,
+                  "height": 1080,
+                  "speed": 1.5,
+                  "broll": {
+                    "sourceId": "353720689",
+                    "insertType": "auto",
+                    "previewUrl": "https://dm0qx8t0i9gc9.cloudfront.net/content/video/rjnjscVoxgmfk3w2ew/videoblocks-15012610_SD5nvkDHbl_1080__D.mp4?type=download&origin=VIDEOBLOCKS&timestamp_ms=1769174275338&publicKey=IHhS1EH12JDfjfyJVkRf0usdzArjG5Ohod5HMDUI0mJRNf9nB883ALSHJNgyfcss&organizationId=109015&apiVersion=2.0&endUserId=2c839e965f7ad2bd916aa1b856c9efb87735fd10&projectId=story_blocks_opus&stockItemId=353720689&format=HDMP4&resolution=1080p&response-content-disposition=attachment&Expires=1769176075&Signature=MOPsJFzeyuiwUw2COrkEFtFrcgqRm~4evaIuHVs6wfzyWsEgPw9fYm2cY3D5Hu2ICbAW~mdefgtKs28rsvynovG8lhrduzrSFXAUpkiy5N-3NpaHsweO9A9L-DOVpezCJHggO9y-Z5Q4wLGEaKWyp7zXtOrDiLFIgattvYExRVXeFPt95C-T2yH19FieBhedh8accIhS~Xhlsr2HMWkKweRODEnj9l8F0PAtQskjcATgLvvoHmUdyp56-5hiT2IQE0hV-ZOC5FM57YZ-EYD04yH8FGk4ZPQSBWM0lwlJiQnMaPvi2AEMmXnyBrdOyGZkL7KK2oHsGwRmBNAMJmP8IQ__&Key-Pair-Id=APKAIAQ2JPZIIO2PHR7Q",
+                    "url": "https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/rjnjscVoxgmfk3w2ew/videoblocks-15012610_SD5nvkDHbl__1a864c68c161c9fdcd13ca479c9fc3ca__P720.mp4?type=preview&origin=VIDEOBLOCKS&timestamp_ms=1769174156971&publicKey=IHhS1EH12JDfjfyJVkRf0usdzArjG5Ohod5HMDUI0mJRNf9nB883ALSHJNgyfcss&organizationId=109015&apiVersion=2.0&stockItemId=353720689&resolution=720p&endUserId=2c839e965f7ad2bd916aa1b856c9efb87735fd10&projectId=story_blocks_opus&searchId=01f91766-17b5-4def-90a0-0467cb2f7666&searchPageId=2b5b1004-467c-4ace-82ac-589d6ecb35ec",
+                    "image": "https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/rjnjscVoxgmfk3w2ew/videoblocks-15012610_SD5nvkDHbl_thumbnail-180_05.jpg",
+                    "duration": 8,
+                    "mediaType": "Video"
+                  },
+                  "id": "broll-content-vra3Mu"
+                },
+                "cropArea": {
+                  "xPct": 0,
+                  "yPct": 0,
+                  "wPct": 0.31640625,
+                  "hPct": 1
+                },
+                "targetArea": {
+                  "xPct": 0,
+                  "yPct": 0,
+                  "wPct": 1,
+                  "hPct": 1
+                },
+                "duration": {
+                  "type": "TS",
+                  "ost": 1000,
+                  "oet": 4000
+                },
+                "timeline": {
+                  "st": 31360,
+                  "et": 34360
+                }
+              }
+            ],
+            "duration": {
+              "ost": 1000,
+              "oet": 4000,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 31360,
+              "et": 34360
+            }
+          },
+          "duration": {
+            "type": "TS",
+            "ost": 1000,
+            "oet": 4000
+          },
+          "timeline": {
+            "st": 31360,
+            "et": 34360
+          }
+        }
+      ]
+    }
+  ]
+}

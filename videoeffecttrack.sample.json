@@ -1,0 +1,234 @@
+{
+  "id": "track-zYnvFg",
+  "trackType": "VideoEffectTrack",
+  "sections": [
+    {
+      "id": "section-utZqJR",
+      "secDur": {
+        "ost": 0,
+        "oet": 1000,
+        "ostAdj": 0,
+        "oetAdj": 2588,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 15326,
+        "et": 17914
+      },
+      "segments": [
+        {
+          "id": "segment-d1v3rs",
+          "contentType": "VideoEffect",
+          "content": {
+            "id": "content-k3TkYu",
+            "effectType": "crossFade",
+            "effectParams": [
+              {
+                "alpha": 1,
+                "effectTS": 0,
+                "mode": "bezier"
+              },
+              {
+                "alpha": 0,
+                "effectTS": 1294,
+                "mode": "bezier"
+              },
+              {
+                "alpha": 1,
+                "effectTS": 2588,
+                "mode": "bezier"
+              }
+            ],
+            "duration": {
+              "ost": 0,
+              "oet": 1000,
+              "ostAdj": 0,
+              "oetAdj": 2588,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 15326,
+              "et": 17914
+            }
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 1000,
+            "ostAdj": 0,
+            "oetAdj": 2588,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 15326,
+            "et": 17914
+          }
+        }
+      ],
+      "sceneId": "S.000"
+    },
+    {
+      "id": "section-ILREUU",
+      "secDur": {
+        "ost": 0,
+        "oet": 1000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 28255,
+        "et": 29255
+      },
+      "segments": [
+        {
+          "id": "segment-sbmvNT",
+          "contentType": "VideoEffect",
+          "content": {
+            "id": "content-JVQSgT",
+            "effectType": "zoomIn",
+            "effectParams": [
+              {
+                "zoomScale": 1,
+                "effectTS": 0,
+                "mode": "linear"
+              },
+              {
+                "zoomScale": 1.5,
+                "effectTS": 1000,
+                "mode": "linear"
+              }
+            ],
+            "duration": {
+              "ost": 0,
+              "oet": 1000,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 28255,
+              "et": 29255
+            }
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 1000,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 28255,
+            "et": 29255
+          }
+        }
+      ],
+      "sceneId": "S.000"
+    },
+    {
+      "id": "section-qmbM0C",
+      "secDur": {
+        "ost": 133552,
+        "oet": 134552,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 51364,
+        "et": 52364
+      },
+      "segments": [
+        {
+          "id": "segment-OExL9n",
+          "contentType": "VideoEffect",
+          "content": {
+            "id": "content-Z9v97n",
+            "effectType": "crossFade",
+            "effectParams": [
+              {
+                "alpha": 1,
+                "effectTS": 0,
+                "mode": "bezier"
+              },
+              {
+                "alpha": 0,
+                "effectTS": 500,
+                "mode": "bezier"
+              },
+              {
+                "alpha": 1,
+                "effectTS": 1000,
+                "mode": "bezier"
+              }
+            ],
+            "duration": {
+              "ost": 133552,
+              "oet": 134552,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 51364,
+              "et": 52364
+            }
+          },
+          "duration": {
+            "ost": 133552,
+            "oet": 134552,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 51364,
+            "et": 52364
+          }
+        }
+      ],
+      "sceneId": "S.0"
+    },
+    {
+      "id": "section-MLN6GR",
+      "secDur": {
+        "ost": 0,
+        "oet": 1000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 70901,
+        "et": 71901
+      },
+      "segments": [
+        {
+          "id": "segment-t0yA2C",
+          "contentType": "VideoEffect",
+          "content": {
+            "id": "content-5OtfUf",
+            "effectType": "fadeIn",
+            "effectParams": [
+              {
+                "alpha": 0,
+                "effectTS": 0,
+                "mode": "bezier"
+              },
+              {
+                "alpha": 1,
+                "effectTS": 1000,
+                "mode": "bezier"
+              }
+            ],
+            "duration": {
+              "ost": 0,
+              "oet": 1000,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 70901,
+              "et": 71901
+            }
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 1000,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 70901,
+            "et": 71901
+          }
+        }
+      ],
+      "sceneId": "S.000"
+    }
+  ]
+}

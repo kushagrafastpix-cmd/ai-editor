@@ -1,0 +1,316 @@
+{
+  "id": "track-OIeUnX",
+  "trackType": "EmojiTrack",
+  "sections": [
+    {
+      "id": "section-akH2u8",
+      "secDur": {
+        "ost": 152905,
+        "oet": 154800,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 0,
+        "et": 1895
+      },
+      "segments": [
+        {
+          "id": "segment-ryZyg4",
+          "contentType": "Emoji",
+          "content": {
+            "id": "content-2HRtS1",
+            "emojiElements": [
+              {
+                "duration": {
+                  "ost": 152905,
+                  "oet": 154800,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 1895
+                },
+                "id": "emoji-gS4SnD",
+                "position": {
+                  "type": "CPct",
+                  "xPct": 0,
+                  "yPct": -0.7906,
+                  "wPct": 0.13333333333333333,
+                  "hPct": 0.075
+                },
+                "sourceUri": "❌",
+                "followWordId": "text-ONcqTz"
+              }
+            ],
+            "duration": {
+              "ost": 152905,
+              "oet": 154800,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 0,
+              "et": 1895
+            }
+          },
+          "duration": {
+            "ost": 152905,
+            "oet": 154800,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 0,
+            "et": 1895
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-j1PueZ",
+      "secDur": {
+        "ost": 160820,
+        "oet": 162660,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 7915,
+        "et": 9755
+      },
+      "segments": [
+        {
+          "id": "segment-vvcKDQ",
+          "contentType": "Emoji",
+          "content": {
+            "id": "content-i52aK3",
+            "emojiElements": [
+              {
+                "duration": {
+                  "ost": 160820,
+                  "oet": 162660,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 7915,
+                  "et": 9755
+                },
+                "id": "emoji-7pNrKO",
+                "position": {
+                  "type": "CPct",
+                  "xPct": 0,
+                  "yPct": -0.7906,
+                  "wPct": 0.13333333333333333,
+                  "hPct": 0.075
+                },
+                "sourceUri": "💰",
+                "followWordId": "text-HoeVMp"
+              }
+            ],
+            "duration": {
+              "ost": 160820,
+              "oet": 162660,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 7915,
+              "et": 9755
+            }
+          },
+          "duration": {
+            "ost": 160820,
+            "oet": 162660,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 7915,
+            "et": 9755
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-FxAL3o",
+      "secDur": {
+        "ost": 164740,
+        "oet": 167420,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 11835,
+        "et": 14515
+      },
+      "segments": [
+        {
+          "id": "segment-6DwxC8",
+          "contentType": "Emoji",
+          "content": {
+            "id": "content-okCPcI",
+            "emojiElements": [
+              {
+                "duration": {
+                  "ost": 164740,
+                  "oet": 167420,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 11835,
+                  "et": 14515
+                },
+                "id": "emoji-6GrNfp",
+                "position": {
+                  "type": "CPct",
+                  "xPct": 0,
+                  "yPct": null,
+                  "wPct": 0.13333333333333333,
+                  "hPct": 0.075
+                },
+                "sourceUri": "📈",
+                "followWordId": "text-Zi7AgE"
+              }
+            ],
+            "duration": {
+              "ost": 164740,
+              "oet": 167420,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 11835,
+              "et": 14515
+            }
+          },
+          "duration": {
+            "ost": 164740,
+            "oet": 167420,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 11835,
+            "et": 14515
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-k9jM8C",
+      "secDur": {
+        "ost": 170140,
+        "oet": 172360,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 17235,
+        "et": 19455
+      },
+      "segments": [
+        {
+          "id": "segment-Sp1OKe",
+          "contentType": "Emoji",
+          "content": {
+            "id": "content-TZIjuy",
+            "emojiElements": [
+              {
+                "duration": {
+                  "ost": 170140,
+                  "oet": 172360,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 17235,
+                  "et": 19455
+                },
+                "id": "emoji-fpwuQw",
+                "position": {
+                  "type": "CPct",
+                  "xPct": 0,
+                  "yPct": -0.7906,
+                  "wPct": 0.13333333333333333,
+                  "hPct": 0.075
+                },
+                "sourceUri": "❤️",
+                "followWordId": "text-f8VPao"
+              }
+            ],
+            "duration": {
+              "ost": 170140,
+              "oet": 172360,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 17235,
+              "et": 19455
+            }
+          },
+          "duration": {
+            "ost": 170140,
+            "oet": 172360,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 17235,
+            "et": 19455
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-Oc0H0p",
+      "secDur": {
+        "ost": 173800,
+        "oet": 174600,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 20895,
+        "et": 21695
+      },
+      "segments": [
+        {
+          "id": "segment-PfGCG1",
+          "contentType": "Emoji",
+          "content": {
+            "id": "content-JLJ58H",
+            "emojiElements": [
+              {
+                "duration": {
+                  "ost": 173800,
+                  "oet": 174600,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 20895,
+                  "et": 21695
+                },
+                "id": "emoji-uNIO68",
+                "position": {
+                  "type": "CPct",
+                  "xPct": 0,
+                  "yPct": -0.7906,
+                  "wPct": 0.13333333333333333,
+                  "hPct": 0.075
+                },
+                "sourceUri": "❤️",
+                "followWordId": "text-4HTXIt"
+              }
+            ],
+            "duration": {
+              "ost": 173800,
+              "oet": 174600,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 20895,
+              "et": 21695
+            }
+          },
+          "duration": {
+            "ost": 173800,
+            "oet": 174600,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 20895,
+            "et": 21695
+          }
+        }
+      ]
+    }
+  ]
+}

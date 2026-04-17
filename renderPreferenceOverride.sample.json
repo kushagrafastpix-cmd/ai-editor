@@ -1,0 +1,118 @@
+{
+  "renderPreferenceOverride": {
+    "enableAutoLayout": false,
+    "enableFillLayout": true,
+    "enableFitLayout": true,
+    "fitLayoutCropRatio": "4:3",
+    "enableSplitLayout": true,
+    "enableThreeLayout": true,
+    "enableFourLayout": true,
+    "enableGameLayout": null,
+    "enableScreenLayout": true,
+    "enableVisualHook": false,
+    "enableWatermark": false,
+    "enableCrop": true,
+    "layoutAspectRatio": "portrait",
+    "enableCaption": true,
+    "enableCaptionAnimation": true,
+    "captionAnimation": {
+      "name": "word-level_karaoke_fill-pop",
+      "highlightColor": "#04f827"
+    },
+    "captionStyle": "",
+    "captionPosition": "auto",
+    "enableHighlight": true,
+    "enableEmoji": true,
+    "emojiStyle": {
+      "rect": {
+        "type": "CPct",
+        "xPct": 0,
+        "yPct": -0.7906,
+        "wPct": 0.13333333333333333,
+        "hPct": 0.075
+      }
+    },
+    "enableUppercase": true,
+    "highlightColor": {
+      "primary": "#04f827",
+      "secondary": "#FFFD03"
+    },
+    "font": {
+      "size": "Large",
+      "numericalSize": 40,
+      "color": "#ffffff",
+      "stroke": {
+        "enabled": true,
+        "color": "#000000",
+        "width": 8
+      },
+      "style": [
+        "900"
+      ],
+      "textDecoration": "",
+      "family": "Montserrat",
+      "shadow": {
+        "enabled": true,
+        "color": "#000000",
+        "x": 2,
+        "y": 2,
+        "blur": 2
+      }
+    },
+    "screenOverlay": null,
+    "screenOverlays": [],
+    "screenOverlayFileId": null,
+    "enableAutoTransition": true,
+    "selectedTransitions": [
+      "crossFade"
+    ],
+    "enableVoiceEnhancement": true,
+    "intro": null,
+    "outro": null,
+    "skipReframe": false,
+    "enableBroll": null,
+    "sceneDetThresh": 3,
+    "reduceFakeFace": true,
+    "brandTemplateId": "preset-fancy-Karaoke",
+    "faceDetectFps": 15,
+    "speakersColor": [
+      {
+        "id": "SPEAKER_00",
+        "name": "Speaker 1",
+        "color": "#979BFF"
+      },
+      {
+        "id": "SPEAKER_01",
+        "name": "Speaker 2",
+        "color": "#FFDA7D"
+      },
+      {
+        "id": "SPEAKER_02",
+        "name": "Speaker 3",
+        "color": "#C3FF7A"
+      },
+      {
+        "id": "SPEAKER_03",
+        "name": "Speaker 4",
+        "color": "#97F8F8"
+      },
+      {
+        "id": "SPEAKER_04",
+        "name": "Speaker 5",
+        "color": "#FF759A"
+      },
+      {
+        "id": "UNKNOWN",
+        "name": "Unassigned speaker",
+        "color": "#A1A1AA"
+      }
+    ],
+    "curseWordsConfig": {
+      "enabled": true,
+      "libId": "default-EAA2A170-3DBB-4BD0-9330-38DD3B7263AB",
+      "captionMaskStyle": "Asterisks",
+      "audioMaskStyle": "Bleep"
+    },
+    "enableSpeakerDetection": true
+  }
+}

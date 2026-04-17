@@ -1,0 +1,1374 @@
+{
+  "id": "track-00AbwZ",
+  "trackType": "KeyFrameTrack",
+  "sections": [
+    {
+      "id": "section-iVVns4",
+      "secDur": {
+        "ost": 0,
+        "oet": 5760,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 0,
+        "et": 5760
+      },
+      "segments": [
+        {
+          "id": "segment-pfV5wE",
+          "contentType": "KeyFrameGroup",
+          "content": {
+            "lTyp": "Fill",
+            "keyFrameContents": [
+              {
+                "id": "keyFrame-J3NVqq",
+                "rUri": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/cJVJ9OhkIT/upload-media.mp4",
+                "rTyp": "video",
+                "cropAreas": [
+                  {
+                    "wPct": 0.31640625,
+                    "hPct": 1,
+                    "xPct": 0,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "analysisResult": {
+                  "face": [],
+                  "fakeFace": [],
+                  "fakeFaceCrops": [],
+                  "screen": [],
+                  "people": [],
+                  "activeSpeaker": false,
+                  "movingSpeaker": "NotDetected"
+                },
+                "duration": {
+                  "ost": 0,
+                  "oet": 5760,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 5760
+                }
+              }
+            ],
+            "duration": {
+              "ost": 0,
+              "oet": 5760,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 0,
+              "et": 5760
+            },
+            "id": "content-rlUBdE"
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 5760,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 0,
+            "et": 5760
+          }
+        }
+      ],
+      "propertiesMap": {
+        "subType": "intro",
+        "rId": "cJVJ9OhkIT",
+        "rTyp": "video",
+        "rPrevUrl": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/cJVJ9OhkIT/upload-media-resized-preview.mp4?v=1768996073382023",
+        "rDur": 5.76,
+        "rRatio": 1.7777777777777777,
+        "thumbUrl": "https://signed-ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/cJVJ9OhkIT/upload-media-thumbnail.png?v=1768996073745704&hdnts=URLPrefix=aHR0cHM6Ly9zaWduZWQtZXh0LmNkbi5vcHVzLnByby91cGxvYWQvb3JnXzFqZmZ1ZWhqbzBmSTFLMWlXN0owTQ~Expires=1769260322~Signature=ra9CowmKn6Ti3qcb7dmwKtS25t2jkCgrwtwnFVR74_LQ6lKJy24k9eQJ8iXMECrsLgy1OrNEaChZeID-30hxDw"
+      },
+      "sceneId": "S.intro"
+    },
+    {
+      "id": "section-LxTulf",
+      "secDur": {
+        "ost": 81520,
+        "oet": 152660,
+        "oetAdj": 128870,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 5760,
+        "et": 53110
+      },
+      "segments": [
+        {
+          "id": "segment-9g4IB3",
+          "contentType": "KeyFrameGroup",
+          "content": {
+            "lTyp": "Fill",
+            "lTypAdj": "Fill",
+            "keyFrameContents": [
+              {
+                "id": "keyFrame-s6iIND",
+                "cropAreas": [
+                  {
+                    "wPct": 0.3161592505854801,
+                    "hPct": 1,
+                    "xPct": -0.248548814509743,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "lTyp": "Fill",
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.11153440475463867,
+                      "hPct": 0.22336845397949218,
+                      "xPct": -0.24855051040649423,
+                      "yPct": 0.41175727844238286
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "-1",
+                      "pos": {
+                        "xPct": -0.24855051040649415,
+                        "yPct": 0.4117572784423828,
+                        "wPct": 0.11153440475463867,
+                        "hPct": 0.22336845397949218,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.8466789722442627,
+                      "isFake": false
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "-1",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": -0.0125,
+                        "yPct": -0.08888888888888889,
+                        "wPct": 0.7125,
+                        "hPct": 0.9055555555555556
+                      },
+                      "peopleness": 0.000004589557647705078
+                    }
+                  ],
+                  "fakeFace": [],
+                  "fakeFaceCrops": [],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.7125,
+                      "hPct": 0.9055555555555556,
+                      "xPct": -0.012499999999999956,
+                      "yPct": -0.0888888888888888
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "On",
+                    "selected": "1",
+                    "value": {
+                      "1": {
+                        "name": "Subject 1",
+                        "pos": {
+                          "xPct": -0.248548814509743,
+                          "yPct": 0.4117572784423828,
+                          "wPct": 0.11153440475463867,
+                          "hPct": 0.22336845397949218,
+                          "type": "CPct"
+                        }
+                      }
+                    }
+                  }
+                },
+                "duration": {
+                  "ost": 86211,
+                  "oet": 87796,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 10451,
+                  "et": 12036
+                }
+              },
+              {
+                "id": "keyFrame-lxeUVZ",
+                "cropAreas": [
+                  {
+                    "wPct": 0.3161592505854801,
+                    "hPct": 1,
+                    "xPct": -0.19074602262653362,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "lTyp": "Fill",
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.11036021709442138,
+                      "hPct": 0.21059305402967665,
+                      "xPct": -0.1961097478866577,
+                      "yPct": 0.39006523556179473
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "-1",
+                      "pos": {
+                        "xPct": -0.19610974788665772,
+                        "yPct": 0.39006523556179473,
+                        "wPct": 0.11036021709442138,
+                        "hPct": 0.21059305402967665,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.8879071474075317,
+                      "isFake": false
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "-1",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": -0.2375,
+                        "yPct": -0.11388888888888889,
+                        "wPct": 0.40625,
+                        "hPct": 0.8805555555555555
+                      },
+                      "peopleness": 0.0000044405460357666016
+                    }
+                  ],
+                  "fakeFace": [],
+                  "fakeFaceCrops": [],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.40625,
+                      "hPct": 0.8805555555555555,
+                      "xPct": -0.23750000000000004,
+                      "yPct": -0.11388888888888893
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "On",
+                    "selected": "1",
+                    "value": {
+                      "1": {
+                        "name": "Subject 1",
+                        "pos": {
+                          "xPct": -0.19074602262653362,
+                          "yPct": 0.39006523556179473,
+                          "wPct": 0.11036021709442138,
+                          "hPct": 0.21059305402967665,
+                          "type": "CPct"
+                        }
+                      }
+                    }
+                  }
+                },
+                "duration": {
+                  "ost": 87796,
+                  "oet": 90466,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 12036,
+                  "et": 14706
+                }
+              },
+              {
+                "id": "keyFrame-7163No",
+                "cropAreas": [
+                  {
+                    "wPct": 0.3161592505854801,
+                    "hPct": 1,
+                    "xPct": -0.4156215477153989,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "lTyp": "Fill",
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.11447706222534179,
+                      "hPct": 0.2521541595458984,
+                      "xPct": -0.41092491149902344,
+                      "yPct": 0.4373999277750651
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "-1",
+                      "pos": {
+                        "xPct": -0.41092491149902344,
+                        "yPct": 0.4373999277750651,
+                        "wPct": 0.11447706222534179,
+                        "hPct": 0.2521541595458984,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.8400763273239136,
+                      "isFake": false
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "-1",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": -0.3046875,
+                        "yPct": -0.08333333333333333,
+                        "wPct": 0.5546875,
+                        "hPct": 0.9111111111111111
+                      },
+                      "peopleness": 0.0000033974647521972656
+                    }
+                  ],
+                  "fakeFace": [],
+                  "fakeFaceCrops": [],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.5546875,
+                      "hPct": 0.9111111111111111,
+                      "xPct": -0.3046875,
+                      "yPct": -0.08333333333333326
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "On",
+                    "selected": "1",
+                    "value": {
+                      "1": {
+                        "name": "Subject 1",
+                        "pos": {
+                          "xPct": -0.4156215477153989,
+                          "yPct": 0.4373999277750651,
+                          "wPct": 0.11447706222534179,
+                          "hPct": 0.2521541595458984,
+                          "type": "CPct"
+                        }
+                      }
+                    }
+                  }
+                },
+                "duration": {
+                  "ost": 90466,
+                  "oet": 92009,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 14706,
+                  "et": 16249
+                }
+              }
+            ],
+            "duration": {
+              "ost": 86211,
+              "oet": 121121,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 10451,
+              "et": 45361
+            },
+            "id": "content-mkrtuT"
+          },
+          "duration": {
+            "ost": 86211,
+            "oet": 121121,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 10451,
+            "et": 45361
+          }
+        },
+        {
+          "id": "segment-faR4t0",
+          "contentType": "KeyFrameGroup",
+          "content": {
+            "lTyp": "Fill",
+            "keyFrameContents": [
+              {
+                "id": "keyFrame-qkj7rH",
+                "cropAreas": [
+                  {
+                    "wPct": 0.31640625,
+                    "hPct": 1,
+                    "xPct": 0.26251444816589364,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.03331913948059073,
+                      "hPct": 0.07901717291937937,
+                      "xPct": 0.26251444816589387,
+                      "yPct": 0.5342592451307508
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "0",
+                      "pos": {
+                        "xPct": 0.26251444816589364,
+                        "yPct": 0.5342592451307508,
+                        "wPct": 0.03331913948059073,
+                        "hPct": 0.07901717291937937,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.7750041484832764,
+                      "activeness": 1.799999992052714,
+                      "isFake": false
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "0",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": 0.2921875,
+                        "yPct": -0.11388888888888889,
+                        "wPct": 0.1484375,
+                        "hPct": 0.7972222222222223
+                      },
+                      "peopleness": 0.000005185604095458984
+                    },
+                    {
+                      "faceId": "-1",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": 0.1890625,
+                        "yPct": -0.7111111111111111,
+                        "wPct": 0.1421875,
+                        "hPct": 0.28888888888888886
+                      },
+                      "peopleness": 8.940696716308594e-7
+                    }
+                  ],
+                  "fakeFace": [],
+                  "fakeFaceCrops": [],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.1484375,
+                      "hPct": 0.7972222222222223,
+                      "xPct": 0.29218750000000004,
+                      "yPct": -0.11388888888888893
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.1421875,
+                      "hPct": 0.28888888888888886,
+                      "xPct": 0.1890624999999999,
+                      "yPct": -0.7111111111111112
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "NotDetected"
+                  }
+                },
+                "duration": {
+                  "ost": 121121,
+                  "oet": 128712,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 45361,
+                  "et": 52952
+                }
+              }
+            ],
+            "duration": {
+              "ost": 121121,
+              "oet": 128712,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 45361,
+              "et": 52952
+            },
+            "id": "content-AJyjC9"
+          },
+          "duration": {
+            "ost": 121121,
+            "oet": 128712,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 45361,
+            "et": 52952
+          }
+        },
+        {
+          "id": "segment-EjXnVX",
+          "contentType": "KeyFrameGroup",
+          "content": {
+            "lTyp": "Fill",
+            "keyFrameContents": [
+              {
+                "id": "keyFrame-M0eoW7",
+                "cropAreas": [
+                  {
+                    "wPct": 0.31640625,
+                    "hPct": 1,
+                    "xPct": -0.23372997344761193,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "lTyp": "Fill",
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.12700157165527343,
+                      "hPct": 0.2597898801167806,
+                      "xPct": -0.23408994674682626,
+                      "yPct": 0.5442043834262424
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "-1",
+                      "pos": {
+                        "xPct": -0.23408994674682618,
+                        "yPct": 0.5442043834262424,
+                        "wPct": 0.12700157165527343,
+                        "hPct": 0.2597898801167806,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.7974356412887573,
+                      "isFake": false
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "-1",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": -0.0046875,
+                        "yPct": -0.002777777777777778,
+                        "wPct": 0.7640625,
+                        "hPct": 0.9916666666666667
+                      },
+                      "peopleness": 0.0000021457672119140625
+                    }
+                  ],
+                  "fakeFace": [],
+                  "fakeFaceCrops": [],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.7640625,
+                      "hPct": 0.9916666666666667,
+                      "xPct": -0.004687499999999956,
+                      "yPct": -0.002777777777777768
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "On",
+                    "selected": "1",
+                    "value": {
+                      "1": {
+                        "name": "Subject 1",
+                        "pos": {
+                          "xPct": -0.23372997344761193,
+                          "yPct": 0.5442043834262424,
+                          "wPct": 0.12700157165527343,
+                          "hPct": 0.2597898801167806,
+                          "type": "CPct"
+                        }
+                      }
+                    }
+                  }
+                },
+                "duration": {
+                  "ost": 128712,
+                  "oet": 130088,
+                  "oetAdj": 128870,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 52952,
+                  "et": 53110
+                }
+              }
+            ],
+            "duration": {
+              "ost": 128712,
+              "oet": 134885,
+              "oetAdj": 128870,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 52952,
+              "et": 53110
+            },
+            "id": "content-wFhjea"
+          },
+          "duration": {
+            "ost": 128712,
+            "oet": 134885,
+            "oetAdj": 128870,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 52952,
+            "et": 53110
+          }
+        }
+      ],
+      "propertiesMap": {
+        "segmentBoundaries": [
+          81520,
+          86211,
+          121121
+        ]
+      },
+      "sceneId": "S.0"
+    },
+    {
+      "id": "section-sYhg95",
+      "secDur": {
+        "ost": 81520,
+        "oet": 152660,
+        "ostAdj": 135120,
+        "oetAdj": 152660,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 57624,
+        "et": 75164
+      },
+      "segments": [
+        {
+          "id": "segment-Tn8jhz",
+          "contentType": "KeyFrameGroup",
+          "content": {
+            "lTyp": "Fill",
+            "keyFrameContents": [
+              {
+                "id": "keyFrame-uBSJuX",
+                "cropAreas": [
+                  {
+                    "wPct": 0.31640625,
+                    "hPct": 1,
+                    "xPct": 0.5299148559570312,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.08098983764648438,
+                      "hPct": 0.24241595798068577,
+                      "xPct": 0.5299148559570312,
+                      "yPct": -0.056818220350477455
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "5",
+                      "pos": {
+                        "xPct": 0.5299148559570312,
+                        "yPct": -0.05681822035047743,
+                        "wPct": 0.08098983764648438,
+                        "hPct": 0.24241595798068577,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.7092547416687012,
+                      "activeness": 0.2000000054637591,
+                      "isFake": false
+                    },
+                    {
+                      "id": "3",
+                      "pos": {
+                        "xPct": -0.7471205055713653,
+                        "yPct": 0.22169876098632815,
+                        "wPct": 0.10453823208808899,
+                        "hPct": 0.2567240397135417,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.7342070937156677,
+                      "activeness": 0.26000000834465026,
+                      "isFake": true
+                    },
+                    {
+                      "id": "1",
+                      "pos": {
+                        "xPct": -0.9579728960990905,
+                        "yPct": -0.053622266981336805,
+                        "wPct": 0.09887007474899293,
+                        "hPct": 0.2632900661892361,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.8075579404830933,
+                      "activeness": -1.0800000190734864,
+                      "isFake": true
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "4",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": 0.2609375,
+                        "yPct": -0.2833333333333333,
+                        "wPct": 0.3953125,
+                        "hPct": 0.7111111111111111
+                      },
+                      "peopleness": 3.5762786865234375e-7
+                    },
+                    {
+                      "faceId": "0",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": -0.609375,
+                        "yPct": -0.25277777777777777,
+                        "wPct": 0.38125,
+                        "hPct": 0.7416666666666667
+                      },
+                      "peopleness": 0.000001519918441772461
+                    },
+                    {
+                      "faceId": "-1",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": -0.921875,
+                        "yPct": -0.35,
+                        "wPct": 0.078125,
+                        "hPct": 0.6444444444444445
+                      },
+                      "peopleness": 4.76837158203125e-7
+                    }
+                  ],
+                  "fakeFace": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "fakeFaceCrops": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.10453823208808899,
+                      "hPct": 0.2567240397135417,
+                      "xPct": -0.7471205055713654,
+                      "yPct": 0.22169876098632812
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.09887007474899293,
+                      "hPct": 0.2632900661892361,
+                      "xPct": -0.9579728960990906,
+                      "yPct": -0.053622266981336875
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.11599183082580566,
+                      "hPct": 0.2808900621202257,
+                      "xPct": 0.3729630947113036,
+                      "yPct": -0.03004286024305558
+                    }
+                  ],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.078125,
+                      "hPct": 0.6444444444444445,
+                      "xPct": -0.921875,
+                      "yPct": -0.3500000000000001
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.18125,
+                      "hPct": 0.775,
+                      "xPct": 0.8187500000000003,
+                      "yPct": -0.21944444444444455
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.23125,
+                      "hPct": 0.7555555555555555,
+                      "xPct": -0.018750000000000044,
+                      "yPct": -0.24444444444444446
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "NotDetected"
+                  }
+                },
+                "duration": {
+                  "ost": 134885,
+                  "oet": 136345,
+                  "ostAdj": 135120,
+                  "oetAdj": 136345,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 57624,
+                  "et": 58849
+                }
+              }
+            ],
+            "duration": {
+              "ost": 134885,
+              "oet": 136345,
+              "ostAdj": 135120,
+              "oetAdj": 136345,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 57624,
+              "et": 58849
+            },
+            "id": "content-lUmbtF"
+          },
+          "duration": {
+            "ost": 134885,
+            "oet": 136345,
+            "ostAdj": 135120,
+            "oetAdj": 136345,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 57624,
+            "et": 58849
+          }
+        },
+        {
+          "id": "segment-8emLIC",
+          "contentType": "KeyFrameGroup",
+          "content": {
+            "lTyp": "Split",
+            "keyFrameContents": [
+              {
+                "id": "keyFrame-i8qsJh",
+                "cropAreas": [
+                  {
+                    "wPct": 0.2529059575230048,
+                    "hPct": 0.3996538588017854,
+                    "xPct": 0.05409393310546875,
+                    "yPct": 0.2472197638617622,
+                    "type": "CPct"
+                  },
+                  {
+                    "wPct": 0.2934453897285916,
+                    "hPct": 0.4637161714229595,
+                    "xPct": 0.4724527835845946,
+                    "yPct": -0.010797203911675268,
+                    "type": "CPct"
+                  }
+                ],
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.09018459320068359,
+                      "hPct": 0.2241510179307726,
+                      "xPct": 0.05409393310546862,
+                      "yPct": 0.24721976386176214
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.10450034141540536,
+                      "hPct": 0.26043048434787336,
+                      "xPct": 0.47245278358459464,
+                      "yPct": -0.010797203911675268
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "6",
+                      "pos": {
+                        "xPct": 0.05409393310546875,
+                        "yPct": 0.2472197638617622,
+                        "wPct": 0.09018459320068359,
+                        "hPct": 0.2241510179307726,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.7288286089897156,
+                      "activeness": 1.1333333651224773,
+                      "isFake": false
+                    },
+                    {
+                      "id": "5",
+                      "pos": {
+                        "xPct": 0.4724527835845946,
+                        "yPct": -0.010797203911675268,
+                        "wPct": 0.10450034141540536,
+                        "hPct": 0.26043048434787336,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.7820906639099121,
+                      "activeness": -1.0400000214576721,
+                      "isFake": false
+                    },
+                    {
+                      "id": "3",
+                      "pos": {
+                        "xPct": -0.8017968952655792,
+                        "yPct": 0.2530284457736545,
+                        "wPct": 0.10923019051551819,
+                        "hPct": 0.27461090087890627,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.7320162653923035,
+                      "activeness": -0.7799999952316284,
+                      "isFake": true
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "5",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": 0.4375,
+                        "yPct": -0.3111111111111111,
+                        "wPct": 0.2375,
+                        "hPct": 0.6833333333333333
+                      },
+                      "peopleness": 5.960464477539062e-7
+                    },
+                    {
+                      "faceId": "0",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": -0.5375,
+                        "yPct": -0.24722222222222223,
+                        "wPct": 0.2875,
+                        "hPct": 0.7472222222222222
+                      },
+                      "peopleness": 7.450580596923828e-7
+                    },
+                    {
+                      "faceId": "2",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": 0.04375,
+                        "yPct": -0.2611111111111111,
+                        "wPct": 0.428125,
+                        "hPct": 0.7333333333333333
+                      },
+                      "peopleness": 0.0000019669532775878906
+                    }
+                  ],
+                  "fakeFace": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "fakeFaceCrops": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.10923019051551819,
+                      "hPct": 0.27461090087890627,
+                      "xPct": -0.8017968952655794,
+                      "yPct": 0.25302844577365446
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.10228178501129151,
+                      "hPct": 0.270225355360243,
+                      "xPct": -0.9557227015495301,
+                      "yPct": -0.06261020236545134
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.10997993946075439,
+                      "hPct": 0.2915306515163846,
+                      "xPct": -0.5146835565567016,
+                      "yPct": 0.09034699334038632
+                    }
+                  ],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.16875,
+                      "hPct": 0.7916666666666666,
+                      "xPct": 0.828125,
+                      "yPct": -0.20277777777777772
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.2375,
+                      "hPct": 0.6833333333333333,
+                      "xPct": 0.4375,
+                      "yPct": -0.3111111111111111
+                    },
+                    {
+                      "type": "CPct",
+                      "wPct": 0.2875,
+                      "hPct": 0.7472222222222222,
+                      "xPct": -0.5374999999999999,
+                      "yPct": -0.24722222222222223
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "NotDetected"
+                  }
+                },
+                "duration": {
+                  "ost": 136345,
+                  "oet": 138221,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 58849,
+                  "et": 60725
+                }
+              }
+            ],
+            "duration": {
+              "ost": 136345,
+              "oet": 138221,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 58849,
+              "et": 60725
+            },
+            "id": "content-GUWmT4"
+          },
+          "duration": {
+            "ost": 136345,
+            "oet": 138221,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 58849,
+            "et": 60725
+          }
+        },
+        {
+          "id": "segment-bYKJMV",
+          "contentType": "KeyFrameGroup",
+          "content": {
+            "lTyp": "Fill",
+            "keyFrameContents": [
+              {
+                "id": "keyFrame-QNpcZI",
+                "cropAreas": [
+                  {
+                    "wPct": 0.31640625,
+                    "hPct": 1,
+                    "xPct": -0.36796435957183143,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "lTyp": "Fill",
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.10194165706634523,
+                      "hPct": 0.19435221354166668,
+                      "xPct": -0.3675539255142213,
+                      "yPct": 0.340449947781033
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "-1",
+                      "pos": {
+                        "xPct": -0.36755392551422117,
+                        "yPct": 0.340449947781033,
+                        "wPct": 0.10194165706634523,
+                        "hPct": 0.19435221354166668,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.8839201927185059,
+                      "isFake": false
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "-1",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": -0.2671875,
+                        "yPct": -0.18333333333333332,
+                        "wPct": 0.5421875,
+                        "hPct": 0.8111111111111111
+                      },
+                      "peopleness": 0.0000028014183044433594
+                    }
+                  ],
+                  "fakeFace": [],
+                  "fakeFaceCrops": [],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.5421875,
+                      "hPct": 0.8111111111111111,
+                      "xPct": -0.2671875,
+                      "yPct": -0.18333333333333335
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "On",
+                    "selected": "1",
+                    "value": {
+                      "1": {
+                        "name": "Subject 1",
+                        "pos": {
+                          "xPct": -0.36796435957183143,
+                          "yPct": 0.340449947781033,
+                          "wPct": 0.10194165706634523,
+                          "hPct": 0.19435221354166668,
+                          "type": "CPct"
+                        }
+                      }
+                    }
+                  }
+                },
+                "duration": {
+                  "ost": 138221,
+                  "oet": 139389,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 60725,
+                  "et": 61893
+                }
+              },
+              {
+                "id": "keyFrame-aqED5g",
+                "cropAreas": [
+                  {
+                    "wPct": 0.31640625,
+                    "hPct": 1,
+                    "xPct": -0.3810649414997207,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "lTyp": "Fill",
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.10266366004943847,
+                      "hPct": 0.2078998565673828,
+                      "xPct": -0.3813637733459474,
+                      "yPct": 0.2435020022922092
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "-1",
+                      "pos": {
+                        "xPct": -0.3813637733459473,
+                        "yPct": 0.2435020022922092,
+                        "wPct": 0.10266366004943847,
+                        "hPct": 0.2078998565673828,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.8506414890289307,
+                      "isFake": false
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "-1",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": -0.0171875,
+                        "yPct": -0.14166666666666666,
+                        "wPct": 0.7703125,
+                        "hPct": 0.8527777777777777
+                      },
+                      "peopleness": 0.0000012516975402832031
+                    }
+                  ],
+                  "fakeFace": [],
+                  "fakeFaceCrops": [],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.7703125,
+                      "hPct": 0.8527777777777777,
+                      "xPct": -0.017187500000000022,
+                      "yPct": -0.1416666666666666
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "On",
+                    "selected": "1",
+                    "value": {
+                      "1": {
+                        "name": "Subject 1",
+                        "pos": {
+                          "xPct": -0.3810649414997207,
+                          "yPct": 0.2435020022922092,
+                          "wPct": 0.10266366004943847,
+                          "hPct": 0.2078998565673828,
+                          "type": "CPct"
+                        }
+                      }
+                    }
+                  }
+                },
+                "duration": {
+                  "ost": 139389,
+                  "oet": 140724,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 61893,
+                  "et": 63228
+                }
+              },
+              {
+                "id": "keyFrame-YqKVNJ",
+                "cropAreas": [
+                  {
+                    "wPct": 0.31640625,
+                    "hPct": 1,
+                    "xPct": -0.1966698241817345,
+                    "yPct": 0,
+                    "type": "CPct"
+                  }
+                ],
+                "lTyp": "Fill",
+                "analysisResult": {
+                  "face": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.10386638641357421,
+                      "hPct": 0.21741884019639757,
+                      "xPct": -0.19962348937988295,
+                      "yPct": 0.27920608520507817
+                    }
+                  ],
+                  "faceV2": [
+                    {
+                      "id": "-1",
+                      "pos": {
+                        "xPct": -0.1996234893798828,
+                        "yPct": 0.2792060852050781,
+                        "wPct": 0.10386638641357421,
+                        "hPct": 0.21741884019639757,
+                        "type": "CPct"
+                      },
+                      "faceness": 0.8864409923553467,
+                      "isFake": false
+                    }
+                  ],
+                  "peopleV2": [
+                    {
+                      "faceId": "-1",
+                      "pos": {
+                        "type": "CPct",
+                        "xPct": 0.1359375,
+                        "yPct": -0.17777777777777778,
+                        "wPct": 0.7765625,
+                        "hPct": 0.8166666666666667
+                      },
+                      "peopleness": 0.0000014007091522216797
+                    }
+                  ],
+                  "fakeFace": [],
+                  "fakeFaceCrops": [],
+                  "people": [
+                    {
+                      "type": "CPct",
+                      "wPct": 0.7765625,
+                      "hPct": 0.8166666666666667,
+                      "xPct": 0.13593750000000004,
+                      "yPct": -0.1777777777777778
+                    }
+                  ],
+                  "activeSpeaker": true,
+                  "movingSpeaker": "NotDetected",
+                  "trackingSubjects": {
+                    "status": "On",
+                    "selected": "1",
+                    "value": {
+                      "1": {
+                        "name": "Subject 1",
+                        "pos": {
+                          "xPct": -0.1966698241817345,
+                          "yPct": 0.2792060852050781,
+                          "wPct": 0.10386638641357421,
+                          "hPct": 0.21741884019639757,
+                          "type": "CPct"
+                        }
+                      }
+                    }
+                  }
+                },
+                "duration": {
+                  "ost": 140724,
+                  "oet": 142225,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 63228,
+                  "et": 64729
+                }
+              }
+            ],
+            "duration": {
+              "ost": 138221,
+              "oet": 152660,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 60725,
+              "et": 75164
+            },
+            "id": "content-0aUL8Y"
+          },
+          "duration": {
+            "ost": 138221,
+            "oet": 152660,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 60725,
+            "et": 75164
+          }
+        }
+      ],
+      "propertiesMap": {
+        "segmentBoundaries": [
+          135120,
+          136345,
+          138221
+        ]
+      },
+      "sceneId": "S.0"
+    }
+  ]
+}

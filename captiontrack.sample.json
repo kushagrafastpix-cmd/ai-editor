@@ -1,0 +1,1091 @@
+{
+  "id": "track-WyznvI",
+  "trackType": "CaptionTrack",
+  "sections": [
+    {
+      "id": "section-nFo57n",
+      "secDur": {
+        "ost": 0,
+        "oet": 5760,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 0,
+        "et": 5760
+      },
+      "segments": [
+        {
+          "id": "segment-IBfh2q",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-OMHOaw",
+                "text": "__media sample-5s.mp4",
+                "duration": {
+                  "ost": 0,
+                  "oet": 5760,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 5760
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 0,
+              "oet": 5760,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 0,
+              "et": 5760
+            },
+            "id": "content-CTmYNh"
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 5760,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 0,
+            "et": 5760
+          }
+        }
+      ],
+      "propertiesMap": {
+        "type": "intro"
+      },
+      "sceneId": "S.000"
+    },
+    {
+      "id": "section-gZmdvX",
+      "secDur": {
+        "ost": 135120,
+        "oet": 152660,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 57624,
+        "et": 75164
+      },
+      "segments": [
+        {
+          "id": "segment-qij3wH",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-HlMo3Y",
+                "text": "expensive",
+                "duration": {
+                  "ost": 135135,
+                  "oet": 136235,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 57639,
+                  "et": 58739
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 135135,
+              "oet": 136235,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 57639,
+              "et": 58739
+            },
+            "id": "content-RosW91",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 135135,
+            "oet": 136235,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 57639,
+            "et": 58739
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-jFykUW",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-Hw7j11",
+                "text": "Oh",
+                "duration": {
+                  "ost": 136515,
+                  "oet": 136895,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 59019,
+                  "et": 59399
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 136515,
+              "oet": 136895,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 59019,
+              "et": 59399
+            },
+            "id": "content-7eaQgL",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 136515,
+            "oet": 136895,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 59019,
+            "et": 59399
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-iUNzOg",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-0aXf1G",
+                "text": "Oh",
+                "duration": {
+                  "ost": 138155,
+                  "oet": 138655,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 60659,
+                  "et": 61159
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 138155,
+              "oet": 138655,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 60659,
+              "et": 61159
+            },
+            "id": "content-oxXPiv",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 138155,
+            "oet": 138655,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 60659,
+            "et": 61159
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-yaUbwU",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-wC7OZM",
+                "text": "just",
+                "duration": {
+                  "ost": 138875,
+                  "oet": 139055,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 61379,
+                  "et": 61559
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-ZS5Etp",
+                "text": "so",
+                "duration": {
+                  "ost": 139215,
+                  "oet": 139375,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 61719,
+                  "et": 61879
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-m7gJ0V",
+                "text": "much",
+                "duration": {
+                  "ost": 139515,
+                  "oet": 139995,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 62019,
+                  "et": 62499
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 138875,
+              "oet": 139995,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 61379,
+              "et": 62499
+            },
+            "id": "content-lLBAp1",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 138875,
+            "oet": 139995,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 61379,
+            "et": 62499
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-RvHVaK",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-kNJlEP",
+                "text": "So",
+                "duration": {
+                  "ost": 140055,
+                  "oet": 141015,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 62559,
+                  "et": 63519
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 140055,
+              "oet": 141015,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 62559,
+              "et": 63519
+            },
+            "id": "content-C9f0rC",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 140055,
+            "oet": 141015,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 62559,
+            "et": 63519
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-4Q0jAV",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-lnc7xo",
+                "text": "as",
+                "duration": {
+                  "ost": 141075,
+                  "oet": 141215,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 63579,
+                  "et": 63719
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-B51fqi",
+                "text": "you",
+                "duration": {
+                  "ost": 141276,
+                  "oet": 141375,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 63780,
+                  "et": 63879
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-sBjcfw",
+                "text": "can",
+                "duration": {
+                  "ost": 141395,
+                  "oet": 141596,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 63899,
+                  "et": 64100
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-rWCGOt",
+                "text": "see",
+                "duration": {
+                  "ost": 141656,
+                  "oet": 141915,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 64160,
+                  "et": 64419
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 141075,
+              "oet": 141915,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 63579,
+              "et": 64419
+            },
+            "id": "content-wKlhvA",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 141075,
+            "oet": 141915,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 63579,
+            "et": 64419
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-ozRHPO",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-eluvpl",
+                "text": "we",
+                "duration": {
+                  "ost": 141936,
+                  "oet": 142075,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 64440,
+                  "et": 64579
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-c1kOpe",
+                "text": "can't",
+                "duration": {
+                  "ost": 142116,
+                  "oet": 142375,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 64620,
+                  "et": 64879
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-1M2y86",
+                "text": "send",
+                "duration": {
+                  "ost": 142495,
+                  "oet": 142815,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 64999,
+                  "et": 65319
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-ZW0Yws",
+                "text": "you",
+                "duration": {
+                  "ost": 142875,
+                  "oet": 143075,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 65379,
+                  "et": 65579
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 141936,
+              "oet": 143075,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 64440,
+              "et": 65579
+            },
+            "id": "content-ICv08H",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 141936,
+            "oet": 143075,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 64440,
+            "et": 65579
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-tgJUha",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-kI6T4W",
+                "text": "money",
+                "duration": {
+                  "ost": 143235,
+                  "oet": 143956,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 65739,
+                  "et": 66460
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-6zKbzg",
+                "text": "if",
+                "duration": {
+                  "ost": 144055,
+                  "oet": 144175,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 66559,
+                  "et": 66679
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-pqoX0D",
+                "text": "we're",
+                "duration": {
+                  "ost": 144235,
+                  "oet": 144455,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 66739,
+                  "et": 66959
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-PfrygG",
+                "text": "minus",
+                "duration": {
+                  "ost": 144535,
+                  "oet": 145195,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 67039,
+                  "et": 67699
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 143235,
+              "oet": 145195,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 65739,
+              "et": 67699
+            },
+            "id": "content-zxROtG",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 143235,
+            "oet": 145195,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 65739,
+            "et": 67699
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-eJwir8",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-OQUZXt",
+                "text": "Overdraft",
+                "duration": {
+                  "ost": 145395,
+                  "oet": 145915,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 67899,
+                  "et": 68419
+                },
+                "color": 2,
+                "deleted": false
+              },
+              {
+                "id": "text-inZkXi",
+                "text": "fees",
+                "duration": {
+                  "ost": 145996,
+                  "oet": 146215,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 68500,
+                  "et": 68719
+                },
+                "color": 2,
+                "deleted": false
+              },
+              {
+                "id": "text-vRf2f6",
+                "text": "are",
+                "duration": {
+                  "ost": 146256,
+                  "oet": 146375,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 68760,
+                  "et": 68879
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-6BoM31",
+                "text": "piling",
+                "duration": {
+                  "ost": 146395,
+                  "oet": 146776,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 68899,
+                  "et": 69280
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-QjKJjo",
+                "text": "up",
+                "duration": {
+                  "ost": 146855,
+                  "oet": 147096,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 69359,
+                  "et": 69600
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 145395,
+              "oet": 147096,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 67899,
+              "et": 69600
+            },
+            "id": "content-CTWJst",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 145395,
+            "oet": 147096,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 67899,
+            "et": 69600
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-cHOlLc",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-QWaSnB",
+                "text": "We",
+                "duration": {
+                  "ost": 147116,
+                  "oet": 147256,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 69620,
+                  "et": 69760
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-NYZGfh",
+                "text": "can't",
+                "duration": {
+                  "ost": 147296,
+                  "oet": 147555,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 69800,
+                  "et": 70059
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-Sw0IZO",
+                "text": "send",
+                "duration": {
+                  "ost": 148595,
+                  "oet": 148895,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 71099,
+                  "et": 71399
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 147116,
+              "oet": 148895,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 69620,
+              "et": 71399
+            },
+            "id": "content-WUcYcj",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 147116,
+            "oet": 148895,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 69620,
+            "et": 71399
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-ZWrOnb",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-2Hs9fL",
+                "text": "you",
+                "duration": {
+                  "ost": 148955,
+                  "oet": 149095,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 71459,
+                  "et": 71599
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-EErsch",
+                "text": "out",
+                "duration": {
+                  "ost": 149175,
+                  "oet": 149295,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 71679,
+                  "et": 71799
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-Aptyms",
+                "text": "of",
+                "duration": {
+                  "ost": 149315,
+                  "oet": 149415,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 71819,
+                  "et": 71919
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-rCRXzd",
+                "text": "minus",
+                "duration": {
+                  "ost": 149555,
+                  "oet": 150275,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 72059,
+                  "et": 72779
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 148955,
+              "oet": 150275,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 71459,
+              "et": 72779
+            },
+            "id": "content-mWaCIu",
+            "speakerId": "SPEAKER_01"
+          },
+          "duration": {
+            "ost": 148955,
+            "oet": 150275,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 71459,
+            "et": 72779
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-zPLMJg",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-tiUZXr",
+                "text": "What",
+                "duration": {
+                  "ost": 151476,
+                  "oet": 151655,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 73980,
+                  "et": 74159
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 151476,
+              "oet": 151655,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 73980,
+              "et": 74159
+            },
+            "id": "content-OBF8kK",
+            "speakerId": "SPEAKER_00"
+          },
+          "duration": {
+            "ost": 151476,
+            "oet": 151655,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 73980,
+            "et": 74159
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        },
+        {
+          "id": "segment-IJXZ5K",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-Jf7BtR",
+                "text": "Kyle",
+                "duration": {
+                  "ost": 151736,
+                  "oet": 152635,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 74240,
+                  "et": 75139
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 151736,
+              "oet": 152635,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 74240,
+              "et": 75139
+            },
+            "id": "content-MI3qRP",
+            "speakerId": "SPEAKER_00"
+          },
+          "duration": {
+            "ost": 151736,
+            "oet": 152635,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 74240,
+            "et": 75139
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": -0.6172,
+            "wPct": 0.8,
+            "hPct": 0.5
+          }
+        }
+      ],
+      "sceneId": "ACS_5ONJH9N"
+    },
+    {
+      "id": "section-XY0gHS",
+      "secDur": {
+        "ost": 75164,
+        "oet": 83084,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 75164,
+        "et": 83084
+      },
+      "segments": [
+        {
+          "id": "segment-k8lOR2",
+          "contentType": "Caption",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-4Y6Vmp",
+                "text": "__media videoblocks-bubbles-going-up-in-thin-flute-champagne-glasses-on-a-holiday-table-with-a-bottle-of-champagne-in-ice-basket_b3iidnprb_1080__D.mp4",
+                "duration": {
+                  "ost": 75164,
+                  "oet": 83084,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 75164,
+                  "et": 83084
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 75164,
+              "oet": 83084,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 75164,
+              "et": 83084
+            },
+            "id": "content-l63U25"
+          },
+          "duration": {
+            "ost": 75164,
+            "oet": 83084,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 75164,
+            "et": 83084
+          }
+        }
+      ],
+      "propertiesMap": {
+        "type": "outro"
+      },
+      "sceneId": "S.000"
+    }
+  ]
+}

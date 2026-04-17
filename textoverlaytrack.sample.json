@@ -1,0 +1,380 @@
+{
+  "id": "track-b0so48",
+  "trackType": "TextOverlayTrack",
+  "sections": [
+    {
+      "id": "section-P449Be",
+      "secDur": {
+        "ost": 0,
+        "oet": 5000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 0,
+        "et": 5000
+      },
+      "segments": [
+        {
+          "id": "segment-CAQ4qb",
+          "contentType": "TextOverlay",
+          "content": {
+            "id": "content-IXBbry",
+            "textElements": [
+              {
+                "text": "The ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 5000
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 5000
+                },
+                "id": "text-voqbNi"
+              },
+              {
+                "text": "US ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 5000
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 5000
+                },
+                "id": "text-kfFf8t"
+              },
+              {
+                "text": "is ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 5000
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 5000
+                },
+                "id": "text-2v3pL1"
+              },
+              {
+                "text": "$20 ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 5000
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 5000
+                },
+                "id": "text-r1xweN"
+              },
+              {
+                "text": "Trillion ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 5000
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 5000
+                },
+                "id": "text-WeIFBM"
+              },
+              {
+                "text": "in ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 5000
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 5000
+                },
+                "id": "text-8CFRKK"
+              },
+              {
+                "text": "Debt ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 5000
+                },
+                "timeline": {
+                  "st": 0,
+                  "et": 5000
+                },
+                "id": "text-0qfwE2"
+              }
+            ],
+            "textOverlayType": "paragraph",
+            "textStyle": {
+              "backgroundColor": "#FFFFFF",
+              "fontFamily": "Montserrat",
+              "fontWeight": "900",
+              "fontColor": "#000000",
+              "fontSize": 40,
+              "italic": false,
+              "borderRadius": 10
+            },
+            "scale": 1,
+            "rotation": 0,
+            "duration": {
+              "ost": 0,
+              "oet": 5000,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 0,
+              "et": 5000
+            }
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 5000,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 0,
+            "et": 5000
+          },
+          "position": {
+            "type": "CPct",
+            "xPct": 0,
+            "yPct": 0.10087667227851027,
+            "wPct": 0.75,
+            "hPct": 0
+          }
+        }
+      ],
+      "propertiesMap": {
+        "isAutoHook": true
+      },
+      "sceneId": "S.000"
+    },
+    {
+      "id": "section-XrvvWt",
+      "secDur": {
+        "ost": 0,
+        "oet": 3000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 28255,
+        "et": 31255
+      },
+      "segments": [
+        {
+          "id": "segment-uYbb1v",
+          "contentType": "TextOverlay",
+          "content": {
+            "id": "content-oDoacH",
+            "textElements": [
+              {
+                "text": "",
+                "textAdjustment": "this ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 3000
+                },
+                "timeline": {
+                  "st": 28255,
+                  "et": 31255
+                },
+                "id": "text-HQzhIs"
+              },
+              {
+                "text": "",
+                "textAdjustment": "is ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 3000
+                },
+                "timeline": {
+                  "st": 28255,
+                  "et": 31255
+                },
+                "id": "text-ZhwUot"
+              },
+              {
+                "text": "",
+                "textAdjustment": "heading",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 3000
+                },
+                "timeline": {
+                  "st": 28255,
+                  "et": 31255
+                },
+                "id": "text-YrSg5G"
+              }
+            ],
+            "textOverlayType": "heading",
+            "textStyle": {
+              "backgroundColor": "#DD5555FF",
+              "fontFamily": "Lilita One",
+              "fontWeight": "600",
+              "fontColor": "#000000",
+              "fontSize": 36,
+              "italic": true,
+              "borderRadius": 10,
+              "type": "System"
+            },
+            "scale": 1,
+            "rotation": 0,
+            "duration": {
+              "ost": 0,
+              "oet": 3000,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 28255,
+              "et": 31255
+            }
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 3000,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 28255,
+            "et": 31255
+          },
+          "position": {
+            "wPct": 0.75,
+            "hPct": 0,
+            "xPct": 0,
+            "yPct": -0.5,
+            "type": "CPct"
+          }
+        }
+      ],
+      "sceneId": "S.000"
+    },
+    {
+      "id": "section-i78soT",
+      "secDur": {
+        "ost": 0,
+        "oet": 3000,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 36069,
+        "et": 39069
+      },
+      "segments": [
+        {
+          "id": "segment-rvkJcm",
+          "contentType": "TextOverlay",
+          "content": {
+            "id": "content-R3wQSr",
+            "textElements": [
+              {
+                "text": "Add ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 3000
+                },
+                "timeline": {
+                  "st": 36069,
+                  "et": 39069
+                },
+                "id": "text-aCVMyG"
+              },
+              {
+                "text": "Body ",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 3000
+                },
+                "timeline": {
+                  "st": 36069,
+                  "et": 39069
+                },
+                "id": "text-puzspV"
+              },
+              {
+                "text": "Text",
+                "color": 0,
+                "duration": {
+                  "type": "TS",
+                  "ost": 0,
+                  "oet": 3000
+                },
+                "timeline": {
+                  "st": 36069,
+                  "et": 39069
+                },
+                "id": "text-kP4QWi"
+              }
+            ],
+            "textOverlayType": "paragraph",
+            "textStyle": {
+              "backgroundColor": "#000000FF",
+              "fontFamily": "The bold font",
+              "fontWeight": "900",
+              "fontColor": "#000000",
+              "fontSize": 40,
+              "italic": false,
+              "textDecoration": "underline",
+              "borderRadius": 10,
+              "type": "System"
+            },
+            "scale": 1,
+            "rotation": 0,
+            "duration": {
+              "ost": 0,
+              "oet": 3000,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 36069,
+              "et": 39069
+            }
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 3000,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 36069,
+            "et": 39069
+          },
+          "position": {
+            "wPct": 0.75,
+            "hPct": 0,
+            "xPct": 0,
+            "yPct": -0.5,
+            "type": "CPct"
+          }
+        }
+      ],
+      "sceneId": "S.000"
+    }
+  ]
+}

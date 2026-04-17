@@ -1,0 +1,297 @@
+{
+  "id": "track-4VcNLL",
+  "trackType": "VoiceOverTrack",
+  "sections": [
+    {
+      "id": "e549e252-7de0-4b05-af42-dc1cffc4b607",
+      "secDur": {
+        "ost": 0,
+        "oet": 1113.991,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 6760,
+        "et": 7873.991
+      },
+      "segments": [
+        {
+          "id": "6facfaec-9f21-4690-959d-1c60bcf8e8fa",
+          "contentType": "VoiceOver",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-1DSZQL",
+                "text": "this",
+                "duration": {
+                  "ost": 0,
+                  "oet": 244,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 6760,
+                  "et": 7004
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-RRz5s4",
+                "text": "is",
+                "duration": {
+                  "ost": 313,
+                  "oet": 395,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 7073,
+                  "et": 7155
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-b8FArT",
+                "text": "a",
+                "duration": {
+                  "ost": 441,
+                  "oet": 476,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 7201,
+                  "et": 7236
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-HScYRX",
+                "text": "hook",
+                "duration": {
+                  "ost": 534,
+                  "oet": 1115,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 7294,
+                  "et": 7875
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 0,
+              "oet": 1115,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 6760,
+              "et": 7875
+            },
+            "id": "content-u8UgSL"
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 1115,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 6760,
+            "et": 7875
+          }
+        }
+      ],
+      "propertiesMap": {
+        "end": 7.873991,
+        "script": "this is a hook",
+        "sourceUri": "https://ext.cdn.opus.pro/media/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/P3012312tW0Z/c.kacgCFq0ps/voice_over/editor_70c2c124-45bf-4c41-b441-c6ea352df047.m4a?v=1769174885091957",
+        "speaker": "Adam",
+        "stability": 0.5,
+        "start": 6.76,
+        "volume": 0.1,
+        "voType": "4"
+      },
+      "sceneId": "VO.000"
+    },
+    {
+      "id": "d6238747-3433-41e1-8136-c245a296f119",
+      "secDur": {
+        "ost": 0,
+        "oet": 1160.997999999999,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 43005,
+        "et": 44165.998
+      },
+      "segments": [
+        {
+          "id": "17d343a6-5d99-4193-adbe-bf4fef092874",
+          "contentType": "VoiceOver",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-i10qeV",
+                "text": "this",
+                "duration": {
+                  "ost": 0,
+                  "oet": 267,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 43005,
+                  "et": 43272
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-WnHsyC",
+                "text": "is",
+                "duration": {
+                  "ost": 337,
+                  "oet": 430,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 43342,
+                  "et": 43435
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-azmSLw",
+                "text": "a",
+                "duration": {
+                  "ost": 488,
+                  "oet": 522,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 43493,
+                  "et": 43527
+                },
+                "color": 0,
+                "deleted": false
+              },
+              {
+                "id": "text-zAfDON",
+                "text": "hook",
+                "duration": {
+                  "ost": 592,
+                  "oet": 1161,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 43597,
+                  "et": 44166
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 0,
+              "oet": 1161,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 43005,
+              "et": 44166
+            },
+            "id": "content-KGAvg6"
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 1161,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 43005,
+            "et": 44166
+          }
+        }
+      ],
+      "propertiesMap": {
+        "end": 44.165998,
+        "script": "this is a hook",
+        "sourceUri": "https://ext.cdn.opus.pro/media/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/P3012312tW0Z/c.kacgCFq0ps/voice_over/editor_734a71a4-e045-4639-bcf2-7cf68d594e66.m4a?v=1769174677709413",
+        "speaker": "Adam",
+        "stability": 0.5,
+        "start": 43.005,
+        "volume": 0.1,
+        "voType": "4"
+      },
+      "sceneId": "VO.000"
+    },
+    {
+      "id": "4e8400dd-4ea9-437a-a0c2-d8d708b599ca",
+      "secDur": {
+        "ost": 0,
+        "oet": 1253.990999999999,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 69192,
+        "et": 70445.991
+      },
+      "segments": [
+        {
+          "id": "a1b54e67-aa1b-47ea-b703-468b884b570d",
+          "contentType": "VoiceOver",
+          "content": {
+            "textElements": [
+              {
+                "id": "text-iAJv7a",
+                "text": "hjbjhbj",
+                "duration": {
+                  "ost": 0,
+                  "oet": 1254,
+                  "type": "TS"
+                },
+                "timeline": {
+                  "st": 69192,
+                  "et": 70446
+                },
+                "color": 0,
+                "deleted": false
+              }
+            ],
+            "duration": {
+              "ost": 0,
+              "oet": 1254,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 69192,
+              "et": 70446
+            },
+            "id": "content-vxrjdU"
+          },
+          "duration": {
+            "ost": 0,
+            "oet": 1254,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 69192,
+            "et": 70446
+          }
+        }
+      ],
+      "propertiesMap": {
+        "end": 70.44599099999999,
+        "script": "hjbjhbj",
+        "sourceUri": "https://ext.cdn.opus.pro/media/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/P3012312tW0Z/c.kacgCFq0ps/voice_over/editor_51bb70c8-b024-4933-8e83-6e5fa0cf4bb2.m4a?v=1769175460244810",
+        "speaker": "Adam",
+        "stability": 0.5,
+        "start": 69.192,
+        "volume": 0.1,
+        "voType": "4"
+      },
+      "sceneId": "VO.000"
+    }
+  ]
+}

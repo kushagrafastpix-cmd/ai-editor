@@ -1,0 +1,145 @@
+{
+  "id": "track-ZIuV7s",
+  "trackType": "AudioTrack",
+  "category": "Sound",
+  "sections": [
+    {
+      "id": "section-pg0AYR",
+      "secDur": {
+        "ost": 0,
+        "oet": 42008.005,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 8041,
+        "et": 50049.005
+      },
+      "segments": [
+        {
+          "id": "segment-5Pmp2x",
+          "contentType": "Audio",
+          "duration": {
+            "ost": 0,
+            "oet": 42008.005,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 8041,
+            "et": 50049.005
+          },
+          "content": {
+            "id": "content-Sdfp4u",
+            "audioName": "file_example_MP3_700KB.mp3",
+            "sourceUri": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/FcC7OMhMqs/upload-media-resized-preview.m4a?v=1769174482211261",
+            "waveformUrl": "https://ext.cdn.opus.pro/upload/org_1jffuehjo0fI1K1iW7J0M/user_01KFFYDQK90VCEKVQZ74PG7J0M/resource/FcC7OMhMqs/upload-media-waveform.wav?v=1769174482393336",
+            "volume": 15,
+            "speed": 1,
+            "duration": {
+              "ost": 0,
+              "oet": 42008.005,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 8041,
+              "et": 50049.005
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-SfLIzf",
+      "secDur": {
+        "ost": 0,
+        "oet": 123481,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 43005,
+        "et": 166486
+      },
+      "segments": [
+        {
+          "id": "segment-rBQIXE",
+          "contentType": "Audio",
+          "duration": {
+            "ost": 0,
+            "oet": 123481,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 43005,
+            "et": 166486
+          },
+          "content": {
+            "id": "content-oG3Lgh",
+            "audioName": "Magnetic",
+            "rId": "67808e0b2cf5c7fd4548f3b2",
+            "sourceUri": "https://storage.googleapis.com/lib.gcs.opus.pro/musics/ncs/audios/springs%21%20-%20Magnetic%20%5BNCS%20Release%5D.m4a?GoogleAccessId=clip-api%40opuspro.iam.gserviceaccount.com&Expires=1769260980&Signature=VoPdo7turVa9pMIWb8GBhcsjm1MJlzKAykqaG7FH85%2BPD7w9YasuzPBizMYuAZfLWVBnFSYYL61yHi73b39gUpGrUdmaO6cODGFlCQihmhu4ITBvSEX471ZWEDS3GLQrp19U8T6SBH6gem45YAz5xmnZhGZz%2ByamzSn3xBiQTli6mrnnZv7Qqw6HctiH2H0cCK6rwv3Jp%2BokylsbwB4xUOhDD0kbBEjAd3Yl0WUwdFxsr8ml6rwQ%2FF%2FSSTMEn11cy%2Fl%2BRcsBdGPaZQ9q3u1aHMIZrPKUhlIE8JANID2hrwkYrJ%2Ba90Uv%2FsU651pu%2F7a%2F2zUgpJvV95mj56dsLErm7A%3D%3D",
+            "gcsUri": "gs://lib.gcs.opus.pro/musics/ncs/audios/springs! - Magnetic [NCS Release].m4a",
+            "waveformUrl": "https://storage.googleapis.com/lib.gcs.opus.pro/musics/ncs/waveforms/springs%21%20-%20Magnetic%20%5BNCS%20Release%5D.wav?GoogleAccessId=clip-api%40opuspro.iam.gserviceaccount.com&Expires=1769260980&Signature=LKevDs7ScZSi93GwG5BYJoo03SE%2B06sUKrTxTScQZcD%2F1Ex8r%2BHBueBZ0X6Y8jmSiu%2BQD8xNhRxeai1ib31RmytK95lGDuCvg8bnBJtT%2BYROL8BY1pbJpLUj%2BfIxw%2B3QMYzl7Pv48pb6FkFdmiIPHGCuoKQXF89GNzGMgc%2Brvxfn1bZDDfCA7ey2mtwmUKHJyR5YJxuWg54hk3G0u710%2BdUYy7DZmn3DuimFSOzsgomcf2BWglsBk6N8NU94lbp7OOcPoDToZrmKCcW%2Fz2T1CCR5OmcAeAt2pvLmFHyFLX0fKQwg8bavY9i8HuzzjzQWJ9ErYEhmIDndt3aVkWy8Eg%3D%3D",
+            "volume": 15,
+            "speed": 1,
+            "supplier": "NCS",
+            "duration": {
+              "ost": 0,
+              "oet": 123481,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 43005,
+              "et": 166486
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-Duvlh5",
+      "secDur": {
+        "ost": 0,
+        "oet": 160032,
+        "type": "TS"
+      },
+      "secTl": {
+        "st": 69192,
+        "et": 229224
+      },
+      "segments": [
+        {
+          "id": "segment-Ub7pBN",
+          "contentType": "Audio",
+          "duration": {
+            "ost": 0,
+            "oet": 160032,
+            "type": "TS"
+          },
+          "timeline": {
+            "st": 69192,
+            "et": 229224
+          },
+          "content": {
+            "id": "content-IO8UvZ",
+            "audioName": "Cruising",
+            "rId": "67808e0b2cf5c7fd4548f3a2",
+            "sourceUri": "https://storage.googleapis.com/lib.gcs.opus.pro/musics/ncs/audios/Aisake%2C%20Dosi%20-%20Cruising%20%5BNCS%20Release%5D.m4a?GoogleAccessId=clip-api%40opuspro.iam.gserviceaccount.com&Expires=1769261818&Signature=pKmB7J7AeepSlqcx6U75BdZfR7Vrfxm0rcydIfh68sSpx%2BjjHowPYcD2j4RO7ojPH5zJkbH3J8ExCZFkT7z%2BW%2BJXQnkNwgvs3ofJt%2BExCR3hEsoG9v2vnkwIGuLUZ0cVVj6uYzg7B6EypE0j79yyTP0em85Rr7hzVQSr%2F3hS7j1gc%2F%2BU0l%2F%2BXfnTrM%2FiZaaiRdSwuzOxg%2B73wDRPMyjlqEfjJYbQqp0oHvPOdx0FkqWScF3RNIFb9yjSmmU7jHdl825WO7QDuNCihbtI%2BpqUcxnsDk8PeVGKFTwpDaNjGjESVKmcn4tisZhDMaRWVBly5dnvTRBhdZSmddpsDD8Kcg%3D%3D",
+            "gcsUri": "gs://lib.gcs.opus.pro/musics/ncs/audios/Aisake, Dosi - Cruising [NCS Release].m4a",
+            "waveformUrl": "https://storage.googleapis.com/lib.gcs.opus.pro/musics/ncs/waveforms/Aisake%2C%20Dosi%20-%20Cruising%20%5BNCS%20Release%5D.wav?GoogleAccessId=clip-api%40opuspro.iam.gserviceaccount.com&Expires=1769261818&Signature=Rlj81PjtLP85kUHyp9CBrNaYXh0Td4o891qfj%2Bi%2Bx2Lhfxhe91h1JwrpqjPoIdbyJb%2F7lpjd573FXLs7YXgeuEv%2FgIg5SrYH1NrSjp4MVt5tRj%2FWllCjNpiizqbiKtgQOSE70HRouV8qBmvIGYBE3T4wf2yQ0tZ%2F20v8DLjtVJJfG77iBlBQ80aINAM%2BcrfLL4QcrKKyqHlrIbhKQ2KA2LVYULDVwgcHCTr4lRyhUtnbQBaLE55HQzZTn5vMZe9lmHDwXkSCk5jsx%2FyPogCvOTzWJbJA6MYvCew28B1vmeTr%2FV45afmZeEivHldsuleKxxM32yU7xFY5S43AryhVZg%3D%3D",
+            "volume": 15,
+            "speed": 1,
+            "supplier": "NCS",
+            "duration": {
+              "ost": 0,
+              "oet": 160032,
+              "type": "TS"
+            },
+            "timeline": {
+              "st": 69192,
+              "et": 229224
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

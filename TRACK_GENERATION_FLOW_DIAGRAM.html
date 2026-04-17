@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track JSON Generation Flow Diagram</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .flow-box {
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid;
+            text-align: center;
+            position: relative;
+            max-width: 800px;
+        }
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid #333;
+            margin: 10px auto;
+        }
+        .step-1 { background-color: #fff4e1; border-color: #e6a84a; }
+        .step-2 { background-color: #ffe1f5; border-color: #d9539f; }
+        .step-3 { background-color: #e1ffe1; border-color: #5cb85c; }
+        .step-4 { background-color: #f5e1ff; border-color: #9b59b6; }
+        .track-level { background-color: #e8f4f8; border-color: #3498db; }
+        .section-level { background-color: #fff8e1; border-color: #f39c12; }
+        .segment-level { background-color: #f3e5f5; border-color: #9c27b0; }
+        .content-types { background-color: #e8f5e9; border-color: #4caf50; }
+        .start-end { background-color: #e1f5ff; border-color: #4a90e2; }
+        .filter-box { background-color: #ffe1e1; border-color: #d9534f; max-width: 400px; }
+        
+        h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        .code-block {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+        .track-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .track-item {
+            padding: 5px;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 4px;
+        }
+        .note {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .extract-list {
+            text-align: left;
+            margin: 10px 0;
+        }
+        .extract-item {
+            padding: 3px 0;
+        }
+        .check { color: #28a745; }
+        .cross { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Track JSON Generation Flow Diagram</h1>
+        <p style="text-align: center; color: #666;">How JSON data for all track types is generated in opusresultjson.js</p>
+        
+        <!-- Start -->
+        <div class="flow-box start-end">
+            <h2>Editor State (opustimeline.js)</h2>
+            <p>Track class instances with methods and internal state</p>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Step 1: Collect -->
+        <div class="flow-box step-1">
+            <h2>Step 1: Collect All Track Instances</h2>
+            <div class="track-list">
+                <div class="track-item">• KeyFrameTrack</div>
+                <div class="track-item">• CaptionTrack</div>
+                <div class="track-item">• EmojiTrack</div>
+                <div class="track-item">• BRollTrack</div>
+                <div class="track-item">• MediaTrack</div>
+                <div class="track-item">• VideoEffectTrack</div>
+                <div class="track-item">• TextOverlayTrack</div>
+                <div class="track-item">• VoiceOverTrack</div>
+                <div class="track-item">• VoiceEnhancementTrack</div>
+                <div class="track-item">• SoundTrack</div>
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Filter -->
+        <div class="flow-box filter-box">
+            <h2>Filter Null/Undefined Tracks</h2>
+            <p style="margin: 5px 0;">Remove tracks that don't exist</p>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Step 2: Serialization -->
+        <div class="flow-box step-2">
+            <h2>Step 2: Serialization (g.Z Function)</h2>
+            <p><strong>Convert Class Instances → Plain Objects</strong></p>
+            <div class="extract-list">
+                <div class="extract-item"><span class="check">✓</span> Extract: id, trackType, sections</div>
+                <div class="extract-item"><span class="cross">✗</span> Remove: Methods, Computed Properties, Internal State</div>
+            </div>
+            <p class="note">Recursively serialize nested objects (sections, segments, etc.)</p>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Step 3: Cleanup -->
+        <div class="flow-box step-3">
+            <h2>Step 3: Cleanup (removePendingSections)</h2>
+            <div class="extract-list">
+                <div class="extract-item">• Remove pending/incomplete sections</div>
+                <div class="extract-item">• Restore previous snapshots for "update" sections</div>
+                <div class="extract-item">• Recalculate timelines based on cleaned sections</div>
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Step 4: Structure -->
+        <div class="flow-box step-4">
+            <h2>Step 4: Final JSON Structure</h2>
+            <p><strong>Unified Structure for All Tracks:</strong></p>
+            <p style="font-size: 16px; margin: 10px 0;">Track → Section → Segment → Content</p>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Track Level -->
+        <div class="flow-box track-level">
+            <h2>Track Level</h2>
+            <div class="code-block">
+{
+  "id": "track-xxx",
+  "trackType": "XXXTrack",
+  "sections": [...]
+}
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Section Level -->
+        <div class="flow-box section-level">
+            <h2>Section Level</h2>
+            <div class="code-block">
+{
+  "id": "section-xxx",
+  "sectionDuration": {
+    "sO": 0,
+    "eO": 5760,
+    "type": "TS"
+  },
+  "sectionTimeline": {
+    "in": 0,
+    "out": 5760
+  },
+  "segments": [...],
+  "propertiesMap": {...},
+  "sceneId": "S.xxx"
+}
+            </div>
+            <p class="note">sectionDuration = time in source video | sectionTimeline = position on edited timeline</p>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Segment Level -->
+        <div class="flow-box segment-level">
+            <h2>Segment Level</h2>
+            <div class="code-block">
+{
+  "id": "segment-xxx",
+  "contentType": "XXX",
+  "content": {...},
+  "duration": {
+    "sO": 0,
+    "eO": 5760,
+    "type": "TS"
+  },
+  "timeline": {
+    "in": 0,
+    "out": 5760
+  }
+}
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- Content Types -->
+        <div class="flow-box content-types">
+            <h2>Content Types (varies by trackType)</h2>
+            <div class="track-list">
+                <div class="track-item">• KeyFrameGroup <span style="color: #666;">(KeyFrameTrack)</span></div>
+                <div class="track-item">• Caption <span style="color: #666;">(CaptionTrack)</span></div>
+                <div class="track-item">• Emoji <span style="color: #666;">(EmojiTrack)</span></div>
+                <div class="track-item">• BRoll <span style="color: #666;">(BRollTrack)</span></div>
+                <div class="track-item">• Media <span style="color: #666;">(MediaTrack)</span></div>
+                <div class="track-item">• VideoEffect <span style="color: #666;">(VideoEffectTrack)</span></div>
+                <div class="track-item">• TextOverlay <span style="color: #666;">(TextOverlayTrack)</span></div>
+                <div class="track-item">• VoiceOver <span style="color: #666;">(VoiceOverTrack)</span></div>
+                <div class="track-item">• Audio <span style="color: #666;">(AudioTrack)</span></div>
+            </div>
+        </div>
+        
+        <div class="arrow"></div>
+        
+        <!-- End -->
+        <div class="flow-box start-end">
+            <h2>Final opusresultjson.js</h2>
+            <p>All tracks in unified structure ready for rendering</p>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+            <h3 style="margin-top: 0;">Key Points:</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>Unified Flow:</strong> All 10 track types follow the exact same generation flow</li>
+                <li><strong>Common Structure:</strong> All tracks share the same hierarchical structure (Track → Section → Segment → Content)</li>
+                <li><strong>Time Format:</strong> All timing uses <code>{sO, eO, type: "TS"}</code> format</li>
+                <li><strong>Serialization:</strong> Converts "living" objects (with methods) to "dead" data (plain JSON)</li>
+                <li><strong>Cleanup:</strong> Ensures only complete, valid edits are exported</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
